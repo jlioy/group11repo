@@ -6,8 +6,9 @@
 
 #include "mt.h"
 
-#define MAX_SIZE 32
-
+#define MAX_SIZE 3
+#define NUM_CONS 2 
+#define NUM_PRODS 3
 /*
  * This is an item that goes in the buffer
  */
@@ -36,6 +37,7 @@ struct buffer buffer = {
 sem_t sem_full;
 sem_t sem_empty;
 pthread_mutex_t mutex;
+pthread_mutex_t rand_mutex;
 
 /*
  * Generates a random number with rdrand x86 asm, if supported.
@@ -82,21 +84,24 @@ void print_buffer() {
   printf("\n");
 }
 
-
-void produce(int num_items) {
+void *produce(void* tid) {
   int p_wait_time;
+  int pid = (int)tid;
   struct item item;
-  for(int i = 0; i < num_items; i++) {
+  while(1) {
+    pthread_mutex_lock(&rand_mutex);
     p_wait_time = (gen_rand_num() % 4) + 3;
     item.id = gen_rand_num();
     item.wait_time = (gen_rand_num() % 7) + 2;
-    
+    pthread_mutex_unlock(&rand_mutex);
+
     sleep(p_wait_time);
     sem_wait(&sem_empty);
     pthread_mutex_lock(&mutex);
     buffer.items[buffer.size++] = item; 
-    printf("Producer waited %d seconds, then placed item %lu in buffer\n",
-             p_wait_time, item.id);
+    printf("Producer %d waited %d seconds, " 
+            "then placed item %lu in buffer\n",
+            pid, p_wait_time, item.id);
     print_buffer();
     pthread_mutex_unlock(&mutex);
     sem_post(&sem_full);
@@ -107,19 +112,21 @@ void produce(int num_items) {
 void *consume(void *tid) {
   int cid = (int)tid;
   struct item curr_item;
-  sem_wait(&sem_full);
-  pthread_mutex_lock(&mutex);
+  while(1) {
+    sem_wait(&sem_full);
+    pthread_mutex_lock(&mutex);
     curr_item = buffer.items[--buffer.size];
-  pthread_mutex_unlock(&mutex);
-  sem_post(&sem_empty);
-  sleep(curr_item.wait_time);
-  printf("Consumer %d waited %d seconds, then consumed item %lu\n", 
+    pthread_mutex_unlock(&mutex);
+    sem_post(&sem_empty);
+    sleep(curr_item.wait_time);
+    printf("Consumer %d waited %d seconds, then consumed item %lu\n", 
           cid, curr_item.wait_time, curr_item.id);
-     
+  }
 }
 
 int main(int argc, char* argv[]) {
   pthread_mutex_init(&mutex, NULL);
+  pthread_mutex_init(&rand_mutex, NULL);
   sem_init(&sem_full, 0, 0);  
   sem_init(&sem_empty, 0, MAX_SIZE);
   unsigned long init[4] = {0x123, 0x234, 0x345, 0x456};
@@ -128,18 +135,25 @@ int main(int argc, char* argv[]) {
   init_by_array(init, length); 
 
   // create an array of threads for consumers
-  pthread_t* consumers = malloc(sizeof(pthread_t) * num_items);;
+  pthread_t consumers[NUM_CONS];
+  pthread_t producers[NUM_PRODS];
  
   // create consumers
-  for (int i = 0; i < num_items; i++) {
+  for (int i = 0; i < NUM_CONS; i++) {
     pthread_create(&(consumers[i]), NULL, consume, (void*)i); 
   }
 
   // create producer
-  produce(num_items);
+  for (int i = 0; i < NUM_PRODS; i++) {
+    pthread_create(&(producers[i]), NULL, produce, (void*)i); 
+  }
    
-  for(int i = 0; i < num_items; i++) {
+  for(int i = 0; i < NUM_CONS; i++) {
     pthread_join(consumers[i], NULL);
+  }
+  
+  for(int i = 0; i < NUM_PRODS; i++) {
+    pthread_join(producers[i], NULL);
   }
 
   return 0;  
