@@ -9,6 +9,9 @@
 #define MAX_SIZE 3
 #define NUM_CONS 2 
 #define NUM_PRODS 3
+
+#define asm __asm__ __volatile__
+
 /*
  * This is an item that goes in the buffer
  */
@@ -63,8 +66,8 @@ unsigned long gen_rand_num() {
                        );
   
   if(ecx & 0x40000000){
-    // printf("I support rdrand\n");
-    // TODO: use rdrand
+    // printf("I support rdrand\n")
+    asm("rdrand %0" : "=r" (random));
   } else{
     // printf("I do not support rdrand\n");
     random = genrand_int32();
