@@ -1,12 +1,22 @@
+/*
+ * Concurrency 1: The Producer-Consumer Problem
+ * CS 444 Operating Systems 2
+ * Fall Term 2017
+ * Group 11: Brian Wiltse and Joshua Lioy
+ *
+ * Solution for the Producer-Consumer problem with a finite buffer. 
+ */
+
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <semaphore.h>
+#include <arpa/inet.h>
 
 #include "mt.h"
 
-#define MAX_SIZE 3
+#define MAX_SIZE 32
 #define NUM_CONS 2 
 #define NUM_PRODS 3
 
@@ -25,9 +35,6 @@ struct buffer {
   int size;
 };
 
-/*
- * Initialize shared buffer
- */
 struct buffer buffer = {
   .size = 0
 };
@@ -36,6 +43,7 @@ struct buffer buffer = {
  * Consumer will block when sem_full is 0 (nothing to consume)
  * Producer will block when sem_empty is 0 (buffer is full)
  * mutex will allow only one producer or consumer access to the buffer
+ * rand_mutex blocks access to gen_rand_num
  */
 sem_t sem_full;
 sem_t sem_empty;
@@ -46,7 +54,8 @@ pthread_mutex_t rand_mutex;
  * Generates a random number with rdrand x86 asm, if supported.
  * Otherwise uses the Mersenne Twister
  *
- * This code was adapted from Kevin McGrath's class website at:
+ * This code was adapted from Kevin McGrath's OSU Operating Systems 2
+ * class website at:
  * http://web.engr.oregonstate.edu/cgi-bin/cgiwrap/dmcgrath/classes/17F/cs444/index.cgi?examples=1
  */
 unsigned long gen_rand_num() {
@@ -128,14 +137,23 @@ void *consume(void *tid) {
 }
 
 int main(int argc, char* argv[]) {
+  if (argc < 2) {
+    printf("Missing seed argument. Exiting...\n");
+    exit(1);
+  }
+  
+  printf("Beginning Producer-Consumer Solution\n"
+         "Maximum Buffer Size: %d\n"
+         "%d Producers\n"
+         "%d Consumers\n"
+         "Press Ctrl-c to stop program\n",
+         MAX_SIZE, NUM_PRODS, NUM_CONS);
+  unsigned long seed = htonl(atoi(argv[1]));
+  init_genrand(seed);
   pthread_mutex_init(&mutex, NULL);
   pthread_mutex_init(&rand_mutex, NULL);
   sem_init(&sem_full, 0, 0);  
   sem_init(&sem_empty, 0, MAX_SIZE);
-  unsigned long init[4] = {0x123, 0x234, 0x345, 0x456};
-  unsigned long length = 4;
-  int num_items = atoi(argv[1]); 
-  init_by_array(init, length); 
 
   // create an array of threads for consumers
   pthread_t consumers[NUM_CONS];
@@ -146,7 +164,7 @@ int main(int argc, char* argv[]) {
     pthread_create(&(consumers[i]), NULL, consume, (void*)i); 
   }
 
-  // create producer
+  // create producers
   for (int i = 0; i < NUM_PRODS; i++) {
     pthread_create(&(producers[i]), NULL, produce, (void*)i); 
   }
