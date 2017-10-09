@@ -1,0 +1,176 @@
+\documentclass[letterpaper, onecolumn, draftclsnofoot, 10pt, compsoc]{IEEEtran}
+
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm}                                          
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+\usepackage{balance}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+\usepackage{setspace}
+
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=6in}
+
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},   commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
+\usepackage{geometry}
+
+\def \name{Joshua Lioy}
+\def \GroupNumber{11}
+\def \GroupMemberOne{Joshua Lioy}
+\def \GroupMemberTwo{Brian Wiltse}
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+    	\includegraphics[height=4cm]{coe_v_spot1}
+        \hfill 
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge Operating Systems 2 \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge Project 1: Getting Acquainted}\par
+            \vfill
+            \vspace{5pt}
+            {\large Prepared by }\par
+            Group \GroupNumber\par
+            \vspace{5pt}
+            {\Large
+                \GroupMemberOne\par
+                \GroupMemberTwo\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        This document covers Group 11's findings for assignment 1. This includes the commands used for the initial kernel setup as well as a write-up of the concurrency solution.
+        \end{abstract}     
+    \end{singlespace}
+\end{titlepage}
+
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+
+\newpage
+\section{Log of Commands Used to Set Up and Run the Virtual Linux Kernel}
+
+    \subsection{Setting Up the Environment}
+    \begin{lstlisting}[language=bash]
+    source /scratch/fall2017/11/common/environment-setup-i586-poky-linux 
+    \end{lstlisting}
+    
+    \subsection{Checking Out v3.19.2}
+    \begin{lstlisting}[language=bash]
+    git checkout "v3.19.2"
+    \end{lstlisting}
+    
+    \subsection{Running qemu the First Time}
+    \begin{lstlisting}[language=bash]
+    qemu-system-i386 -gdb tcp::5511 -S -nographic -kernel bzImage-qemux86.bin -drive file=core-image-lsb-sdk-qemux86.ext4,if=virtio -enable-kvm -net none -usb -localtime --no-reboot --append "root=/dev/vda rw console=ttyS0 debug"
+    \end{lstlisting}
+    
+    \subsection{Running qemu}
+    \begin{lstlisting}[language=bash, caption=Original Kernel]
+    qemu-system-i386 -gdb tcp::5511 -S -nographic -kernel bzImage-qemux86.bin -drive file=core-image-lsb-sdk-qemux86.ext4,if=virtio -enable-kvm -net none -usb -localtime --no-reboot --append "root=/dev/vda rw console=ttyS0 debug"
+    \end{lstlisting}
+    \begin{lstlisting}[language=bash, caption=Our Kernel]
+    qemu-system-i386 -gdb tcp::5511 -S -nographic -kernel CS-444-Group-11/arch/x86/boot/bzImage -drive file=common/core-image-lsb-sdk-qemux86.ext4,if=virtio -enable-kvm -net none -usb -localtime --no-reboot --append "root=/dev/vda rw console=ttyS0 debug"
+    \end{lstlisting}
+    
+    \subsection{Connecting to the Kernel Remotely Through GDB}
+    \begin{lstlisting}[language=bash]
+    target remote :5511
+    continue
+    \end{lstlisting}
+    
+    \subsection{Shutting Down the Virtual Machine}
+    \begin{lstlisting}[language=bash]
+    shutdown -h now 
+    \end{lstlisting}
+    
+    \subsection{Building a New Instance of the Kernel}
+    \begin{lstlisting}[language=bash]
+    make -j4 all
+    \end{lstlisting}
+
+\newpage
+\section{An Explanation of the Flags in the qemu Command-line}
+    \begin{singlespace}
+        \begin{itemize}
+            \item -gdb: This flag provides a gdb stub which allows connection from any machine on the network. In our case this is another connection through the OS2 server.
+            \item -S: This flag enforces manual CPU start. In our case the CPU will start after entering continue into gdb.
+            \item -nographic: This flag disables graphics.
+            \item -kernel: This flag specifies the location of the kernel file. Note that multiboot is not supported.
+            \item -drive: This flag specifies the location of the virtual drive file as well as options for things such as the media type, drive file location, interface etc.
+            \item -enable-kvm: This flag forces the use of KVM Virtualization.
+            \item -net: This flag configures the network parameters.
+            \item -usb: This flag enables the use of usb devices.
+            \item -localtime: This flag sets the virtual machine to use the time of the local machine that it is running on. In our case this is the OS2 server time.
+            \item --no-reboot: This flag prevents rebooting of the virtual machine.
+            \item --append: This flag appends a command line parameter.
+        \end{itemize}
+    \end{singlespace}
+
+\section{Concurrency Solution Write-Up}
+    \begin{singlespace}
+    %Introduction Here
+    \par
+        \begin{enumerate}
+            \item \textit{What do you think the main point of this assignment is?}\par
+            \par
+            \item \textit{How did you personally approach the problem? Design decisions, algorithm, etc.}\par
+            \par
+            \item \textit{How did you ensure your solution was correct? Testing details, for instance.}\par
+            \par
+            \item \textit{What did you learn?}\par
+            \par
+        \end{enumerate}
+    \end{singlespace}
+
+\section{Version Control Log}
+
+\section{Work Log}
+
+%\lstinputlisting[language=C]{Q0.c}
+\end{document}
