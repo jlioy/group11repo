@@ -10,4 +10,4 @@
 \contentsline {section}{\numberline {3}Concurrency Solution Write-Up}{3}{section.3}
 \contentsline {section}{\numberline {4}Version Control Log}{4}{section.4}
 \contentsline {section}{\numberline {5}Work Log}{4}{section.5}
-\contentsline {section}{References}{4}{section*.2}
+\contentsline {section}{References}{6}{section*.2}
