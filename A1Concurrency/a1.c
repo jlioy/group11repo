@@ -75,7 +75,7 @@ unsigned long gen_rand_num() {
                        );
   
   if(ecx & 0x40000000){
-    // printf("I support rdrand\n")
+    // printf("I support rdrand\n");
     asm("rdrand %0" : "=r" (random));
   } else{
     // printf("I do not support rdrand\n");

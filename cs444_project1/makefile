@@ -34,10 +34,13 @@ show: $(TRG)
 showps: $(PSF)
 	@for i in $(PSF) ; do $(GH) $$i & done
 
-all: pdf
+a1: 
+	gcc -std=c99 -pthread -o a1 a1.c mt19937ar.c 
+
+all: pdf a1
 
 clean:
-	rm -f *.pdf *.ps *.dvi *.out *.log *.aux *.bbl *.blg *.pyg
+	rm -f *.pdf *.ps *.dvi *.out *.log *.aux *.bbl *.blg *.pyg a1
 
 .PHONY: all show clean ps pdf showps
 
