@@ -158,19 +158,38 @@
     \par
         \begin{enumerate}
             \item \textit{What do you think the main point of this assignment is?}\par
+            To get us to work through a simulation of how event-driven scheduling works in the kernel. Synchronizing multiple threads and processes is essential for working with the kernel, and this is a minimal demonstration of how to correctly do so.
             \par
             \item \textit{How did you personally approach the problem? Design decisions, algorithm, etc.}\par
+            We began by reading chapters 1-4 of The Little Book of Semaphores by Allan Downey\cite{DowneyBOS}. Chapter 4, in particular, was helpful in determining how to synchronize the producers and consumers. We used the design pattern outlined in 4.1.6.\par
+            
+            The solution uses 2 mutexes: one to block other producers and consumers from using the shared buffer when one was accessing it, and one to block our random generator function since we have multiple producers that might try to access the function simultaneously.\par
+            
+            To control how many items can be placed in the buffer, we used a semaphore to indicate how many empty slots were left in the buffer and a different semaphore to indicate how many slots were filled. The former is initialized to the maximum buffer size and will block producers when the empty slots get down to zero; the latter is initialized to 0 and will block the consumers when the full slots get down to zero.\par
+            
+            All mutexes and semapahores are global variables, as they are shared by producers and consumers.\par
+            
+            We decided to implement the buffer as a stack (last-in-first-out) because it was the most straightforward implementation and no items have priority over others. This allows our consumers to simply take from the '--buffer.size' slot of the buffer, and the producers to add to the 'buffer.size++' slot. The buffer is also a shared variable\par
+            
+            Producers and consumers are simply pthreads that are initialized to run the produce and consume functions, respectively. The number of producers and consumers are set in global constants, and each will produce/consume indefinitely.\par
             \par
             \item \textit{How did you ensure your solution was correct? Testing details, for instance.}\par
-            \par
-            \item \textit{What did you learn?}\par
+            We tested with more consumers than producers to ensure that consumers would wait for items to be placed in the buffer, and similarly tested with more producers than consumers to ensure that producers would wait if the buffer is full. While testing, we reduced the buffer size to 3 to make the output more readable and manageable.\par
+             Printing clear and descriptive output is also helpful in ensuring our solution is correct. We print which producer produces which item and which consumer consumes which item so that we can ensure the results make sense. Additionally, each producer prints the buffer size and a visualization of the buffer after each addition. This approach especially helped to see that producers were waiting when the buffer was full, and to further ensure that reads and writes are not conflicting. For example, if item a is produced, we should definitely see 'a' in the buffer immediately after, and a consumer should later consume 'a'.\par
+For the random number generators, we tested the Mersenne Twister on the os2 server, and we tested the rdrand assembly instruction on Brian's laptop in Bash on Ubuntu for Windows. We used print statements to ensure that the random number generator took the expected branch of the random number generator.
+\item \textit{What did you learn?}\par
+We had both worked with mutexes before, but had only a little knowledge on what semaphores were and how to use them. We now know that mutexes are binary -- they lock when one thread accesses the critical code and unlock when it is done -- and that semaphores can allow a set number of threads to run before blocking. Further, we have more of an understanding of what a semaphore is: essentially an integer that decrements when a thread hits it and increments when a thread leaves the code enclosed in the semaphore.\par
+            
+We also learned that this is a fundamental aspect of how event-driven programs must work, in order to synchronize multiple threads and ensure that collisions do not occur.
             \par
         \end{enumerate}
     \end{singlespace}
-
 \section{Version Control Log}
 
 \section{Work Log}
 
 %\lstinputlisting[language=C]{Q0.c}
+\bibliography{project1cite}
+\bibliographystyle{ieeetran}
+
 \end{document}
