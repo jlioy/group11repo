@@ -21,7 +21,7 @@
 #define asm __asm__ __volatile__
 
 
-
+char* philo_names[] = {"Plato", "Socrates", "Aristotle", "Confucious", "Russel"};
 sem_t forks[5];
 sem_t footman;
 pthread_mutex_t mutex;
@@ -65,16 +65,59 @@ unsigned long gen_rand_num() {
   return random;
 }
 
-void print_buffer() {
-  printf("buffer size: %d\n", buffer.size);
-  for(int i = 0; i < buffer.size; i++) {
-    printf("%lu | ", buffer.items[i]);  
+void think(int pid) {
+  pthread_mutex_lock(&rand_mutex);
+  int think_time = (gen_rand_num() % 8) + 2;
+  pthread_mutex_unlock(&rand_mutex);
+  printf("%s is thinking for %d seconds...\n", philo_names[pid], think_time);
+  sleep(think_time); 
+}
+
+
+void eat(int pid) {
+  int first;
+  int second;
+  int left = pid;
+  int right = (pid + 1) % NUM_PHILOSOPHERS;
+  
+  pthread_mutex_lock(&rand_mutex);
+  int eat_time = (gen_rand_num() % 20) + 1;
+  pthread_mutex_unlock(&rand_mutex);
+
+  // only philosopher 0 starts with left
+  if (pid == 0) {
+    first = left;
+    second = right;
+  } else {
+    first = right;
+    second = left;
   }
-  printf("\n");
+
+    // Pick up forks and eat
+    sem_wait(&forks[first]);
+    sem_wait(&forks[second]);
+    printf("%s is eating with forks %d and %d for %d seconds\n", philo_names[pid], first, second, eat_time); 
+
+    sleep(eat_time);
+
+    // Put down forks
+    sem_post(&forks[first]);
+    sem_post(&forks[second]);
+    printf("%s has put down forks %d and %d\n", philo_names[pid], first, second);
 }
 
 void *philosophize(void* tid) {
-   
+  int pid = (int)tid;
+  
+  while(1) {
+    sem_wait(&footman);
+    printf("%s has sat down at the table\n", philo_names[pid]);
+    think(pid);
+    eat(pid);
+    sem_post(&footman);
+    printf("%s has gotten up from the table\n", philo_names[pid]);
+    sleep(1);
+  }
 }
 
 
@@ -89,30 +132,22 @@ int main(int argc, char* argv[]) {
   pthread_mutex_init(&mutex, NULL);
   pthread_mutex_init(&rand_mutex, NULL);
   sem_init(&footman, 0, 4); // only 4 philosophers allowed at table at once  
-  for (int i = 0; i < NUM_PHILOSOPHERS; i++);
+  for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
     sem_init(&forks[i], 0, 1);
+  }
 
   // create an array of threads for consumers
-  pthread_t consumers[NUM_CONS];
-  pthread_t producers[NUM_PRODS];
+  pthread_t philosophers[NUM_PHILOSOPHERS];
  
-  // create consumers
-  for (int i = 0; i < NUM_CONS; i++) {
-    pthread_create(&(consumers[i]), NULL, consume, (void*)i); 
-  }
 
   // create producers
-  for (int i = 0; i < NUM_PRODS; i++) {
-    pthread_create(&(producers[i]), NULL, produce, (void*)i); 
+  for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
+    pthread_create(&(philosophers[i]), NULL, philosophize, (void*)i); 
   }
    
-  for(int i = 0; i < NUM_CONS; i++) {
-    pthread_join(consumers[i], NULL);
+  for(int i = 0; i < NUM_PHILOSOPHERS; i++) {
+    pthread_join(philosophers[i], NULL);
   }
   
-  for(int i = 0; i < NUM_PRODS; i++) {
-    pthread_join(producers[i], NULL);
-  }
-
   return 0;  
 }
