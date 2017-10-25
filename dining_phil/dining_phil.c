@@ -23,8 +23,6 @@
 
 char* philo_names[] = {"Plato", "Socrates", "Aristotle", "Confucious", "Russel"};
 sem_t forks[5];
-sem_t footman;
-pthread_mutex_t mutex;
 pthread_mutex_t rand_mutex;
 
 /*
@@ -110,13 +108,8 @@ void *philosophize(void* tid) {
   int pid = (int)tid;
   
   while(1) {
-    sem_wait(&footman);
-    printf("%s has sat down at the table\n", philo_names[pid]);
     think(pid);
     eat(pid);
-    sem_post(&footman);
-    printf("%s has gotten up from the table\n", philo_names[pid]);
-    sleep(1);
   }
 }
 
@@ -129,9 +122,7 @@ int main(int argc, char* argv[]) {
   
   unsigned long seed = htonl(atoi(argv[1]));
   init_genrand(seed);
-  pthread_mutex_init(&mutex, NULL);
   pthread_mutex_init(&rand_mutex, NULL);
-  sem_init(&footman, 0, 4); // only 4 philosophers allowed at table at once  
   for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
     sem_init(&forks[i], 0, 1);
   }
