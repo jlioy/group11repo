@@ -1,10 +1,10 @@
 /*
- * Concurrency 1: The Producer-Consumer Problem
+ * Concurrency 2: The Dining Philosophers Problem
  * CS 444 Operating Systems 2
  * Fall Term 2017
  * Group 11: Brian Wiltse and Joshua Lioy
  *
- * Solution for the Producer-Consumer problem with a finite buffer. 
+ * Solution for the Dining Philosopher problem. 
  */
 
 #include <stdio.h>
@@ -19,7 +19,6 @@
 #define NUM_PHILOSOPHERS 5
 
 #define asm __asm__ __volatile__
-
 
 char* philo_names[] = {"Plato", "Socrates", "Aristotle", "Confucious", "Russel"};
 sem_t forks[5];
@@ -63,15 +62,21 @@ unsigned long gen_rand_num() {
   return random;
 }
 
+
 void think(int pid) {
   pthread_mutex_lock(&rand_mutex);
-  int think_time = (gen_rand_num() % 8) + 2;
+  int think_time = (gen_rand_num() % 8) + 2; // think from 2 - 9 seconds
   pthread_mutex_unlock(&rand_mutex);
   printf("%s is thinking for %d seconds...\n", philo_names[pid], think_time);
   sleep(think_time); 
 }
 
 
+/*
+ * This function implements the solution. The solution was obtained from the Little Book of Semaphores by Allen B. Downey:
+ * http://greenteapress.com/semaphores/LittleBookOfSemaphores.pdf
+ * Section 4.4.4 (Solution #2)
+ */
 void eat(int pid) {
   int first;
   int second;
@@ -79,7 +84,7 @@ void eat(int pid) {
   int right = (pid + 1) % NUM_PHILOSOPHERS;
   
   pthread_mutex_lock(&rand_mutex);
-  int eat_time = (gen_rand_num() % 20) + 1;
+  int eat_time = (gen_rand_num() % 20) + 1; // eat from 1-20 sec
   pthread_mutex_unlock(&rand_mutex);
 
   // only philosopher 0 starts with left
@@ -104,6 +109,7 @@ void eat(int pid) {
     printf("%s has put down forks %d and %d\n", philo_names[pid], first, second);
 }
 
+
 void *philosophize(void* tid) {
   int pid = (int)tid;
   
@@ -123,15 +129,16 @@ int main(int argc, char* argv[]) {
   unsigned long seed = htonl(atoi(argv[1]));
   init_genrand(seed);
   pthread_mutex_init(&rand_mutex, NULL);
+
+  // Initialize semaphores for forks
   for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
     sem_init(&forks[i], 0, 1);
   }
 
-  // create an array of threads for consumers
+  // create an array of threads for philosophers
   pthread_t philosophers[NUM_PHILOSOPHERS];
- 
 
-  // create producers
+  // create philosophers
   for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
     pthread_create(&(philosophers[i]), NULL, philosophize, (void*)i); 
   }
