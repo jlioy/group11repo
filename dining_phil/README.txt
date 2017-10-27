@@ -9,7 +9,7 @@ http://greenteapress.com/semaphores/LittleBookOfSemaphores.pdf
 To test this program, please:
 
 1. Run 'make' in the directory in which the tar.bz2 file was unpacked.
-2. Run the command dining_phil <seed>, where seed is an integer for the pseudo-random number generator.
+2. Run the command 'dining_phil <seed>', where <seed> is an integer for the pseudo-random number generator.
 3. Note the behavior of each of the philosophers.
     a. All 5 philosophers will begin thinking.
     b. Output occurs when philosophers begin thinking, begin eating, and discontinue eating.

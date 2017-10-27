@@ -21,7 +21,7 @@
 #define asm __asm__ __volatile__
 
 char* philo_names[] = {"Plato", "Socrates", "Aristotle", "Confucious", "Russel"};
-sem_t forks[5];
+sem_t forks[NUM_PHILOSOPHERS];
 pthread_mutex_t rand_mutex;
 
 /*
