@@ -1,5 +1,5 @@
 /*
- * elevator LOOK
+ * elevator LOOK 
  */
 #include <linux/blkdev.h>
 #include <linux/elevator.h>
@@ -12,22 +12,55 @@ struct noop_data {
 	struct list_head queue;
 };
 
-
-// SAME
-static void sstf_merged_requests(struct request_queue *q, struct request *rq,
+static void noop_merged_requests(struct request_queue *q, struct request *rq,
 				 struct request *next)
 {
 	list_del_init(&next->queuelist);
 }
 
-// TODO: this one gets the next request
+// TODO: This needs to change
+// Inline comments are about what noop is doing, not what
+// sstf needs to do.
+// We need to tell it how to get the next task
 static int noop_dispatch(struct request_queue *q, int force)
 {
 	struct noop_data *nd = q->elevator->elevator_data;
 
 	if (!list_empty(&nd->queue)) {
 		struct request *rq;
+
+    // list_entry(pointer, type, member)
+    // returns a pointer to the structure 'type' that contains
+    // 'member' which is of the type ptr
 		rq = list_entry(nd->queue.next, struct request, queuelist);
+
+    // deletes &rq->queuelist from list and reinitializes it
+		list_del_init(&rq->queuelist);
+
+    // I think... rq(request) is sorted into q(request_queue)
+    // And no, I didn't get the variable names backwards...
+		elv_dispatch_sort(q, rq);
+
+
+		return 1;
+	}
+	return 0;
+}
+
+
+// TODO: this needs too change.
+// We need to determine how to add to the queue
+static void noop_add_request(struct request_queue *q, struct request *rq)
+{
+	struct noop_data *nd = q->elevator->elevator_data;
+
+	list_add_tail(&rq->queuelist, &nd->queue);
+}
+
+static struct request *
+noop_former_request(struct request_queue *q, struct request *rq)
+{
+	struct noop_data *nd = q->elevator->elevator_data;
 		list_del_init(&rq->queuelist);
 		elv_dispatch_sort(q, rq);
 		return 1;
