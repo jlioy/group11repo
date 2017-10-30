@@ -5,6 +5,8 @@
 #include <linux/slab.h>
 #include <linux/init.h>
 
+int diskh = -1;
+
 struct sstf_data {
 	struct list_head queue;
 };
@@ -13,25 +15,28 @@ static void sstf_merged_requests(struct request_queue *q, struct request *rq,
 				 struct request *next)
 {
 	list_del_init(&next->queuelist);
+	elv_dispatch_sort(q, next);
 }
 
 static int sstf_dispatch(struct request_queue *q, int force)
 {
 	struct sstf_data *sd = q->elevator->elevator_data;
+	struct request *rq;
+	char direction;
 
-	if (!list_empty(&sd->queue)) {
-		struct request *rq;
-		rq = list_entry(sd->queue.next, struct request, queuelist);
+	rq = list_first_entry_or_null(&sd->queue, struct request, queuelist);
+	
+	if (rq) {
 		list_del_init(&rq->queuelist);
 		elv_dispatch_sort(q, rq);
+		diskh = blk_rq_pos(rq);
 
-		char direction;
 		if(rq_data_dir(rq) == READ) {
 			direction = 'R';
 		} else {
 			direction = 'W';
 		}
-		trace_printk("[SSTF] dsp %c %lu\n", direction, blk_rq_pos(rq));
+		trace_printk("[SSTF] %c %llu\n", direction, blk_rq_pos(rq));
 		return 1;
 	}
 	return 0;
@@ -40,27 +45,30 @@ static int sstf_dispatch(struct request_queue *q, int force)
 static void sstf_add_request(struct request_queue *q, struct request *rq)
 {
   struct sstf_data *sd = q->elevator->elevator_data;
+  struct list_head *curr = NULL;
+  char direction;
 
-  if (list_empty(&sd->queue)) {
-	list_add_tail(&rq->queuelist, &sd->queue);
-  } else {
-    struct list_head *rq_cur;
-    sector_t rq_sec = blk_rq_pos(rq);
-    
-    list_for_each(rq_cur, &sd->queue) {
-      struct request *cur = list_entry(rq_cur, struct request, queuelist);
-      if(rq_sec < blk_rq_pos(cur)) {
-        list_add(&rq->queuelist, rq_cur);
-      }
-	}
-	char direction;
+  list_for_each(curr, &sd->queue) {
+	  struct request *curl = list_entry(curr, struct request, queuelist);
+	  if (blk_rq_pos(rq) > diskh) {
+		  if (blk_rq_pos(curl) < diskh || blk_rq_pos(rq) < blk_rq_pos(curl)) {
+			  break;
+		  }
+	  } else {
+		if (blk_rq_pos(curl) < diskh && blk_rq_pos(rq) < blk_rq_pos(curl)) {
+			break;
+		}
+	  }
+  }
+
+	list_add_tail(&rq->queuelist, curr);
+
 	if(rq_data_dir(rq) == READ) {
 		direction = 'R';
 	} else {
 		direction = 'W';
 	}
-	trace_printk("[SSTF] dsp %c %lu\n", direction, blk_rq_pos(rq));
-  }
+	trace_printk("[SSTF] %c %llu\n", direction, blk_rq_pos(rq));
 }
 
 static struct request *
@@ -71,16 +79,6 @@ sstf_former_request(struct request_queue *q, struct request *rq)
 	if (rq->queuelist.prev == &sd->queue)
 		return NULL;
 	return list_entry(rq->queuelist.prev, struct request, queuelist);
-}
-
-static struct request *
-sstf_latter_request(struct request_queue *q, struct request *rq)
-{
-	struct sstf_data *sd = q->elevator->elevator_data;
-
-	if (rq->queuelist.next == &sd->queue)
-		return NULL;
-	return list_entry(rq->queuelist.next, struct request, queuelist);
 }
 
 static int sstf_init_queue(struct request_queue *q, struct elevator_type *e)
@@ -121,7 +119,6 @@ static struct elevator_type elevator_sstf = {
 		.elevator_dispatch_fn		= sstf_dispatch,
 		.elevator_add_req_fn		= sstf_add_request,
 		.elevator_former_req_fn		= sstf_former_request,
-		.elevator_latter_req_fn		= sstf_latter_request,
 		.elevator_init_fn		= sstf_init_queue,
 		.elevator_exit_fn		= sstf_exit_queue,
 	},
