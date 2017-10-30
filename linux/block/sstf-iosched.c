@@ -31,7 +31,7 @@ static int sstf_dispatch(struct request_queue *q, int force)
 		} else {
 			direction = 'W';
 		}
-		printk("[CLOOK] dsp %c %lu\n", direction, blk_rq_pos(rq));
+		printk("[SSTF] dsp %c %lu\n", direction, blk_rq_pos(rq));
 		return 1;
 	}
 	return 0;
@@ -59,7 +59,7 @@ static void sstf_add_request(struct request_queue *q, struct request *rq)
 	} else {
 		direction = 'W';
 	}
-	printk("[CLOOK] dsp %c %lu\n", direction, blk_rq_pos(rq));
+	printk("[SSTF] dsp %c %lu\n", direction, blk_rq_pos(rq));
   }
 }
 
