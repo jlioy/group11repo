@@ -23,7 +23,7 @@ static int sstf_dispatch(struct request_queue *q, int force)
 		struct request *rq;
 		rq = list_entry(sd->queue.next, struct request, queuelist);
 		list_del_init(&rq->queuelist);
-		elv_dispatch_sort(q, rq);
+		elv_dispatch_sort(q, rq); 
 
 		char direction;
 		if(rq_data_dir(rq) == READ) {
@@ -42,15 +42,27 @@ static void sstf_add_request(struct request_queue *q, struct request *rq)
   struct sstf_data *sd = q->elevator->elevator_data;
 
   if (list_empty(&sd->queue)) {
-	list_add_tail(&rq->queuelist, &sd->queue);
+    // Just add to tail if list is empty
+	  list_add_tail(&rq->queuelist, &sd->queue);
   } else {
     struct list_head *rq_cur;
     sector_t rq_sec = blk_rq_pos(rq);
-    
+   
+    // start at the current request in the queue 
     list_for_each(rq_cur, &sd->queue) {
       struct request *cur = list_entry(rq_cur, struct request, queuelist);
-      if(rq_sec < blk_rq_pos(cur)) {
+      
+      // Insert request affter current if the next one is larger
+      if(rq_sec > blk_rq_pos(cur) && rq_sec < blk_rq_pos(cur->next)) {
         list_add(&rq->queuelist, rq_cur);
+        break;
+      } else if (blk_rq_pos(cur->next) < blk_rq_pos(cur) && (rq_sec > blk_rq_pos(cur) || rq_sec < blk_rq_pos(cur_next)) {
+        // If the next in list is smaller than current and rq_sec is bigger than current, 
+        // rq_sec is the largest in the list.
+        // If the next in list is smaller than current and rq_sec is smaller than current->next, 
+        // rq_sec is smallest in list
+        list_add(&rq->queuelist, rq_cur);    
+        break;
       }
 	}
 	char direction;
@@ -59,7 +71,7 @@ static void sstf_add_request(struct request_queue *q, struct request *rq)
 	} else {
 		direction = 'W';
 	}
-	trace_printk("[SSTF] dsp %c %lu\n", direction, blk_rq_pos(rq));
+	trace_printk("[SSTF] add %c %lu\n", direction, blk_rq_pos(rq));
   }
 }
 
