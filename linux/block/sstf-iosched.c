@@ -1,6 +1,3 @@
-/*
- * elevator LOOK 
- */
 #include <linux/blkdev.h>
 #include <linux/elevator.h>
 #include <linux/bio.h>
@@ -8,115 +5,101 @@
 #include <linux/slab.h>
 #include <linux/init.h>
 
-struct noop_data {
+struct sstf_data {
 	struct list_head queue;
 };
 
-static void noop_merged_requests(struct request_queue *q, struct request *rq,
+static void sstf_merged_requests(struct request_queue *q, struct request *rq,
 				 struct request *next)
 {
 	list_del_init(&next->queuelist);
 }
 
-// TODO: This needs to change
-// Inline comments are about what noop is doing, not what
-// sstf needs to do.
-// We need to tell it how to get the next task
-static int noop_dispatch(struct request_queue *q, int force)
+static int sstf_dispatch(struct request_queue *q, int force)
 {
-	struct noop_data *nd = q->elevator->elevator_data;
+	struct sstf_data *sd = q->elevator->elevator_data;
 
-	if (!list_empty(&nd->queue)) {
+	if (!list_empty(&sd->queue)) {
 		struct request *rq;
-
-    // list_entry(pointer, type, member)
-    // returns a pointer to the structure 'type' that contains
-    // 'member' which is of the type ptr
-		rq = list_entry(nd->queue.next, struct request, queuelist);
-
-    // deletes &rq->queuelist from list and reinitializes it
+		rq = list_entry(sd->queue.next, struct request, queuelist);
 		list_del_init(&rq->queuelist);
+		elv_dispatch_add_tail(q, rq);
 
-    // I think... rq(request) is sorted into q(request_queue)
-    // And no, I didn't get the variable names backwards...
-		elv_dispatch_sort(q, rq);
-
-
+		char direction;
+		if(rq_data_dir(rq) == READ) {
+			direction = 'R';
+		} else {
+			direction = 'W';
+		}
+		printk("[CLOOK] dsp %c %lu\n", direction, blk_rq_pos(rq));
 		return 1;
 	}
 	return 0;
 }
 
-
-// TODO: this needs too change.
-// We need to determine how to add to the queue
-static void noop_add_request(struct request_queue *q, struct request *rq)
+static void sstf_add_request(struct request_queue *q, struct request *rq)
 {
-	struct noop_data *nd = q->elevator->elevator_data;
+  struct sstf_data *sd = q->elevator->elevator_data;
 
-	list_add_tail(&rq->queuelist, &nd->queue);
-}
-
-static struct request *
-noop_former_request(struct request_queue *q, struct request *rq)
-{
-	struct noop_data *nd = q->elevator->elevator_data;
-		list_del_init(&rq->queuelist);
-		elv_dispatch_sort(q, rq);
-		return 1;
+  if (list_empty(&sd->queue)) {
+	list_add_tail(&rq->queuelist, &sd->queue);
+  } else {
+    struct list_head *rq_cur;
+    sector_t rq_sec = blk_rq_pos(rq);
+    
+    list_for_each(rq_cur, &sd->queue) {
+      struct request *cur = list_entry(rq_cur, struct request, queuelist);
+      if(rq_sec < blk_rq_pos(cur)) {
+        list_add(&rq->queuelist, rq_cur);
+      }
 	}
-	return 0;
+	char direction;
+	if(rq_data_dir(rq) == READ) {
+		direction = 'R';
+	} else {
+		direction = 'W';
+	}
+	printk("[CLOOK] dsp %c %lu\n", direction, blk_rq_pos(rq));
+  }
 }
 
-// TODO: insert a new request
-static void noop_add_request(struct request_queue *q, struct request *rq)
-{
-	struct noop_data *nd = q->elevator->elevator_data;
-
-	list_add_tail(&rq->queuelist, &nd->queue);
-}
-
-
-// TODO
 static struct request *
-noop_former_request(struct request_queue *q, struct request *rq)
+sstf_former_request(struct request_queue *q, struct request *rq)
 {
-	struct noop_data *nd = q->elevator->elevator_data;
+	struct sstf_data *sd = q->elevator->elevator_data;
 
-	if (rq->queuelist.prev == &nd->queue)
+	if (rq->queuelist.prev == &sd->queue)
 		return NULL;
 	return list_entry(rq->queuelist.prev, struct request, queuelist);
 }
 
-//TODO
 static struct request *
-noop_latter_request(struct request_queue *q, struct request *rq)
+sstf_latter_request(struct request_queue *q, struct request *rq)
 {
-	struct noop_data *nd = q->elevator->elevator_data;
+	struct sstf_data *sd = q->elevator->elevator_data;
 
-	if (rq->queuelist.next == &nd->queue)
+	if (rq->queuelist.next == &sd->queue)
 		return NULL;
 	return list_entry(rq->queuelist.next, struct request, queuelist);
 }
 
-
 static int sstf_init_queue(struct request_queue *q, struct elevator_type *e)
 {
-	struct sstf_data *nd;
+	struct sstf_data *sd;
 	struct elevator_queue *eq;
 
 	eq = elevator_alloc(q, e);
 	if (!eq)
 		return -ENOMEM;
 
-	nd = kmalloc_node(sizeof(*nd), GFP_KERNEL, q->node);
-	if (!nd) {
+	sd = kmalloc_node(sizeof(*sd), GFP_KERNEL, q->node);
+	if (!sd) {
 		kobject_put(&eq->kobj);
 		return -ENOMEM;
 	}
-	eq->elevator_data = nd;
+	eq->elevator_data = sd;
 
-	INIT_LIST_HEAD(&nd->queue);
+	INIT_LIST_HEAD(&sd->queue);
 
 	spin_lock_irq(q->queue_lock);
 	q->elevator = eq;
@@ -126,10 +109,10 @@ static int sstf_init_queue(struct request_queue *q, struct elevator_type *e)
 
 static void sstf_exit_queue(struct elevator_queue *e)
 {
-	struct sstf_data *nd = e->elevator_data;
+	struct sstf_data *sd = e->elevator_data;
 
-	BUG_ON(!list_empty(&nd->queue));
-	kfree(nd);
+	BUG_ON(!list_empty(&sd->queue));
+	kfree(sd);
 }
 
 static struct elevator_type elevator_sstf = {
@@ -142,7 +125,7 @@ static struct elevator_type elevator_sstf = {
 		.elevator_init_fn		= sstf_init_queue,
 		.elevator_exit_fn		= sstf_exit_queue,
 	},
-	.elevator_name = "sstf",
+	.elevator_name = "SSTF",
 	.elevator_owner = THIS_MODULE,
 };
 
@@ -162,4 +145,4 @@ module_exit(sstf_exit);
 
 MODULE_AUTHOR("Joshua Lioy, Brian Wiltse");
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("LOOK IO scheduler");
+MODULE_DESCRIPTION("C-LOOK");
