@@ -31,7 +31,7 @@ static int sstf_dispatch(struct request_queue *q, int force)
 		} else {
 			direction = 'W';
 		}
-		trace_printk("[SSTF] dsp %c %llu\n", direction, blk_rq_pos(rq));
+		trace_printk("[SSTF] dispatching a %c at sector %llu\n", direction, blk_rq_pos(rq));
 		return 1;
 	}
 	return 0;
@@ -43,7 +43,7 @@ static void sstf_add_request(struct request_queue *q, struct request *rq)
 
   if (list_empty(&sd->queue)) {
     // Just add to tail if list is empty
-	  list_add_tail(&rq->queuelist, &sd->queue);
+	  list_add(&rq->queuelist, &sd->queue);
   } else {
     struct list_head *rq_cur;
     sector_t rq_sec = blk_rq_pos(rq);
@@ -60,18 +60,19 @@ static void sstf_add_request(struct request_queue *q, struct request *rq)
       if(rq_sec > cur_sec && rq_sec < next_sec) {
         break;
       } else if (cur_sec == next_sec) {
+        // There's only one node in the list
         break;
-      }
-        else if (next_sec < cur_sec && (rq_sec > cur_sec || rq_sec < next_sec)) {
+      } else if (next_sec < cur_sec && (rq_sec > cur_sec || rq_sec < next_sec)) {
         // If the next in list is smaller than current and rq_sec is bigger than current, 
         // rq_sec is the largest in the list.
         // If the next in list is smaller than current and rq_sec is smaller than current->next, 
         // rq_sec is smallest in list
         break;
-      } else {
-        trace_printk("[SSTF] SOMETHING WENT WRONG\nCur_sec: %llu, next_sec: %llu\n", cur_sec, next_sec);
       }
-    } 
+    }
+  	trace_printk("[SSTF] adding a request at sector %llu\n", blk_rq_pos(rq));
+    // Add the request after rq_cur 
+    list_add(&rq->queuelist, rq_cur); 
   }
 }
 
