@@ -1,0 +1,1241 @@
+Initializing cgroup subsys cpuset
+Initializing cgroup subsys cpu
+Initializing cgroup subsys cpuacct
+Linux version 3.19.2-Group11-hw2-yocto-standard (lioyj@os2.engr.oregonstate.edu) (gcc version 4.9.2 (GCC) ) #10 SMP PREEMPT Tue Oct 31 09:39:27 PDT 2017
+e820: BIOS-provided physical RAM map:
+BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
+BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+BIOS-e820: [mem 0x00000000000f0000-0x00000000000fffff] reserved
+BIOS-e820: [mem 0x0000000000100000-0x0000000017fdffff] usable
+BIOS-e820: [mem 0x0000000017fe0000-0x0000000017ffffff] reserved
+BIOS-e820: [mem 0x00000000feffc000-0x00000000feffffff] reserved
+BIOS-e820: [mem 0x00000000fffc0000-0x00000000ffffffff] reserved
+Notice: NX (Execute Disable) protection missing in CPU!
+SMBIOS 2.8 present.
+DMI: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.7.5.1-0-g8936dbb-20141113_115728-nilsson.home.kraxel.org 04/01/2014
+Hypervisor detected: KVM
+e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+e820: remove [mem 0x000a0000-0x000fffff] usable
+e820: last_pfn = 0x17fe0 max_arch_pfn = 0x100000
+found SMP MP-table at [mem 0x000f0ea0-0x000f0eaf] mapped at [c00f0ea0]
+Scanning 1 areas for low memory corruption
+initial memory mapped: [mem 0x00000000-0x01ffffff]
+Base memory trampoline at [c009b000] 9b000 size 16384
+init_memory_mapping: [mem 0x00000000-0x000fffff]
+ [mem 0x00000000-0x000fffff] page 4k
+init_memory_mapping: [mem 0x17800000-0x17bfffff]
+ [mem 0x17800000-0x17bfffff] page 2M
+init_memory_mapping: [mem 0x00100000-0x177fffff]
+ [mem 0x00100000-0x003fffff] page 4k
+ [mem 0x00400000-0x177fffff] page 2M
+init_memory_mapping: [mem 0x17c00000-0x17fdffff]
+ [mem 0x17c00000-0x17fdffff] page 4k
+BRK [0x01ced000, 0x01cedfff] PGTABLE
+ACPI: Early table checksum verification disabled
+ACPI: RSDP 0x000F0CA0 000014 (v00 BOCHS )
+ACPI: RSDT 0x17FE1853 000034 (v01 BOCHS  BXPCRSDT 00000001 BXPC 00000001)
+ACPI: FACP 0x17FE0E48 000074 (v01 BOCHS  BXPCFACP 00000001 BXPC 00000001)
+ACPI: DSDT 0x17FE0040 000E08 (v01 BOCHS  BXPCDSDT 00000001 BXPC 00000001)
+ACPI: FACS 0x17FE0000 000040
+ACPI: SSDT 0x17FE0EBC 0008E7 (v01 BOCHS  BXPCSSDT 00000001 BXPC 00000001)
+ACPI: APIC 0x17FE17A3 000078 (v01 BOCHS  BXPCAPIC 00000001 BXPC 00000001)
+ACPI: HPET 0x17FE181B 000038 (v01 BOCHS  BXPCHPET 00000001 BXPC 00000001)
+ACPI: Local APIC address 0xfee00000
+0MB HIGHMEM available.
+383MB LOWMEM available.
+  mapped low ram: 0 - 17fe0000
+  low ram: 0 - 17fe0000
+kvm-clock: Using msrs 4b564d01 and 4b564d00
+kvm-clock: cpu 0, msr 0:17fdf001, primary cpu clock
+BRK [0x01cee000, 0x01ceefff] PGTABLE
+Zone ranges:
+  DMA      [mem 0x00001000-0x00ffffff]
+  Normal   [mem 0x01000000-0x17fdffff]
+  HighMem  empty
+Movable zone start for each node
+Early memory node ranges
+  node   0: [mem 0x00001000-0x0009efff]
+  node   0: [mem 0x00100000-0x17fdffff]
+Initmem setup node 0 [mem 0x00001000-0x17fdffff]
+On node 0 totalpages: 98174
+free_area_init_node: node 0, pgdat c1b5c4c0, node_mem_map d7c1f028
+  DMA zone: 40 pages used for memmap
+  DMA zone: 0 pages reserved
+  DMA zone: 3998 pages, LIFO batch:0
+  Normal zone: 920 pages used for memmap
+  Normal zone: 94176 pages, LIFO batch:31
+Using APIC driver default
+ACPI: PM-Timer IO Port: 0x608
+ACPI: Local APIC address 0xfee00000
+ACPI: LAPIC (acpi_id[0x00] lapic_id[0x00] enabled)
+ACPI: LAPIC_NMI (acpi_id[0xff] dfl dfl lint[0x1])
+ACPI: IOAPIC (id[0x00] address[0xfec00000] gsi_base[0])
+IOAPIC[0]: apic_id 0, version 17, address 0xfec00000, GSI 0-23
+ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+ACPI: INT_SRC_OVR (bus 0 bus_irq 5 global_irq 5 high level)
+ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+ACPI: INT_SRC_OVR (bus 0 bus_irq 10 global_irq 10 high level)
+ACPI: INT_SRC_OVR (bus 0 bus_irq 11 global_irq 11 high level)
+ACPI: IRQ0 used by override.
+ACPI: IRQ5 used by override.
+ACPI: IRQ9 used by override.
+ACPI: IRQ10 used by override.
+ACPI: IRQ11 used by override.
+Using ACPI (MADT) for SMP configuration information
+ACPI: HPET id: 0x8086a201 base: 0xfed00000
+smpboot: Allowing 1 CPUs, 0 hotplug CPUs
+e820: [mem 0x18000000-0xfeffbfff] available for PCI devices
+Booting paravirtualized kernel on KVM
+setup_percpu: NR_CPUS:8 nr_cpumask_bits:8 nr_cpu_ids:1 nr_node_ids:1
+PERCPU: Embedded 16 pages/cpu @d7c0b000 s36352 r0 d29184 u65536
+pcpu-alloc: s36352 r0 d29184 u65536 alloc=16*4096
+pcpu-alloc: [0] 0 
+KVM setup async PF for cpu 0
+kvm-stealtime: cpu 0, msr 17c0ea80
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 97214
+Kernel command line: root=/dev/hda rw console=ttyS0 debug
+PID hash table entries: 2048 (order: 1, 8192 bytes)
+Dentry cache hash table entries: 65536 (order: 6, 262144 bytes)
+Inode-cache hash table entries: 32768 (order: 5, 131072 bytes)
+Initializing CPU#0
+Initializing HighMem for node 0 (00000000:00000000)
+Memory: 375052K/392696K available (8123K kernel code, 588K rwdata, 2976K rodata, 704K init, 760K bss, 17644K reserved, 0K cma-reserved, 0K highmem)
+virtual kernel memory layout:
+    fixmap  : 0xfff16000 - 0xfffff000   ( 932 kB)
+    pkmap   : 0xff800000 - 0xffc00000   (4096 kB)
+    vmalloc : 0xd87e0000 - 0xff7fe000   ( 624 MB)
+    lowmem  : 0xc0000000 - 0xd7fe0000   ( 383 MB)
+      .init : 0xc1b6e000 - 0xc1c1e000   ( 704 kB)
+      .data : 0xc17ef33e - 0xc1b6c380   (3572 kB)
+      .text : 0xc1000000 - 0xc17ef33e   (8124 kB)
+Checking if this processor honours the WP bit even in supervisor mode...Ok.
+SLUB: HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+Preemptible hierarchical RCU implementation.
+	RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=1.
+RCU: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=1
+NR_IRQS:2304 nr_irqs:256 16
+CPU 0 irqstacks, hard=d742e000 soft=d7430000
+Console: colour VGA+ 80x25
+console [ttyS0] enabled
+hpet clockevent registered
+tsc: Detected 2399.998 MHz processor
+Calibrating delay loop (skipped) preset value.. 4799.99 BogoMIPS (lpj=2399998)
+pid_max: default: 32768 minimum: 301
+ACPI: Core revision 20141107
+ACPI: All ACPI Tables successfully acquired
+Security Framework initialized
+Mount-cache hash table entries: 1024 (order: 0, 4096 bytes)
+Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes)
+Initializing cgroup subsys memory
+Initializing cgroup subsys devices
+Initializing cgroup subsys freezer
+Initializing cgroup subsys net_cls
+Initializing cgroup subsys blkio
+Initializing cgroup subsys debug
+Last level iTLB entries: 4KB 0, 2MB 0, 4MB 0
+Last level dTLB entries: 4KB 0, 2MB 0, 4MB 0, 1GB 0
+Freeing SMP alternatives memory: 32K (c1c1e000 - c1c26000)
+ftrace: allocating 30884 entries in 61 pages
+Enabling APIC mode:  Flat.  Using 1 I/O APICs
+..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
+smpboot: CPU0: Intel QEMU Virtual CPU version 2.2.0 (fam: 06, model: 06, stepping: 03)
+Performance Events: Broken PMU hardware detected, using software events only.
+Failed to access perfctr msr (MSR c1 is 0)
+x86: Booted up 1 node, 1 CPUs
+smpboot: Total of 1 processors activated (4799.99 BogoMIPS)
+devtmpfs: initialized
+xor: measuring software checksum speed
+   pIII_sse  :  4868.000 MB/sec
+   prefetch64-sse:  7904.000 MB/sec
+xor: using function: prefetch64-sse (7904.000 MB/sec)
+NET: Registered protocol family 16
+cpuidle: using governor ladder
+cpuidle: using governor menu
+ACPI: bus type PCI registered
+PCI: PCI BIOS revision 2.10 entry at 0xfd456, last bus=0
+PCI: Using configuration type 1 for base access
+raid6: mmxx1     4906 MB/s
+raid6: mmxx2     5253 MB/s
+raid6: sse1x1    4117 MB/s
+raid6: sse1x2    4957 MB/s
+raid6: sse2x1    8136 MB/s
+raid6: sse2x2   10164 MB/s
+raid6: using algorithm sse2x2 (10164 MB/s)
+raid6: using intx1 recovery algorithm
+ACPI: Added _OSI(Module Device)
+ACPI: Added _OSI(Processor Device)
+ACPI: Added _OSI(3.0 _SCP Extensions)
+ACPI: Added _OSI(Processor Aggregator Device)
+ACPI: Interpreter enabled
+ACPI Exception: AE_NOT_FOUND, While evaluating Sleep State [\_S1_] (20141107/hwxface-580)
+ACPI Exception: AE_NOT_FOUND, While evaluating Sleep State [\_S2_] (20141107/hwxface-580)
+ACPI: (supports S0 S3 S5)
+ACPI: Using IOAPIC for interrupt routing
+PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+acpi PNP0A03:00: _OSC: OS supports [ASPM ClockPM Segments MSI]
+acpi PNP0A03:00: _OSC failed (AE_NOT_FOUND); disabling ASPM
+acpi PNP0A03:00: fail to add MMCONFIG information, can't access extended PCI configuration space under this bridge.
+PCI host bridge to bus 0000:00
+pci_bus 0000:00: root bus resource [bus 00-ff]
+pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7]
+pci_bus 0000:00: root bus resource [io  0x0d00-0xadff]
+pci_bus 0000:00: root bus resource [io  0xae0f-0xaeff]
+pci_bus 0000:00: root bus resource [io  0xaf20-0xafdf]
+pci_bus 0000:00: root bus resource [io  0xafe4-0xffff]
+pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff]
+pci_bus 0000:00: root bus resource [mem 0x18000000-0xfebfffff]
+pci 0000:00:00.0: [8086:1237] type 00 class 0x060000
+pci 0000:00:01.0: [8086:7000] type 00 class 0x060100
+pci 0000:00:01.1: [8086:7010] type 00 class 0x010180
+pci 0000:00:01.1: reg 0x20: [io  0xc020-0xc02f]
+pci 0000:00:01.1: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
+pci 0000:00:01.1: legacy IDE quirk: reg 0x14: [io  0x03f6]
+pci 0000:00:01.1: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
+pci 0000:00:01.1: legacy IDE quirk: reg 0x1c: [io  0x0376]
+pci 0000:00:01.2: [8086:7020] type 00 class 0x0c0300
+pci 0000:00:01.2: reg 0x20: [io  0xc000-0xc01f]
+pci 0000:00:01.3: [8086:7113] type 00 class 0x068000
+pci 0000:00:01.3: quirk: [io  0x0600-0x063f] claimed by PIIX4 ACPI
+pci 0000:00:01.3: quirk: [io  0x0700-0x070f] claimed by PIIX4 SMB
+pci 0000:00:02.0: [1234:1111] type 00 class 0x030000
+pci 0000:00:02.0: reg 0x10: [mem 0xfd000000-0xfdffffff pref]
+pci 0000:00:02.0: reg 0x18: [mem 0xfebf0000-0xfebf0fff]
+pci 0000:00:02.0: reg 0x30: [mem 0xfebe0000-0xfebeffff pref]
+pci_bus 0000:00: on NUMA node 0
+ACPI: PCI Interrupt Link [LNKA] (IRQs 5 *10 11)
+ACPI: PCI Interrupt Link [LNKB] (IRQs 5 *10 11)
+ACPI: PCI Interrupt Link [LNKC] (IRQs 5 10 *11)
+ACPI: PCI Interrupt Link [LNKD] (IRQs 5 10 *11)
+ACPI: PCI Interrupt Link [LNKS] (IRQs *9)
+ACPI: Enabled 16 GPEs in block 00 to 0F
+vgaarb: setting as boot device: PCI:0000:00:02.0
+vgaarb: device added: PCI:0000:00:02.0,decodes=io+mem,owns=io+mem,locks=none
+vgaarb: loaded
+vgaarb: bridge control possible 0000:00:02.0
+SCSI subsystem initialized
+libata version 3.00 loaded.
+ACPI: bus type USB registered
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+pps_core: LinuxPPS API ver. 1 registered
+pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+PTP clock support registered
+Advanced Linux Sound Architecture Driver Initialized.
+PCI: Using ACPI for IRQ routing
+PCI: pci_cache_line_size set to 32 bytes
+e820: reserve RAM buffer [mem 0x0009fc00-0x0009ffff]
+e820: reserve RAM buffer [mem 0x17fe0000-0x17ffffff]
+HPET: 3 timers in total, 0 timers will be used for per-cpu timer
+hpet0: at MMIO 0xfed00000, IRQs 2, 8, 0
+hpet0: 3 comparators, 64-bit 100.000000 MHz counter
+Switched to clocksource kvm-clock
+pnp: PnP ACPI init
+pnp 00:00: Plug and Play ACPI device, IDs PNP0b00 (active)
+pnp 00:01: Plug and Play ACPI device, IDs PNP0303 (active)
+pnp 00:02: Plug and Play ACPI device, IDs PNP0f13 (active)
+pnp 00:03: [dma 2]
+pnp 00:03: Plug and Play ACPI device, IDs PNP0700 (active)
+pnp 00:04: Plug and Play ACPI device, IDs PNP0400 (active)
+pnp 00:05: Plug and Play ACPI device, IDs PNP0501 (active)
+pnp: PnP ACPI: found 6 devices
+pci_bus 0000:00: resource 4 [io  0x0000-0x0cf7]
+pci_bus 0000:00: resource 5 [io  0x0d00-0xadff]
+pci_bus 0000:00: resource 6 [io  0xae0f-0xaeff]
+pci_bus 0000:00: resource 7 [io  0xaf20-0xafdf]
+pci_bus 0000:00: resource 8 [io  0xafe4-0xffff]
+pci_bus 0000:00: resource 9 [mem 0x000a0000-0x000bffff]
+pci_bus 0000:00: resource 10 [mem 0x18000000-0xfebfffff]
+NET: Registered protocol family 2
+TCP established hash table entries: 4096 (order: 2, 16384 bytes)
+TCP bind hash table entries: 4096 (order: 3, 32768 bytes)
+TCP: Hash tables configured (established 4096 bind 4096)
+TCP: reno registered
+UDP hash table entries: 256 (order: 1, 8192 bytes)
+UDP-Lite hash table entries: 256 (order: 1, 8192 bytes)
+NET: Registered protocol family 1
+RPC: Registered named UNIX socket transport module.
+RPC: Registered udp transport module.
+RPC: Registered tcp transport module.
+RPC: Registered tcp NFSv4.1 backchannel transport module.
+pci 0000:00:00.0: Limiting direct PCI/PCI transfers
+pci 0000:00:01.0: PIIX3: Enabling Passive Release
+pci 0000:00:01.0: Activating ISA DMA hang workarounds
+ACPI: PCI Interrupt Link [LNKD] enabled at IRQ 11
+pci 0000:00:02.0: Video device with shadowed ROM
+PCI: CLS 0 bytes, default 32
+microcode: CPU0 sig=0x663, pf=0x1, revision=0x1
+microcode: Microcode Update Driver: v2.00 <tigran@aivazian.fsnet.co.uk>, Peter Oruba
+Scanning for low memory corruption every 60 seconds
+futex hash table entries: 256 (order: 2, 16384 bytes)
+NFS: Registering the id_resolver key type
+Key type id_resolver registered
+Key type id_legacy registered
+Block layer SCSI generic (bsg) driver version 0.4 loaded (major 250)
+io scheduler noop registered
+io scheduler deadline registered
+io scheduler cfq registered
+io scheduler SSTF registered
+pci_hotplug: PCI Hot Plug PCI Core version: 0.5
+input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+ACPI: Power Button [PWRF]
+Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
+00:05: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
+Linux agpgart interface v0.103
+[drm] Initialized drm 1.1.0 20060810
+brd: module loaded
+loop: module loaded
+Uniform Multi-Platform E-IDE driver
+piix 0000:00:01.1: IDE controller (0x8086:0x7010 rev 0x00)
+piix 0000:00:01.1: not 100% native mode: will probe irqs later
+    ide0: BM-DMA at 0xc020-0xc027
+    ide1: BM-DMA at 0xc028-0xc02f
+Probing IDE interface ide0...
+hda: QEMU HARDDISK, ATA DISK drive
+hda: host max PIO4 wanted PIO255(auto-tune) selected PIO4
+hda: MWDMA2 mode selected
+Probing IDE interface ide1...
+tsc: Refined TSC clocksource calibration: 2399.959 MHz
+hdc: QEMU DVD-ROM, ATAPI CD/DVD-ROM drive
+hdc: host max PIO4 wanted PIO255(auto-tune) selected PIO0
+hdc: MWDMA2 mode selected
+ide0 at 0x1f0-0x1f7,0x3f6 on irq 14
+Default I/O scheduler not found. Using noop.
+ide1 at 0x170-0x177,0x376 on irq 15
+Default I/O scheduler not found. Using noop.
+ide-gd driver 1.18
+hda: max request size: 1024KiB
+hda: 5477652 sectors (2804 MB) w/256KiB Cache, CHS=5434/255/63
+hda: cache flushes supported
+ hda: unknown partition table
+ide-cd driver 5.00
+ide-cd: hdc: ATAPI 4X DVD-ROM drive, 512kB Cache
+cdrom: Uniform CD-ROM driver Revision: 3.20
+pcnet32: pcnet32.c:v1.35 21.Apr.2008 tsbogend@alpha.franken.de
+e100: Intel(R) PRO/100 Network Driver, 3.5.24-k2-NAPI
+e100: Copyright(c) 1999-2006 Intel Corporation
+e1000: Intel(R) PRO/1000 Network Driver - version 7.3.21-k8-NAPI
+e1000: Copyright (c) 1999-2006 Intel Corporation.
+e1000e: Intel(R) PRO/1000 Network Driver - 2.3.2-k
+e1000e: Copyright(c) 1999 - 2014 Intel Corporation.
+ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+ehci-pci: EHCI PCI platform driver
+ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+ohci-pci: OHCI PCI platform driver
+uhci_hcd: USB Universal Host Controller Interface driver
+uhci_hcd 0000:00:01.2: UHCI Host Controller
+uhci_hcd 0000:00:01.2: new USB bus registered, assigned bus number 1
+uhci_hcd 0000:00:01.2: irq 11, io base 0x0000c000
+hub 1-0:1.0: USB hub found
+hub 1-0:1.0: 2 ports detected
+usbcore: registered new interface driver usb-storage
+usbcore: registered new interface driver usbserial
+usbcore: registered new interface driver usbserial_generic
+usbserial: USB Serial support registered for generic
+usbcore: registered new interface driver ftdi_sio
+usbserial: USB Serial support registered for FTDI USB Serial Device
+usbcore: registered new interface driver pl2303
+usbserial: USB Serial support registered for pl2303
+i8042: PNP: PS/2 Controller [PNP0303:KBD,PNP0f13:MOU] at 0x60,0x64 irq 1,12
+serio: i8042 KBD port at 0x60,0x64 irq 1
+serio: i8042 AUX port at 0x60,0x64 irq 12
+mousedev: PS/2 mouse device common for all mice
+input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input1
+rtc_cmos 00:00: RTC can wake from S4
+rtc_cmos 00:00: rtc core: registered rtc_cmos as rtc0
+rtc_cmos 00:00: alarms up to one day, 114 bytes nvram, hpet irqs
+md: linear personality registered for level -1
+md: raid0 personality registered for level 0
+md: raid1 personality registered for level 1
+md: raid10 personality registered for level 10
+md: multipath personality registered for level -4
+md: faulty personality registered for level -5
+device-mapper: ioctl: 4.29.0-ioctl (2014-10-28) initialised: dm-devel@redhat.com
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+oprofile: using NMI interrupt.
+u32 classifier
+    Actions configured
+TCP: cubic registered
+NET: Registered protocol family 10
+sit: IPv6 over IPv4 tunneling driver
+NET: Registered protocol family 17
+Key type dns_resolver registered
+mce: Unable to init device /dev/mcelog (rc: -5)
+Using IPI No-Shortcut mode
+Btrfs loaded
+console [netcon0] enabled
+netconsole: network logging started
+rtc_cmos 00:00: setting system clock to 2017-10-31 19:00:58 UTC (1509476458)
+ALSA device list:
+  No soundcards found.
+input: ImExPS/2 Generic Explorer Mouse as /devices/platform/i8042/serio1/input/input3
+md: Waiting for all devices to be available before autodetect
+md: If you don't use raid, use raid=noautodetect
+md: Autodetecting RAID arrays.
+md: Scanned 0 and added 0 devices.
+md: autorun ...
+md: ... autorun DONE.
+EXT3-fs (hda): error: couldn't mount because of unsupported optional features (240)
+EXT2-fs (hda): error: couldn't mount because of unsupported optional features (240)
+EXT4-fs (hda): mounted filesystem with ordered data mode. Opts: (null)
+VFS: Mounted root (ext4 filesystem) on device 3:0.
+devtmpfs: mounted
+Freeing unused kernel memory: 704K (c1b6e000 - c1c1e000)
+Write protecting the kernel text: 8128k
+Write protecting the kernel read-only data: 2980k
+INIT: version 2.88 booting
+Error opening /dev/fb0: No such file or directory
+Starting udev
+udevd[82]: starting version 182
+EXT4-fs (hda): re-mounted. Opts: (null)
+random: dd urandom read with 122 bits of entropy available
+random: nonblocking pool is initialized
+INIT: Entering runlevel: 5
+Configuring network interfaces... done.
+Starting system message bus: Unknown username "xuser" in message bus configuration file
+dbus.
+Starting Connection Manager
+Starting OpenBSD Secure Shell server: sshd
+done.
+Starting rpcbind daemon...done.
+Starting watchdog: [  OK  ]
+starting statd: done
+Starting atd: OK
+Starting domain name service: named.
+Starting Distributed Compiler Daemon: distcc.
+NFS daemon support not enabled in kernel
+Starting system log daemon...0
+Starting kernel log daemon...0
+Starting internet superserver: xinetd.
+ * Starting Avahi mDNS/DNS-SD Daemon: avahi-daemon
+Starting Telephony daemon
+Starting Lighttpd Web Server: lighttpd.
+cups: started scheduler.
+Starting crond: OK
+Starting OProfileUI server
+Starting tcf-agent: OK
+
+Poky (Yocto Project Reference Distro) 1.8 qemux86 /dev/ttyS0
+
+qemux86 login: root
+root@qemux86:~# shutdown -h nowpython test.py echo SSTF > /sys/block/hda/queue/scheduler
+root@qemux86:~# echo SSTF > /sys/block/hda/queue/schedulerroot@qemux86:~# [27Pshutdown -h nowpython test.py 
+[SSTF] dispatching a R at sector 1508472
+[SSTF] dispatching a R at sector 3846048
+[SSTF] dispatching a R at sector 3849856
+[SSTF] dispatching a R at sector 3849480
+[SSTF] dispatching a R at sector 3846080
+[SSTF] dispatching a R at sector 3846304
+[SSTF] dispatching a R at sector 3848304
+[SSTF] dispatching a R at sector 3848080
+[SSTF] dispatching a R at sector 3848640
+[SSTF] dispatching a R at sector 3847928
+[SSTF] dispatching a R at sector 3846904
+[SSTF] dispatching a R at sector 3847176
+[SSTF] dispatching a R at sector 3849736
+[SSTF] dispatching a R at sector 3848560
+[SSTF] dispatching a R at sector 3846512
+[SSTF] dispatching a R at sector 3846768
+[SSTF] dispatching a R at sector 3847784
+[SSTF] dispatching a R at sector 3846440
+[SSTF] dispatching a R at sector 3847432
+[SSTF] dispatching a R at sector 3847648
+[SSTF] dispatching a R at sector 4312496
+[SSTF] dispatching a R at sector 7936
+[SSTF] dispatching a R at sector 7944
+[SSTF] adding a request at sector 8096
+[SSTF] dispatching a R at sector 7952
+[SSTF] dispatching a R at sector 8088
+[SSTF] dispatching a R at sector 4376504
+[SSTF] dispatching a R at sector 4415728
+[SSTF] adding a request at sector 8584
+[SSTF] dispatching a R at sector 8448
+[SSTF] dispatching a R at sector 8576
+[SSTF] dispatching a R at sector 8200
+[SSTF] dispatching a R at sector 8208
+[SSTF] dispatching a R at sector 8216
+[SSTF] adding a request at sector 8328
+[SSTF] dispatching a R at sector 8288
+[SSTF] dispatching a R at sector 8320
+[SSTF] dispatching a R at sector 4385752
+[SSTF] dispatching a R at sector 4385784
+[SSTF] dispatching a R at sector 3847160
+[SSTF] dispatching a R at sector 4377928
+[SSTF] dispatching a R at sector 4377960
+[SSTF] dispatching a R at sector 4314000
+[SSTF] dispatching a R at sector 4313632
+[SSTF] dispatching a R at sector 7680
+[SSTF] dispatching a R at sector 7688
+[SSTF] dispatching a R at sector 7696
+[SSTF] adding a request at sector 7840
+[SSTF] dispatching a R at sector 7816
+[SSTF] dispatching a R at sector 7832
+[SSTF] dispatching a R at sector 4360176
+[SSTF] dispatching a R at sector 4380128
+[SSTF] dispatching a R at sector 4314024
+[SSTF] dispatching a R at sector 4359472
+[SSTF] dispatching a R at sector 4370728
+[SSTF] dispatching a R at sector 4360104
+[SSTF] dispatching a R at sector 4360136
+[SSTF] dispatching a R at sector 4360160
+[SSTF] dispatching a R at sector 4379296
+[SSTF] dispatching a R at sector 4358256
+[SSTF] dispatching a R at sector 4386256
+[SSTF] dispatching a R at sector 4380544
+[SSTF] dispatching a R at sector 4380576
+[SSTF] dispatching a R at sector 4379480
+[SSTF] dispatching a R at sector 4414080
+[SSTF] dispatching a R at sector 4386680
+[SSTF] dispatching a R at sector 4386712
+[SSTF] dispatching a R at sector 4380336
+[SSTF] dispatching a R at sector 4370808
+[SSTF] dispatching a R at sector 4388440
+[SSTF] dispatching a R at sector 4401592
+[SSTF] dispatching a R at sector 4403216
+[SSTF] dispatching a R at sector 4403248
+[SSTF] dispatching a R at sector 4359184
+[SSTF] dispatching a R at sector 4359216
+[SSTF] dispatching a R at sector 4393088
+[SSTF] dispatching a R at sector 4400136
+[SSTF] dispatching a R at sector 4399200
+[SSTF] dispatching a R at sector 4418640
+[SSTF] dispatching a R at sector 4422416
+[SSTF] dispatching a R at sector 4420608
+[SSTF] dispatching a R at sector 4392896
+[SSTF] dispatching a R at sector 4392928
+[SSTF] dispatching a R at sector 4418656
+[SSTF] dispatching a R at sector 4419352
+[SSTF] dispatching a R at sector 1756840
+[SSTF] dispatching a R at sector 4385416
+[SSTF] dispatching a R at sector 4410392
+[SSTF] dispatching a R at sector 4409776
+[SSTF] dispatching a R at sector 4409808
+[SSTF] dispatching a R at sector 4382768
+[SSTF] dispatching a R at sector 4408096
+[SSTF] dispatching a R at sector 4408128
+[SSTF] dispatching a R at sector 4408400
+[SSTF] dispatching a R at sector 4408432
+[SSTF] dispatching a R at sector 4381232
+[SSTF] dispatching a R at sector 4406408
+[SSTF] dispatching a R at sector 4406440
+[SSTF] dispatching a R at sector 4404696
+[SSTF] dispatching a R at sector 1751984
+[SSTF] dispatching a R at sector 1748104
+[SSTF] dispatching a R at sector 1751736
+[SSTF] dispatching a R at sector 1746104
+[SSTF] dispatching a R at sector 1747992
+[SSTF] dispatching a R at sector 1747584
+[SSTF] dispatching a R at sector 1746280
+[SSTF] dispatching a R at sector 1749776
+[SSTF] dispatching a R at sector 1744624
+[SSTF] dispatching a R at sector 1497256
+[SSTF] dispatching a R at sector 1745008
+[SSTF] dispatching a R at sector 1756096
+[SSTF] dispatching a R at sector 1752256
+[SSTF] dispatching a R at sector 1474768
+[SSTF] dispatching a R at sector 1747784
+[SSTF] dispatching a R at sector 1752320
+[SSTF] dispatching a R at sector 1746384
+[SSTF] dispatching a R at sector 1749968
+[SSTF] dispatching a R at sector 1745392
+[SSTF] dispatching a R at sector 1756232
+[SSTF] dispatching a R at sector 1752128
+[SSTF] dispatching a R at sector 1748064
+[SSTF] dispatching a R at sector 1747864
+[SSTF] dispatching a R at sector 1756000
+[SSTF] dispatching a R at sector 1756184
+[SSTF] dispatching a R at sector 1746304
+[SSTF] dispatching a R at sector 1752216
+[SSTF] dispatching a R at sector 1755320
+[SSTF] dispatching a R at sector 1755352
+[SSTF] dispatching a R at sector 1747672
+[SSTF] dispatching a R at sector 1751976
+[SSTF] dispatching a R at sector 1755328
+[SSTF] dispatching a R at sector 1748072
+[SSTF] dispatching a R at sector 1747392
+[SSTF] dispatching a R at sector 1745072
+[SSTF] dispatching a R at sector 1747360
+[SSTF] dispatching a R at sector 1747136
+[SSTF] dispatching a R at sector 1747104
+[SSTF] dispatching a R at sector 1752288
+[SSTF] dispatching a R at sector 1747944
+[SSTF] dispatching a R at sector 1493320
+All done
+root@qemux86:~# dmesg
+[32m[    0.000000] [0mInitializing cgroup subsys cpuset
+[32m[    0.000000] [0mInitializing cgroup subsys cpu
+[32m[    0.000000] [0mInitializing cgroup subsys cpuacct
+[32m[    0.000000] [0mLinux version 3.19.2-Group11-hw2-yocto-standard (lioyj@os2.engr.oregonstate.edu) (gcc version 4.9.2 (GCC) ) #10 SMP PREEMPT Tue Oct 31 09:39:27 PDT 2017
+[32m[    0.000000] [0m[33me820[0m: BIOS-provided physical RAM map:
+[32m[    0.000000] [0m[33mBIOS-e820[0m: [mem 0x0000000000000000-0x000000000009fbff] usable
+[32m[    0.000000] [0m[33mBIOS-e820[0m: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+[32m[    0.000000] [0m[33mBIOS-e820[0m: [mem 0x00000000000f0000-0x00000000000fffff] reserved
+[32m[    0.000000] [0m[33mBIOS-e820[0m: [mem 0x0000000000100000-0x0000000017fdffff] usable
+[32m[    0.000000] [0m[33mBIOS-e820[0m: [mem 0x0000000017fe0000-0x0000000017ffffff] reserved
+[32m[    0.000000] [0m[33mBIOS-e820[0m: [mem 0x00000000feffc000-0x00000000feffffff] reserved
+[32m[    0.000000] [0m[33mBIOS-e820[0m: [mem 0x00000000fffc0000-0x00000000ffffffff] reserved
+[32m[    0.000000] [0m[33mNotice[0m: NX (Execute Disable) protection missing in CPU!
+[32m[    0.000000] [0mSMBIOS 2.8 present.
+[32m[    0.000000] [0m[33mDMI[0m: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.7.5.1-0-g8936dbb-20141113_115728-nilsson.home.kraxel.org 04/01/2014
+[32m[    0.000000] [0m[33mHypervisor detected[0m: KVM
+[32m[    0.000000] [0m[33me820[0m: update [mem 0x00000000-0x00000fff] usable ==> reserved
+[32m[    0.000000] [0m[33me820[0m: remove [mem 0x000a0000-0x000fffff] usable
+[32m[    0.000000] [0m[33me820[0m: last_pfn = 0x17fe0 max_arch_pfn = 0x100000
+[32m[    0.000000] [0mfound SMP MP-table at [mem 0x000f0ea0-0x000f0eaf] mapped at [c00f0ea0]
+[32m[    0.000000] [0mScanning 1 areas for low memory corruption
+[32m[    0.000000] [0m[33minitial memory mapped[0m: [mem 0x00000000-0x01ffffff]
+[32m[    0.000000] [0mBase memory trampoline at [c009b000] 9b000 size 16384
+[32m[    0.000000] [0m[33minit_memory_mapping[0m: [mem 0x00000000-0x000fffff]
+[32m[    0.000000] [0m [mem 0x00000000-0x000fffff] page 4k
+[32m[    0.000000] [0m[33minit_memory_mapping[0m: [mem 0x17800000-0x17bfffff]
+[32m[    0.000000] [0m [mem 0x17800000-0x17bfffff] page 2M
+[32m[    0.000000] [0m[33minit_memory_mapping[0m: [mem 0x00100000-0x177fffff]
+[32m[    0.000000] [0m [mem 0x00100000-0x003fffff] page 4k
+[32m[    0.000000] [0m [mem 0x00400000-0x177fffff] page 2M
+[32m[    0.000000] [0m[33minit_memory_mapping[0m: [mem 0x17c00000-0x17fdffff]
+[32m[    0.000000] [0m [mem 0x17c00000-0x17fdffff] page 4k
+[32m[    0.000000] [0mBRK [0x01ced000, 0x01cedfff] PGTABLE
+[32m[    0.000000] [0m[33mACPI[0m: Early table checksum verification disabled
+[32m[    0.000000] [0m[33mACPI[0m[1m: RSDP 0x000F0CA0 000014 (v00 BOCHS )[0m
+[32m[    0.000000] [0m[33mACPI[0m[1m: RSDT 0x17FE1853 000034 (v01 BOCHS  BXPCRSDT 00000001 BXPC 00000001)[0m
+[32m[    0.000000] [0m[33mACPI[0m[1m: FACP 0x17FE0E48 000074 (v01 BOCHS  BXPCFACP 00000001 BXPC 00000001)[0m
+[32m[    0.000000] [0m[33mACPI[0m[1m: DSDT 0x17FE0040 000E08 (v01 BOCHS  BXPCDSDT 00000001 BXPC 00000001)[0m
+[32m[    0.000000] [0m[33mACPI[0m[1m: FACS 0x17FE0000 000040[0m
+[32m[    0.000000] [0m[33mACPI[0m[1m: SSDT 0x17FE0EBC 0008E7 (v01 BOCHS  BXPCSSDT 00000001 BXPC 00000001)[0m
+[32m[    0.000000] [0m[33mACPI[0m[1m: APIC 0x17FE17A3 000078 (v01 BOCHS  BXPCAPIC 00000001 BXPC 00000001)[0m
+[32m[    0.000000] [0m[33mACPI[0m[1m: HPET 0x17FE181B 000038 (v01 BOCHS  BXPCHPET 00000001 BXPC 00000001)[0m
+[32m[    0.000000] [0m[33mACPI[0m: Local APIC address 0xfee00000
+[32m[    0.000000] [0m0MB HIGHMEM available.
+[32m[    0.000000] [0m383MB LOWMEM available.
+[32m[    0.000000] [0m[33m  mapped low ram[0m: 0 - 17fe0000
+[32m[    0.000000] [0m[33m  low ram[0m: 0 - 17fe0000
+[32m[    0.000000] [0m[33mkvm-clock[0m: Using msrs 4b564d01 and 4b564d00
+[32m[    0.000000] [0m[33mkvm-clock[0m: cpu 0, msr 0:17fdf001, primary cpu clock
+[32m[    0.000000] [0mBRK [0x01cee000, 0x01ceefff] PGTABLE
+[32m[    0.000000] [0mZone ranges:
+[32m[    0.000000] [0m  DMA      [mem 0x00001000-0x00ffffff]
+[32m[    0.000000] [0m  Normal   [mem 0x01000000-0x17fdffff]
+[32m[    0.000000] [0m  HighMem  empty
+[32m[    0.000000] [0mMovable zone start for each node
+[32m[    0.000000] [0mEarly memory node ranges
+[32m[    0.000000] [0m[33m  node   0[0m: [mem 0x00001000-0x0009efff]
+[32m[    0.000000] [0m[33m  node   0[0m: [mem 0x00100000-0x17fdffff]
+[32m[    0.000000] [0mInitmem setup node 0 [mem 0x00001000-0x17fdffff]
+[32m[    0.000000] [0m[33mOn node 0 totalpages[0m: 98174
+[32m[    0.000000] [0m[33mfree_area_init_node[0m: node 0, pgdat c1b5c4c0, node_mem_map d7c1f028
+[32m[    0.000000] [0m[33m  DMA zone[0m: 40 pages used for memmap
+[32m[    0.000000] [0m[33m  DMA zone[0m: 0 pages reserved
+[32m[    0.000000] [0m[33m  DMA zone[0m: 3998 pages, LIFO batch:0
+[32m[    0.000000] [0m[33m  Normal zone[0m: 920 pages used for memmap
+[32m[    0.000000] [0m[33m  Normal zone[0m: 94176 pages, LIFO batch:31
+[32m[    0.000000] [0mUsing APIC driver default
+[32m[    0.000000] [0m[33mACPI[0m: PM-Timer IO Port: 0x608
+[32m[    0.000000] [0m[33mACPI[0m: Local APIC address 0xfee00000
+[32m[    0.000000] [0m[33mACPI[0m: LAPIC (acpi_id[0x00] lapic_id[0x00] enabled)
+[32m[    0.000000] [0m[33mACPI[0m: LAPIC_NMI (acpi_id[0xff] dfl dfl lint[0x1])
+[32m[    0.000000] [0m[33mACPI[0m: IOAPIC (id[0x00] address[0xfec00000] gsi_base[0])
+[32m[    0.000000] [0m[33mIOAPIC[0][0m: apic_id 0, version 17, address 0xfec00000, GSI 0-23
+[32m[    0.000000] [0m[33mACPI[0m: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+[32m[    0.000000] [0m[33mACPI[0m: INT_SRC_OVR (bus 0 bus_irq 5 global_irq 5 high level)
+[32m[    0.000000] [0m[33mACPI[0m: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+[32m[    0.000000] [0m[33mACPI[0m: INT_SRC_OVR (bus 0 bus_irq 10 global_irq 10 high level)
+[32m[    0.000000] [0m[33mACPI[0m: INT_SRC_OVR (bus 0 bus_irq 11 global_irq 11 high level)
+[32m[    0.000000] [0m[33mACPI[0m: IRQ0 used by override.
+[32m[    0.000000] [0m[33mACPI[0m: IRQ5 used by override.
+[32m[    0.000000] [0m[33mACPI[0m: IRQ9 used by override.
+[32m[    0.000000] [0m[33mACPI[0m: IRQ10 used by override.
+[32m[    0.000000] [0m[33mACPI[0m: IRQ11 used by override.
+[32m[    0.000000] [0mUsing ACPI (MADT) for SMP configuration information
+[32m[    0.000000] [0m[33mACPI[0m: HPET id: 0x8086a201 base: 0xfed00000
+[32m[    0.000000] [0m[33msmpboot[0m: Allowing 1 CPUs, 0 hotplug CPUs
+[32m[    0.000000] [0m[33me820[0m: [mem 0x18000000-0xfeffbfff] available for PCI devices
+[32m[    0.000000] [0mBooting paravirtualized kernel on KVM
+[32m[    0.000000] [0m[33msetup_percpu[0m: NR_CPUS:8 nr_cpumask_bits:8 nr_cpu_ids:1 nr_node_ids:1
+[32m[    0.000000] [0m[33mPERCPU[0m: Embedded 16 pages/cpu @d7c0b000 s36352 r0 d29184 u65536
+[32m[    0.000000] [0m[33mpcpu-alloc[0m: s36352 r0 d29184 u65536 alloc=16*4096
+[32m[    0.000000] [0m[33mpcpu-alloc[0m: [0] 0 
+[32m[    0.000000] [0mKVM setup async PF for cpu 0
+[32m[    0.000000] [0m[33mkvm-stealtime[0m: cpu 0, msr 17c0ea80
+[32m[    0.000000] [0m[33mBuilt 1 zonelists in Zone order, mobility grouping on.  Total pages[0m: 97214
+[32m[    0.000000] [0m[33mKernel command line[0m: root=/dev/hda rw console=ttyS0 debug
+[32m[    0.000000] [0m[33mPID hash table entries[0m: 2048 (order: 1, 8192 bytes)
+[32m[    0.000000] [0m[33mDentry cache hash table entries[0m: 65536 (order: 6, 262144 bytes)
+[32m[    0.000000] [0m[33mInode-cache hash table entries[0m: 32768 (order: 5, 131072 bytes)
+[32m[    0.000000] [0mInitializing CPU#0
+[32m[    0.000000] [0mInitializing HighMem for node 0 (00000000:00000000)
+[32m[    0.000000] [0m[33mMemory[0m: 375052K/392696K available (8123K kernel code, 588K rwdata, 2976K rodata, 704K init, 760K bss, 17644K reserved, 0K cma-reserved, 0K highmem)
+[32m[    0.000000] [0m[33mvirtual kernel memory layout:
+    fixmap  [0m: 0xfff16000 - 0xfffff000   ( 932 kB)
+    pkmap   : 0xff800000 - 0xffc00000   (4096 kB)
+    vmalloc : 0xd87e0000 - 0xff7fe000   ( 624 MB)
+    lowmem  : 0xc0000000 - 0xd7fe0000   ( 383 MB)
+      .init : 0xc1b6e000 - 0xc1c1e000   ( 704 kB)
+      .data : 0xc17ef33e - 0xc1b6c380   (3572 kB)
+      .text : 0xc1000000 - 0xc17ef33e   (8124 kB)
+[32m[    0.000000] [0mChecking if this processor honours the WP bit even in supervisor mode...Ok.
+[32m[    0.000000] [0m[33mSLUB[0m: HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+[32m[    0.000000] [0mPreemptible hierarchical RCU implementation.
+[32m[    0.000000] [0m	RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=1.
+[32m[    0.000000] [0m[33mRCU[0m: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=1
+[32m[    0.000000] [0mNR_IRQS:2304 nr_irqs:256 16
+[32m[    0.000000] [0mCPU 0 irqstacks, hard=d742e000 soft=d7430000
+[32m[    0.000000] [0m[33mConsole[0m: colour VGA+ 80x25
+[32m[    0.000000] [0mconsole [ttyS0] enabled
+[32m[    0.000000] [0mhpet clockevent registered
+[32m[    0.000000] [0m[33mtsc[0m: Detected 2399.998 MHz processor
+[32m[    0.002000] [0mCalibrating delay loop (skipped) preset value.. 4799.99 BogoMIPS (lpj=2399998)
+[32m[    0.002338] [0m[33mpid_max[0m: default: 32768 minimum: 301
+[32m[    0.003009] [0m[33mACPI[0m: Core revision 20141107
+[32m[    0.004638] [0m[33mACPI[0m[1m: All ACPI Tables successfully acquired[0m
+[32m[    0.005078] [0mSecurity Framework initialized
+[32m[    0.005443] [0m[33mMount-cache hash table entries[0m: 1024 (order: 0, 4096 bytes)
+[32m[    0.006006] [0m[33mMountpoint-cache hash table entries[0m: 1024 (order: 0, 4096 bytes)
+[32m[    0.007115] [0mInitializing cgroup subsys memory
+[32m[    0.007500] [0mInitializing cgroup subsys devices
+[32m[    0.007868] [0mInitializing cgroup subsys freezer
+[32m[    0.008007] [0mInitializing cgroup subsys net_cls
+[32m[    0.008377] [0mInitializing cgroup subsys blkio
+[32m[    0.009006] [0mInitializing cgroup subsys debug
+[32m[    0.009411] [0m[33mLast level iTLB entries[0m: 4KB 0, 2MB 0, 4MB 0
+Last level dTLB entries: 4KB 0, 2MB 0, 4MB 0, 1GB 0
+[32m[    0.028894] [0m[33mFreeing SMP alternatives memory[0m: 32K (c1c1e000 - c1c26000)
+[32m[    0.031538] [0m[33mftrace[0m: allocating 30884 entries in 61 pages
+[32m[    0.038128] [0m[33mEnabling APIC mode[0m:  Flat.  Using 1 I/O APICs
+[32m[    0.040520] [0m[33m..TIMER[0m: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
+[32m[    0.041003] [0m[33msmpboot[0m: CPU0: Intel QEMU Virtual CPU version 2.2.0 (fam: 06, model: 06, stepping: 03)
+[32m[    0.042000] [0m[33mPerformance Events[0m: Broken PMU hardware detected, using software events only.
+[32m[    0.042000] [0mFailed to access perfctr msr (MSR c1 is 0)
+[32m[    0.046053] [0m[33mx86[0m: Booted up 1 node, 1 CPUs
+[32m[    0.046370] [0m[33msmpboot[0m: Total of 1 processors activated (4799.99 BogoMIPS)
+[32m[    0.047242] [0m[33mdevtmpfs[0m: initialized
+[32m[    0.047831] [0m[33mxor[0m: measuring software checksum speed
+[32m[    0.058015] [0m[33m   pIII_sse  [0m:  4868.000 MB/sec
+[32m[    0.068006] [0m[33m   prefetch64-sse[0m:  7904.000 MB/sec
+[32m[    0.068364] [0m[33mxor[0m: using function: prefetch64-sse (7904.000 MB/sec)
+[32m[    0.068978] [0m[33mNET[0m: Registered protocol family 16
+[32m[    0.075012] [0m[33mcpuidle[0m: using governor ladder
+[32m[    0.081009] [0m[33mcpuidle[0m: using governor menu
+[32m[    0.081373] [0m[33mACPI[0m: bus type PCI registered
+[32m[    0.081840] [0m[33mPCI[0m: PCI BIOS revision 2.10 entry at 0xfd456, last bus=0
+[32m[    0.082003] [0m[33mPCI[0m: Using configuration type 1 for base access
+[32m[    0.105012] [0m[33mraid6[0m: mmxx1     4906 MB/s
+[32m[    0.122016] [0m[33mraid6[0m: mmxx2     5253 MB/s
+[32m[    0.139015] [0m[33mraid6[0m: sse1x1    4117 MB/s
+[32m[    0.156013] [0m[33mraid6[0m: sse1x2    4957 MB/s
+[32m[    0.173007] [0m[33mraid6[0m: sse2x1    8136 MB/s
+[32m[    0.190006] [0m[33mraid6[0m: sse2x2   10164 MB/s
+[32m[    0.190283] [0m[33mraid6[0m: using algorithm sse2x2 (10164 MB/s)
+[32m[    0.190691] [0m[33mraid6[0m: using intx1 recovery algorithm
+[32m[    0.191029] [0m[33mACPI[0m: Added _OSI(Module Device)
+[32m[    0.191343] [0m[33mACPI[0m: Added _OSI(Processor Device)
+[32m[    0.191671] [0m[33mACPI[0m: Added _OSI(3.0 _SCP Extensions)
+[32m[    0.192003] [0m[33mACPI[0m: Added _OSI(Processor Aggregator Device)
+[32m[    0.193564] [0m[33mACPI[0m: Interpreter enabled
+[32m[    0.193833] [0m[33mACPI Exception[0m[1m: AE_NOT_FOUND, While evaluating Sleep State [\_S1_] (20141107/hwxface-580)[0m
+[32m[    0.194568] [0m[33mACPI Exception[0m[1m: AE_NOT_FOUND, While evaluating Sleep State [\_S2_] (20141107/hwxface-580)[0m
+[32m[    0.195244] [0m[33mACPI[0m: (supports S0 S3 S5)
+[32m[    0.195497] [0m[33mACPI[0m: Using IOAPIC for interrupt routing
+[32m[    0.196015] [0m[33mPCI[0m: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+[32m[    0.199412] [0m[33mACPI[0m: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+[32m[    0.199937] [0m[33macpi PNP0A03:00[0m: _OSC: OS supports [ASPM ClockPM Segments MSI]
+[32m[    0.200008] [0m[33macpi PNP0A03:00[0m: _OSC failed (AE_NOT_FOUND); disabling ASPM
+[32m[    0.201078] [0m[33macpi PNP0A03:00[0m[1m: fail to add MMCONFIG information, can't access extended PCI configuration space under this bridge.
+[0m[32m[    0.202034] [0mPCI host bridge to bus 0000:00
+[32m[    0.202335] [0m[33mpci_bus 0000:00[0m: root bus resource [bus 00-ff]
+[32m[    0.203004] [0m[33mpci_bus 0000:00[0m: root bus resource [io  0x0000-0x0cf7]
+[32m[    0.203514] [0m[33mpci_bus 0000:00[0m: root bus resource [io  0x0d00-0xadff]
+[32m[    0.204003] [0m[33mpci_bus 0000:00[0m: root bus resource [io  0xae0f-0xaeff]
+[32m[    0.204510] [0m[33mpci_bus 0000:00[0m: root bus resource [io  0xaf20-0xafdf]
+[32m[    0.205003] [0m[33mpci_bus 0000:00[0m: root bus resource [io  0xafe4-0xffff]
+[32m[    0.205509] [0m[33mpci_bus 0000:00[0m: root bus resource [mem 0x000a0000-0x000bffff]
+[32m[    0.206003] [0m[33mpci_bus 0000:00[0m: root bus resource [mem 0x18000000-0xfebfffff]
+[32m[    0.206609] [0m[33mpci 0000:00:00.0[0m: [8086:1237] type 00 class 0x060000
+[32m[    0.207306] [0m[33mpci 0000:00:01.0[0m: [8086:7000] type 00 class 0x060100
+[32m[    0.208436] [0m[33mpci 0000:00:01.1[0m: [8086:7010] type 00 class 0x010180
+[32m[    0.212342] [0m[33mpci 0000:00:01.1[0m: reg 0x20: [io  0xc020-0xc02f]
+[32m[    0.214030] [0m[33mpci 0000:00:01.1[0m: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
+[32m[    0.214636] [0m[33mpci 0000:00:01.1[0m: legacy IDE quirk: reg 0x14: [io  0x03f6]
+[32m[    0.215003] [0m[33mpci 0000:00:01.1[0m: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
+[32m[    0.215609] [0m[33mpci 0000:00:01.1[0m: legacy IDE quirk: reg 0x1c: [io  0x0376]
+[32m[    0.216133] [0m[33mpci 0000:00:01.2[0m: [8086:7020] type 00 class 0x0c0300
+[32m[    0.220711] [0m[33mpci 0000:00:01.2[0m: reg 0x20: [io  0xc000-0xc01f]
+[32m[    0.222496] [0m[33mpci 0000:00:01.3[0m: [8086:7113] type 00 class 0x068000
+[32m[    0.223309] [0m[33mpci 0000:00:01.3[0m: quirk: [io  0x0600-0x063f] claimed by PIIX4 ACPI
+[32m[    0.224012] [0m[33mpci 0000:00:01.3[0m: quirk: [io  0x0700-0x070f] claimed by PIIX4 SMB
+[32m[    0.225050] [0m[33mpci 0000:00:02.0[0m: [1234:1111] type 00 class 0x030000
+[32m[    0.227036] [0m[33mpci 0000:00:02.0[0m: reg 0x10: [mem 0xfd000000-0xfdffffff pref]
+[32m[    0.231034] [0m[33mpci 0000:00:02.0[0m: reg 0x18: [mem 0xfebf0000-0xfebf0fff]
+[32m[    0.237052] [0m[33mpci 0000:00:02.0[0m: reg 0x30: [mem 0xfebe0000-0xfebeffff pref]
+[32m[    0.238497] [0m[33mpci_bus 0000:00[0m: on NUMA node 0
+[32m[    0.239367] [0m[33mACPI[0m: PCI Interrupt Link [LNKA] (IRQs 5 *10 11)
+[32m[    0.240059] [0m[33mACPI[0m: PCI Interrupt Link [LNKB] (IRQs 5 *10 11)
+[32m[    0.240673] [0m[33mACPI[0m: PCI Interrupt Link [LNKC] (IRQs 5 10 *11)
+[32m[    0.241269] [0m[33mACPI[0m: PCI Interrupt Link [LNKD] (IRQs 5 10 *11)
+[32m[    0.241827] [0m[33mACPI[0m: PCI Interrupt Link [LNKS] (IRQs *9)
+[32m[    0.242412] [0m[33mACPI[0m[1m: Enabled 16 GPEs in block 00 to 0F[0m
+[32m[    0.243241] [0m[33mvgaarb[0m: setting as boot device: PCI:0000:00:02.0
+[32m[    0.243699] [0m[33mvgaarb[0m: device added: PCI:0000:00:02.0,decodes=io+mem,owns=io+mem,locks=none
+[32m[    0.244002] [0m[33mvgaarb[0m: loaded
+[32m[    0.244161] [0m[33mvgaarb[0m: bridge control possible 0000:00:02.0
+[32m[    0.245204] [0mSCSI subsystem initialized
+[32m[    0.245601] [0mlibata version 3.00 loaded.
+[32m[    0.245928] [0m[33mACPI[0m: bus type USB registered
+[32m[    0.246037] [0m[33musbcore[0m: registered new interface driver usbfs
+[32m[    0.246487] [0m[33musbcore[0m: registered new interface driver hub
+[32m[    0.247015] [0m[33musbcore[0m: registered new device driver usb
+[32m[    0.247448] [0m[33mpps_core[0m: LinuxPPS API ver. 1 registered
+[32m[    0.247832] [0m[33mpps_core[0m: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[32m[    0.248008] [0mPTP clock support registered
+[32m[    0.249123] [0mAdvanced Linux Sound Architecture Driver Initialized.
+[32m[    0.249632] [0m[33mPCI[0m: Using ACPI for IRQ routing
+[32m[    0.250006] [0m[33mPCI[0m: pci_cache_line_size set to 32 bytes
+[32m[    0.250483] [0m[33me820[0m: reserve RAM buffer [mem 0x0009fc00-0x0009ffff]
+[32m[    0.250973] [0m[33me820[0m: reserve RAM buffer [mem 0x17fe0000-0x17ffffff]
+[32m[    0.251351] [0m[33mHPET[0m: 3 timers in total, 0 timers will be used for per-cpu timer
+[32m[    0.252026] [0m[33mhpet0[0m: at MMIO 0xfed00000, IRQs 2, 8, 0
+[32m[    0.252460] [0m[33mhpet0[0m: 3 comparators, 64-bit 100.000000 MHz counter
+[32m[    0.255072] [0mSwitched to clocksource kvm-clock
+[32m[    0.265105] [0m[33mpnp[0m: PnP ACPI init
+[32m[    0.265395] [0m[33mpnp 00:00[0m: Plug and Play ACPI device, IDs PNP0b00 (active)
+[32m[    0.266000] [0m[33mpnp 00:01[0m: Plug and Play ACPI device, IDs PNP0303 (active)
+[32m[    0.266620] [0m[33mpnp 00:02[0m: Plug and Play ACPI device, IDs PNP0f13 (active)
+[32m[    0.267222] [0m[33mpnp 00:03[0m: [dma 2]
+[32m[    0.267435] [0m[33mpnp 00:03[0m: Plug and Play ACPI device, IDs PNP0700 (active)
+[32m[    0.268055] [0m[33mpnp 00:04[0m: Plug and Play ACPI device, IDs PNP0400 (active)
+[32m[    0.268665] [0m[33mpnp 00:05[0m: Plug and Play ACPI device, IDs PNP0501 (active)
+[32m[    0.269425] [0m[33mpnp[0m: PnP ACPI: found 6 devices
+[32m[    0.305851] [0m[33mpci_bus 0000:00[0m: resource 4 [io  0x0000-0x0cf7]
+[32m[    0.306322] [0m[33mpci_bus 0000:00[0m: resource 5 [io  0x0d00-0xadff]
+[32m[    0.306776] [0m[33mpci_bus 0000:00[0m: resource 6 [io  0xae0f-0xaeff]
+[32m[    0.307230] [0m[33mpci_bus 0000:00[0m: resource 7 [io  0xaf20-0xafdf]
+[32m[    0.307675] [0m[33mpci_bus 0000:00[0m: resource 8 [io  0xafe4-0xffff]
+[32m[    0.308126] [0m[33mpci_bus 0000:00[0m: resource 9 [mem 0x000a0000-0x000bffff]
+[32m[    0.308650] [0m[33mpci_bus 0000:00[0m: resource 10 [mem 0x18000000-0xfebfffff]
+[32m[    0.309216] [0m[33mNET[0m: Registered protocol family 2
+[32m[    0.309743] [0m[33mTCP established hash table entries[0m: 4096 (order: 2, 16384 bytes)
+[32m[    0.310373] [0m[33mTCP bind hash table entries[0m: 4096 (order: 3, 32768 bytes)
+[32m[    0.310934] [0m[33mTCP[0m: Hash tables configured (established 4096 bind 4096)
+[32m[    0.311502] [0m[33mTCP[0m: reno registered
+[32m[    0.311724] [0m[33mUDP hash table entries[0m: 256 (order: 1, 8192 bytes)
+[32m[    0.312213] [0m[33mUDP-Lite hash table entries[0m: 256 (order: 1, 8192 bytes)
+[32m[    0.312798] [0m[33mNET[0m: Registered protocol family 1
+[32m[    0.313244] [0m[33mRPC[0m: Registered named UNIX socket transport module.
+[32m[    0.313737] [0m[33mRPC[0m: Registered udp transport module.
+[32m[    0.314110] [0m[33mRPC[0m: Registered tcp transport module.
+[32m[    0.314470] [0m[33mRPC[0m: Registered tcp NFSv4.1 backchannel transport module.
+[32m[    0.315002] [0m[33mpci 0000:00:00.0[0m: Limiting direct PCI/PCI transfers
+[32m[    0.315505] [0m[33mpci 0000:00:01.0[0m: PIIX3: Enabling Passive Release
+[32m[    0.315982] [0m[33mpci 0000:00:01.0[0m: Activating ISA DMA hang workarounds
+[32m[    0.344237] [0m[33mACPI[0m[1m: PCI Interrupt Link [LNKD] enabled at IRQ 11[0m
+[32m[    0.373712] [0m[33mpci 0000:00:02.0[0m: Video device with shadowed ROM
+[32m[    0.374230] [0m[33mPCI[0m: CLS 0 bytes, default 32
+[32m[    0.374888] [0m[33mmicrocode[0m: CPU0 sig=0x663, pf=0x1, revision=0x1
+[32m[    0.375445] [0m[33mmicrocode[0m: Microcode Update Driver: v2.00 <tigran@aivazian.fsnet.co.uk>, Peter Oruba
+[32m[    0.376376] [0mScanning for low memory corruption every 60 seconds
+[32m[    0.377117] [0m[33mfutex hash table entries[0m: 256 (order: 2, 16384 bytes)
+[32m[    0.380278] [0m[33mNFS[0m: Registering the id_resolver key type
+[32m[    0.380717] [0mKey type id_resolver registered
+[32m[    0.381052] [0mKey type id_legacy registered
+[32m[    0.381796] [0mBlock layer SCSI generic (bsg) driver version 0.4 loaded (major 250)
+[32m[    0.382481] [0mio scheduler noop registered
+[32m[    0.382774] [0mio scheduler deadline registered
+[32m[    0.383164] [0mio scheduler cfq registered
+[32m[    0.383456] [0mio scheduler SSTF registered
+[32m[    0.383815] [0m[33mpci_hotplug[0m: PCI Hot Plug PCI Core version: 0.5
+[32m[    0.384407] [0m[33minput[0m: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+[32m[    0.385081] [0m[33mACPI[0m: Power Button [PWRF]
+[32m[    0.394583] [0m[33mSerial[0m: 8250/16550 driver, 4 ports, IRQ sharing disabled
+[32m[    0.421769] [0m[33m00:05[0m: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
+[32m[    0.422833] [0mLinux agpgart interface v0.103
+[32m[    0.423232] [0m[drm] Initialized drm 1.1.0 20060810
+[32m[    0.424807] [0m[33mbrd[0m: module loaded
+[32m[    0.425590] [0m[33mloop[0m: module loaded
+[32m[    0.425831] [0mUniform Multi-Platform E-IDE driver
+[32m[    0.426227] [0m[33mpiix 0000:00:01.1[0m: IDE controller (0x8086:0x7010 rev 0x00)
+[32m[    0.426847] [0m[33mpiix 0000:00:01.1[0m: not 100% native mode: will probe irqs later
+[32m[    0.427855] [0m[33m    ide0[0m: BM-DMA at 0xc020-0xc027
+[32m[    0.428228] [0m[33m    ide1[0m: BM-DMA at 0xc028-0xc02f
+[32m[    0.428571] [0mProbing IDE interface ide0...
+[32m[    0.692109] [0m[33mhda[0m: QEMU HARDDISK, ATA DISK drive
+[32m[    1.304086] [0m[33mhda[0m: host max PIO4 wanted PIO255(auto-tune) selected PIO4
+[32m[    1.304779] [0m[33mhda[0m: MWDMA2 mode selected
+[32m[    1.305142] [0mProbing IDE interface ide1...
+[32m[    1.376070] [0m[33mtsc[0m: Refined TSC clocksource calibration: 2399.959 MHz
+[32m[    1.977098] [0m[33mhdc[0m: QEMU DVD-ROM, ATAPI CD/DVD-ROM drive
+[32m[    2.589076] [0m[33mhdc[0m: host max PIO4 wanted PIO255(auto-tune) selected PIO0
+[32m[    2.589752] [0m[33mhdc[0m: MWDMA2 mode selected
+[32m[    2.590175] [0mide0 at 0x1f0-0x1f7,0x3f6 on irq 14
+[32m[    2.590570] [0m[31mDefault I/O scheduler not found. Using noop.[0m
+[32m[    2.591063] [0mide1 at 0x170-0x177,0x376 on irq 15
+[32m[    2.591444] [0m[31mDefault I/O scheduler not found. Using noop.[0m
+[32m[    2.591956] [0mide-gd driver 1.18
+[32m[    2.592225] [0m[33mhda[0m: max request size: 1024KiB
+[32m[    2.592547] [0m[33mhda[0m: 5477652 sectors (2804 MB) w/256KiB Cache, CHS=5434/255/63
+[32m[    2.599138] [0m[33mhda[0m: cache flushes supported
+[32m[    2.602280] [0m[33m hda[0m: unknown partition table
+[32m[    2.602897] [0mide-cd driver 5.00
+[32m[    2.603318] [0m[33mide-cd[0m: hdc: ATAPI 4X DVD-ROM drive, 512kB Cache
+[32m[    2.603874] [0m[33mcdrom[0m: Uniform CD-ROM driver Revision: 3.20
+[32m[    2.605349] [0m[33mpcnet32[0m: pcnet32.c:v1.35 21.Apr.2008 tsbogend@alpha.franken.de
+[32m[    2.606032] [0m[33me100[0m: Intel(R) PRO/100 Network Driver, 3.5.24-k2-NAPI
+[32m[    2.606568] [0m[33me100[0m: Copyright(c) 1999-2006 Intel Corporation
+[32m[    2.607070] [0m[33me1000[0m: Intel(R) PRO/1000 Network Driver - version 7.3.21-k8-NAPI
+[32m[    2.607713] [0m[33me1000[0m: Copyright (c) 1999-2006 Intel Corporation.
+[32m[    2.608245] [0m[33me1000e[0m: Intel(R) PRO/1000 Network Driver - 2.3.2-k
+[32m[    2.608748] [0m[33me1000e[0m: Copyright(c) 1999 - 2014 Intel Corporation.
+[32m[    2.609311] [0m[33mehci_hcd[0m: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[32m[    2.609897] [0m[33mehci-pci[0m: EHCI PCI platform driver
+[32m[    2.610277] [0m[33mohci_hcd[0m: USB 1.1 'Open' Host Controller (OHCI) Driver
+[32m[    2.610831] [0m[33mohci-pci[0m: OHCI PCI platform driver
+[32m[    2.611216] [0m[33muhci_hcd[0m: USB Universal Host Controller Interface driver
+[32m[    2.639759] [0m[33muhci_hcd 0000:00:01.2[0m: UHCI Host Controller
+[32m[    2.640233] [0m[33muhci_hcd 0000:00:01.2[0m: new USB bus registered, assigned bus number 1
+[32m[    2.641022] [0m[33muhci_hcd 0000:00:01.2[0m: irq 11, io base 0x0000c000
+[32m[    2.641745] [0m[33mhub 1-0:1.0[0m: USB hub found
+[32m[    2.642066] [0m[33mhub 1-0:1.0[0m: 2 ports detected
+[32m[    2.642532] [0m[33musbcore[0m: registered new interface driver usb-storage
+[32m[    2.643180] [0m[33musbcore[0m: registered new interface driver usbserial
+[32m[    2.643761] [0m[33musbcore[0m: registered new interface driver usbserial_generic
+[32m[    2.644372] [0m[33musbserial[0m: USB Serial support registered for generic
+[32m[    2.644969] [0m[33musbcore[0m: registered new interface driver ftdi_sio
+[32m[    2.645483] [0m[33musbserial[0m: USB Serial support registered for FTDI USB Serial Device
+[32m[    2.646265] [0m[33musbcore[0m: registered new interface driver pl2303
+[32m[    2.646818] [0m[33musbserial[0m: USB Serial support registered for pl2303
+[32m[    2.647419] [0m[33mi8042[0m: PNP: PS/2 Controller [PNP0303:KBD,PNP0f13:MOU] at 0x60,0x64 irq 1,12
+[32m[    2.648975] [0m[33mserio[0m: i8042 KBD port at 0x60,0x64 irq 1
+[32m[    2.649423] [0m[33mserio[0m: i8042 AUX port at 0x60,0x64 irq 12
+[32m[    2.650054] [0m[33mmousedev[0m: PS/2 mouse device common for all mice
+[32m[    2.650901] [0m[33minput[0m: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input1
+[32m[    2.653383] [0m[33mrtc_cmos 00:00[0m: RTC can wake from S4
+[32m[    2.654093] [0m[33mrtc_cmos 00:00[0m: rtc core: registered rtc_cmos as rtc0
+[32m[    2.654804] [0m[33mrtc_cmos 00:00[0m: alarms up to one day, 114 bytes nvram, hpet irqs
+[32m[    2.655532] [0m[33mmd[0m: linear personality registered for level -1
+[32m[    2.656098] [0m[33mmd[0m: raid0 personality registered for level 0
+[32m[    2.656571] [0m[33mmd[0m: raid1 personality registered for level 1
+[32m[    2.657084] [0m[33mmd[0m: raid10 personality registered for level 10
+[32m[    2.657589] [0m[33mmd[0m: multipath personality registered for level -4
+[32m[    2.658154] [0m[33mmd[0m: faulty personality registered for level -5
+[32m[    2.658764] [0m[33mdevice-mapper[0m: ioctl: 4.29.0-ioctl (2014-10-28) initialised: dm-devel@redhat.com
+[32m[    2.659780] [0m[33musbcore[0m: registered new interface driver usbhid
+[32m[    2.660328] [0m[33musbhid[0m: USB HID core driver
+[32m[    2.660844] [0m[33moprofile[0m: using NMI interrupt.
+[32m[    2.661285] [0mu32 classifier
+[32m[    2.661454] [0m    Actions configured
+[32m[    2.661777] [0m[33mTCP[0m: cubic registered
+[32m[    2.662245] [0m[33mNET[0m: Registered protocol family 10
+[32m[    2.662883] [0m[33msit[0m: IPv6 over IPv4 tunneling driver
+[32m[    2.663502] [0m[33mNET[0m: Registered protocol family 17
+[32m[    2.663919] [0mKey type dns_resolver registered
+[32m[    2.664344] [0m[33mmce[0m[31m: Unable to init device /dev/mcelog (rc: -5)[0m
+[32m[    2.664938] [0mUsing IPI No-Shortcut mode
+[32m[    2.665859] [0mBtrfs loaded
+[32m[    2.666283] [0mconsole [netcon0] enabled
+[32m[    2.666558] [0m[33mnetconsole[0m: network logging started
+[32m[    2.667017] [0m[33mrtc_cmos 00:00[0m: setting system clock to 2017-10-31 19:00:58 UTC (1509476458)
+[32m[    2.667864] [0mALSA device list:
+[32m[    2.668146] [0m  No soundcards found.
+[32m[    3.253802] [0m[33minput[0m: ImExPS/2 Generic Explorer Mouse as /devices/platform/i8042/serio1/input/input3
+[32m[    3.254764] [0m[33mmd[0m: Waiting for all devices to be available before autodetect
+[32m[    3.255391] [0m[33mmd[0m: If you don't use raid, use raid=noautodetect
+[32m[    3.256030] [0m[33mmd[0m: Autodetecting RAID arrays.
+[32m[    3.256348] [0m[33mmd[0m: Scanned 0 and added 0 devices.
+[32m[    3.256701] [0m[33mmd[0m: autorun ...
+[32m[    3.256875] [0m[33mmd[0m: ... autorun DONE.
+[32m[    3.257389] [0m[33mEXT3-fs (hda)[0m[31m: error: couldn't mount because of unsupported optional features (240)[0m
+[32m[    3.258681] [0m[33mEXT2-fs (hda)[0m[31m: error: couldn't mount because of unsupported optional features (240)[0m
+[32m[    3.266926] [0m[33mEXT4-fs (hda)[0m: mounted filesystem with ordered data mode. Opts: (null)
+[32m[    3.267660] [0m[33mVFS[0m: Mounted root (ext4 filesystem) on device 3:0.
+[32m[    3.274386] [0m[33mdevtmpfs[0m: mounted
+[32m[    3.274891] [0m[33mFreeing unused kernel memory[0m: 704K (c1b6e000 - c1c1e000)
+[32m[    3.275542] [0m[33mWrite protecting the kernel text[0m: 8128k
+[32m[    3.275988] [0m[33mWrite protecting the kernel read-only data[0m: 2980k
+[32m[    3.464458] [0m[33mudevd[82][0m: starting version 182
+[32m[    3.523269] [0m[33mEXT4-fs (hda)[0m: re-mounted. Opts: (null)
+[32m[    3.734909] [0m[33mrandom[0m: dd urandom read with 122 bits of entropy available
+[32m[    3.773611] [0m[33mrandom[0m: nonblocking pool is initialized
+[32m[   18.330431] [0m[1m[SSTF] dispatching a R at sector 1508472[0m
+[32m[   18.331307] [0m[1m[SSTF] dispatching a R at sector 3846048[0m
+[32m[   18.332110] [0m[1m[SSTF] dispatching a R at sector 3849856[0m
+[32m[   18.332814] [0m[1m[SSTF] dispatching a R at sector 3849480[0m
+[32m[   18.333626] [0m[1m[SSTF] dispatching a R at sector 3846080[0m
+[32m[   18.334664] [0m[1m[SSTF] dispatching a R at sector 3846304[0m
+[32m[   18.335425] [0m[1m[SSTF] dispatching a R at sector 3848304[0m
+[32m[   18.336158] [0m[1m[SSTF] dispatching a R at sector 3848080[0m
+[32m[   18.336896] [0m[1m[SSTF] dispatching a R at sector 3848640[0m
+[32m[   18.337707] [0m[1m[SSTF] dispatching a R at sector 3847928[0m
+[32m[   18.338520] [0m[1m[SSTF] dispatching a R at sector 3846904[0m
+[32m[   18.339200] [0m[1m[SSTF] dispatching a R at sector 3847176[0m
+[32m[   18.339892] [0m[1m[SSTF] dispatching a R at sector 3849736[0m
+[32m[   18.340746] [0m[1m[SSTF] dispatching a R at sector 3848560[0m
+[32m[   18.341504] [0m[1m[SSTF] dispatching a R at sector 3846512[0m
+[32m[   18.342238] [0m[1m[SSTF] dispatching a R at sector 3846768[0m
+[32m[   18.343605] [0m[1m[SSTF] dispatching a R at sector 3847784[0m
+[32m[   18.344955] [0m[1m[SSTF] dispatching a R at sector 3846440[0m
+[32m[   18.345763] [0m[1m[SSTF] dispatching a R at sector 3847432[0m
+[32m[   18.346541] [0m[1m[SSTF] dispatching a R at sector 3847648[0m
+[32m[   18.347437] [0m[1m[SSTF] dispatching a R at sector 4312496[0m
+[32m[   18.348083] [0m[1m[SSTF] dispatching a R at sector 7936[0m
+[32m[   18.348550] [0m[1m[SSTF] dispatching a R at sector 7944[0m
+[32m[   18.349184] [0m[1m[SSTF] adding a request at sector 8096[0m
+[32m[   18.349618] [0m[1m[SSTF] dispatching a R at sector 7952[0m
+[32m[   18.350279] [0m[1m[SSTF] dispatching a R at sector 8088[0m
+[32m[   18.351321] [0m[1m[SSTF] dispatching a R at sector 4376504[0m
+[32m[   18.351795] [0m[1m[SSTF] dispatching a R at sector 4415728[0m
+[32m[   18.352451] [0m[1m[SSTF] adding a request at sector 8584[0m
+[32m[   18.352886] [0m[1m[SSTF] dispatching a R at sector 8448[0m
+[32m[   18.353502] [0m[1m[SSTF] dispatching a R at sector 8576[0m
+[32m[   18.355136] [0m[1m[SSTF] dispatching a R at sector 8200[0m
+[32m[   18.355598] [0m[1m[SSTF] dispatching a R at sector 8208[0m
+[32m[   18.356255] [0m[1m[SSTF] dispatching a R at sector 8216[0m
+[32m[   18.356715] [0m[1m[SSTF] adding a request at sector 8328[0m
+[32m[   18.357163] [0m[1m[SSTF] dispatching a R at sector 8288[0m
+[32m[   18.357761] [0m[1m[SSTF] dispatching a R at sector 8320[0m
+[32m[   18.358353] [0m[1m[SSTF] dispatching a R at sector 4385752[0m
+[32m[   18.358933] [0m[1m[SSTF] dispatching a R at sector 4385784[0m
+[32m[   18.359583] [0m[1m[SSTF] dispatching a R at sector 3847160[0m
+[32m[   18.360550] [0m[1m[SSTF] dispatching a R at sector 4377928[0m
+[32m[   18.361190] [0m[1m[SSTF] dispatching a R at sector 4377960[0m
+[32m[   18.362573] [0m[1m[SSTF] dispatching a R at sector 4314000[0m
+[32m[   18.363456] [0m[1m[SSTF] dispatching a R at sector 4313632[0m
+[32m[   18.364192] [0m[1m[SSTF] dispatching a R at sector 7680[0m
+[32m[   18.364653] [0m[1m[SSTF] dispatching a R at sector 7688[0m
+[32m[   18.365322] [0m[1m[SSTF] dispatching a R at sector 7696[0m
+[32m[   18.365777] [0m[1m[SSTF] adding a request at sector 7840[0m
+[32m[   18.366230] [0m[1m[SSTF] dispatching a R at sector 7816[0m
+[32m[   18.366815] [0m[1m[SSTF] dispatching a R at sector 7832[0m
+[32m[   18.367400] [0m[1m[SSTF] dispatching a R at sector 4360176[0m
+[32m[   18.368141] [0m[1m[SSTF] dispatching a R at sector 4380128[0m
+[32m[   18.369088] [0m[1m[SSTF] dispatching a R at sector 4314024[0m
+[32m[   18.369771] [0m[1m[SSTF] dispatching a R at sector 4359472[0m
+[32m[   18.370958] [0m[1m[SSTF] dispatching a R at sector 4370728[0m
+[32m[   18.371769] [0m[1m[SSTF] dispatching a R at sector 4360104[0m
+[32m[   18.372451] [0m[1m[SSTF] dispatching a R at sector 4360136[0m
+[32m[   18.373355] [0m[1m[SSTF] dispatching a R at sector 4360160[0m
+[32m[   18.374135] [0m[1m[SSTF] dispatching a R at sector 4379296[0m
+[32m[   18.376575] [0m[1m[SSTF] dispatching a R at sector 4358256[0m
+[32m[   18.377409] [0m[1m[SSTF] dispatching a R at sector 4386256[0m
+[32m[   18.378539] [0m[1m[SSTF] dispatching a R at sector 4380544[0m
+[32m[   18.379148] [0m[1m[SSTF] dispatching a R at sector 4380576[0m
+[32m[   18.380258] [0m[1m[SSTF] dispatching a R at sector 4379480[0m
+[32m[   18.381102] [0m[1m[SSTF] dispatching a R at sector 4414080[0m
+[32m[   18.381945] [0m[1m[SSTF] dispatching a R at sector 4386680[0m
+[32m[   18.382649] [0m[1m[SSTF] dispatching a R at sector 4386712[0m
+[32m[   18.383509] [0m[1m[SSTF] dispatching a R at sector 4380336[0m
+[32m[   18.384697] [0m[1m[SSTF] dispatching a R at sector 4370808[0m
+[32m[   18.385381] [0m[1m[SSTF] dispatching a R at sector 4388440[0m
+[32m[   18.385997] [0m[1m[SSTF] dispatching a R at sector 4401592[0m
+[32m[   18.386702] [0m[1m[SSTF] dispatching a R at sector 4403216[0m
+[32m[   18.387359] [0m[1m[SSTF] dispatching a R at sector 4403248[0m
+[32m[   18.388327] [0m[1m[SSTF] dispatching a R at sector 4359184[0m
+[32m[   18.388949] [0m[1m[SSTF] dispatching a R at sector 4359216[0m
+[32m[   18.390364] [0m[1m[SSTF] dispatching a R at sector 4393088[0m
+[32m[   18.391131] [0m[1m[SSTF] dispatching a R at sector 4400136[0m
+[32m[   18.391973] [0m[1m[SSTF] dispatching a R at sector 4399200[0m
+[32m[   18.392807] [0m[1m[SSTF] dispatching a R at sector 4418640[0m
+[32m[   18.393473] [0m[1m[SSTF] dispatching a R at sector 4422416[0m
+[32m[   18.394125] [0m[1m[SSTF] dispatching a R at sector 4420608[0m
+[32m[   18.394845] [0m[1m[SSTF] dispatching a R at sector 4392896[0m
+[32m[   18.395519] [0m[1m[SSTF] dispatching a R at sector 4392928[0m
+[32m[   18.396705] [0m[1m[SSTF] dispatching a R at sector 4418656[0m
+[32m[   18.397655] [0m[1m[SSTF] dispatching a R at sector 4419352[0m
+[32m[   18.398503] [0m[1m[SSTF] dispatching a R at sector 1756840[0m
+[32m[   18.399727] [0m[1m[SSTF] dispatching a R at sector 4385416[0m
+[32m[   18.400483] [0m[1m[SSTF] dispatching a R at sector 4410392[0m
+[32m[   18.401376] [0m[1m[SSTF] dispatching a R at sector 4409776[0m
+[32m[   18.401960] [0m[1m[SSTF] dispatching a R at sector 4409808[0m
+[32m[   18.402864] [0m[1m[SSTF] dispatching a R at sector 4382768[0m
+[32m[   18.403684] [0m[1m[SSTF] dispatching a R at sector 4408096[0m
+[32m[   18.404331] [0m[1m[SSTF] dispatching a R at sector 4408128[0m
+[32m[   18.405178] [0m[1m[SSTF] dispatching a R at sector 4408400[0m
+[32m[   18.405759] [0m[1m[SSTF] dispatching a R at sector 4408432[0m
+[32m[   18.406661] [0m[1m[SSTF] dispatching a R at sector 4381232[0m
+[32m[   18.407609] [0m[1m[SSTF] dispatching a R at sector 4406408[0m
+[32m[   18.408253] [0m[1m[SSTF] dispatching a R at sector 4406440[0m
+[32m[   18.411433] [0m[1m[SSTF] dispatching a R at sector 4404696[0m
+[32m[   18.414727] [0m[1m[SSTF] dispatching a R at sector 1751984[0m
+[32m[   18.415921] [0m[1m[SSTF] dispatching a R at sector 1748104[0m
+[32m[   18.416721] [0m[1m[SSTF] dispatching a R at sector 1751736[0m
+[32m[   18.417608] [0m[1m[SSTF] dispatching a R at sector 1746104[0m
+[32m[   18.418395] [0m[1m[SSTF] dispatching a R at sector 1747992[0m
+[32m[   18.419178] [0m[1m[SSTF] dispatching a R at sector 1747584[0m
+[32m[   18.419878] [0m[1m[SSTF] dispatching a R at sector 1746280[0m
+[32m[   18.420653] [0m[1m[SSTF] dispatching a R at sector 1749776[0m
+[32m[   18.421846] [0m[1m[SSTF] dispatching a R at sector 1744624[0m
+[32m[   18.422620] [0m[1m[SSTF] dispatching a R at sector 1497256[0m
+[32m[   18.423490] [0m[1m[SSTF] dispatching a R at sector 1745008[0m
+[32m[   18.424562] [0m[1m[SSTF] dispatching a R at sector 1756096[0m
+[32m[   18.425644] [0m[1m[SSTF] dispatching a R at sector 1752256[0m
+[32m[   18.426635] [0m[1m[SSTF] dispatching a R at sector 1474768[0m
+[32m[   18.427606] [0m[1m[SSTF] dispatching a R at sector 1747784[0m
+[32m[   18.428718] [0m[1m[SSTF] dispatching a R at sector 1752320[0m
+[32m[   18.430279] [0m[1m[SSTF] dispatching a R at sector 1746384[0m
+[32m[   18.431185] [0m[1m[SSTF] dispatching a R at sector 1749968[0m
+[32m[   18.431979] [0m[1m[SSTF] dispatching a R at sector 1745392[0m
+[32m[   18.432880] [0m[1m[SSTF] dispatching a R at sector 1756232[0m
+[32m[   18.433641] [0m[1m[SSTF] dispatching a R at sector 1752128[0m
+[32m[   18.434411] [0m[1m[SSTF] dispatching a R at sector 1748064[0m
+[32m[   18.435286] [0m[1m[SSTF] dispatching a R at sector 1747864[0m
+[32m[   18.436151] [0m[1m[SSTF] dispatching a R at sector 1756000[0m
+[32m[   18.437160] [0m[1m[SSTF] dispatching a R at sector 1756184[0m
+[32m[   18.437966] [0m[1m[SSTF] dispatching a R at sector 1746304[0m
+[32m[   18.439078] [0m[1m[SSTF] dispatching a R at sector 1752216[0m
+[32m[   18.439986] [0m[1m[SSTF] dispatching a R at sector 1755320[0m
+[32m[   18.440870] [0m[1m[SSTF] dispatching a R at sector 1755352[0m
+[32m[   18.442718] [0m[1m[SSTF] dispatching a R at sector 1747672[0m
+[32m[   18.444039] [0m[1m[SSTF] dispatching a R at sector 1751976[0m
+[32m[   18.445583] [0m[1m[SSTF] dispatching a R at sector 1755328[0m
+[32m[   18.446459] [0m[1m[SSTF] dispatching a R at sector 1748072[0m
+[32m[   18.447459] [0m[1m[SSTF] dispatching a R at sector 1747392[0m
+[32m[   18.448446] [0m[1m[SSTF] dispatching a R at sector 1745072[0m
+[32m[   18.449531] [0m[1m[SSTF] dispatching a R at sector 1747360[0m
+[32m[   18.450262] [0m[1m[SSTF] dispatching a R at sector 1747136[0m
+[32m[   18.452222] [0m[1m[SSTF] dispatching a R at sector 1747104[0m
+[32m[   18.453530] [0m[1m[SSTF] dispatching a R at sector 1752288[0m
+[32m[   18.454776] [0m[1m[SSTF] dispatching a R at sector 1747944[0m
+[32m[   18.455548] [0m[1m[SSTF] dispatching a R at sector 1493320[0m
+root@qemux86:~# shut[SSTF] dispatching a R at sector 1695712
+down        shutdwn  own -h now
+[SSTF] dispatching a R at sector 3135632
+[SSTF] dispatching a R at sector 3135664
+[SSTF] adding a request at sector 1400
+[SSTF] adding a request at sector 1496
+[SSTF] adding a request at sector 4840
+[SSTF] adding a request at sector 4864
+[SSTF] adding a request at sector 37928
+[SSTF] adding a request at sector 3576992
+[SSTF] dispatching a W at sector 0
+[SSTF] dispatching a W at sector 1400
+
+Broadcast message from root@qemux86 (ttyS0) (Tue Oct 31 19:01:32 2017):
+
+The system is going down for system halt NOW!
+[SSTF] dispatching a W at sector 1496
+[SSTF] dispatching a W at sector 4840
+[SSTF] dispatching a W at sector 4864
+[SSTF] dispatching a W at sector 37928
+[SSTF] dispatching a W at sector 3576992
+INIT: Switching to runlevel: 0
+INIT: Sending processes the TERM signal
+[SSTF] dispatching a R at sector 1743560
+Stopping OpenBSD Secure Shell server: sshdstopped /usr/sbin/sshd (pid 435)
+.
+ * Stopping Avahi mDNS/DNS-SD Daemon: avahi-daemon
+
+** (oprofile-server:558): WARNING **: Avahi error: Daemon connection failed
+Stopping atd: OK
+Stopping domain name service: named[SSTF] dispatching a R at sector 466336
+[SSTF] dispatching a R at sector 467160
+[SSTF] dispatching a R at sector 466368
+[SSTF] dispatching a R at sector 466624
+[SSTF] dispatching a R at sector 466880
+[SSTF] dispatching a R at sector 1739824
+[SSTF] dispatching a R at sector 1744520
+[SSTF] dispatching a R at sector 1744480
+[SSTF] dispatching a R at sector 467072
+[SSTF] dispatching a R at sector 446664
+.
+Stopping system message bus: dbus.
+Stopping Distributed Compiler Daemon: distcc.
+[SSTF] dispatching a R at sector 520632
+[SSTF] dispatching a R at sector 520664
+stopping mountd: done
+stopping nfsd: done
+Stopping OProfileUI server
+[  OK  ]Error opening /dev/fb0: No such file or directory
+Stopping system log daemon...0
+Stopping kernel log daemon...0
+Stopping tcf-agent: [SSTF] dispatching a R at sector 1746336
+OK
+Stopping internet superserver: xinetd.
+stopping statd: done
+Stopping Connection Manager
+Stopping Telephony daemon
+[SSTF] dispatching a R at sector 2780400
+[SSTF] dispatching a R at sector 2780432
+[SSTF] dispatching a R at sector 442104
+[SSTF] dispatching a R at sector 1364616
+[SSTF] dispatching a R at sector 1364648
+[SSTF] dispatching a R at sector 5430432
+[SSTF] dispatching a R at sector 5432712
+[SSTF] dispatching a R at sector 5430464
+[SSTF] dispatching a R at sector 5430688
+[SSTF] dispatching a R at sector 5430944
+[SSTF] dispatching a R at sector 5432000
+[SSTF] dispatching a R at sector 5432256
+[SSTF] dispatching a R at sector 5431200
+cups: stopped scheduler.
+[SSTF] dispatching a W at sector 1777672
+Stopping crond: OK
+Stopping rpcbind daemon...
+done.
+Stopping Lighttpd Web Server: stopped /usr/sbin/lighttpd (pid 539)
+lighttpd.
+Deconfiguring network interfaces... [SSTF] dispatching a R at sector 1739648
+[SSTF] dispatching a R at sector 1739640
+done.
+Stopping watchdog: [  OK  ][  OK  ]
+[SSTF] dispatching a R at sector 1738872
+Sending all processes the TERM signal...
+[SSTF] dispatching a W at sector 2621640
+Sending all processes the KILL signal...
+[SSTF] dispatching a R at sector 1739064
+[SSTF] dispatching a W at sector 1777680
+[SSTF] dispatching a W at sector 1777688
+[SSTF] dispatching a R at sector 1738712
+[SSTF] dispatching a R at sector 3130280
+[SSTF] dispatching a R at sector 3130312
+Unmounting remote filesystems...
+[SSTF] dispatching a R at sector 1739024
+Deactivating swap...
+[SSTF] dispatching a R at sector 3129624
+Unmounting local filesystems...
+[SSTF] dispatching a W at sector 1757000
+[SSTF] dispatching a W at sector 2621736
+[SSTF] adding a request at sector 4832
+[SSTF] adding a request at sector 4864
+[SSTF] adding a request at sector 37928
+[SSTF] adding a request at sector 3576920
+[SSTF] adding a request at sector 3671336
+[SSTF] dispatching a W at sector 1496
+[SSTF] dispatching a W at sector 4832
+[SSTF] dispatching a W at sector 4864
+[SSTF] adding a request at sector 0
+[SSTF] adding a request at sector 1400
+[SSTF] adding a request at sector 4840
+[SSTF] adding a request at sector 37712
+[SSTF] dispatching a W at sector 0
+[SSTF] dispatching a W at sector 1400
+[SSTF] dispatching a W at sector 4840
+[SSTF] dispatching a W at sector 37712
+[SSTF] dispatching a W at sector 37928
+[SSTF] dispatching a W at sector 3576920
+[SSTF] dispatching a W at sector 3671336
+[SSTF] dispatching a W at sector 0
+EXT4-fs (hda): re-mounted. Opts: (null)
+[SSTF] dispatching a R at sector 3113720
+[SSTF] dispatching a R at sector 1744584
+[SSTF] dispatching a R at sector 2752528
+[SSTF] dispatching a R at sector 1738624
+[SSTF] dispatching a R at sector 3113712
+[SSTF] dispatching a R at sector 1756824
+[SSTF] dispatching a R at sector 2752520
+[SSTF] dispatching a R at sector 1743560
+[SSTF] dispatching a R at sector 37632
+[SSTF] dispatching a R at sector 37640
+[SSTF] adding a request at sector 37768
+[SSTF] dispatching a R at sector 37648
+[SSTF] dispatching a R at sector 37760
+[SSTF] dispatching a R at sector 1738696
+[SSTF] dispatching a R at sector 37376
+[SSTF] dispatching a R at sector 37384
+[SSTF] adding a request at sector 37472
+[SSTF] dispatching a R at sector 37392
+[SSTF] dispatching a R at sector 37464
+[SSTF] dispatching a R at sector 1744280
+[SSTF] dispatching a R at sector 1738944
+Shutdown: hda
+ACPI: Preparing to enter system sleep state S5
+reboot: Power down
+acpi_power_off called

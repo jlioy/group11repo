@@ -31,7 +31,7 @@ static int sstf_dispatch(struct request_queue *q, int force)
 		} else {
 			direction = 'W';
 		}
-		trace_printk("[SSTF] dispatching a %c at sector %llu\n", direction, blk_rq_pos(rq));
+		printk("[SSTF] dispatching a %c at sector %llu\n", direction, blk_rq_pos(rq));
 		return 1;
 	}
 	return 0;
@@ -70,7 +70,6 @@ static void sstf_add_request(struct request_queue *q, struct request *rq)
         break;
       }
     }
-  	trace_printk("[SSTF] adding a request at sector %llu\n", blk_rq_pos(rq));
     // Add the request after rq_cur 
     list_add(&rq->queuelist, rq_cur); 
   }
