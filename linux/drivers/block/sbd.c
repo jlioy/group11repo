@@ -29,11 +29,27 @@ module_param(logical_block_size, int, 0);
 static int nsectors = 1024; /* How big the drive is */
 module_param(nsectors, int, 0);
 
+//Crytographic struct
+static struct cipher *cc;
+
+//Key Variables
+static char* key = "Working";
+module_param(key, charp, 0);
+
 /*
  * We can tweak our hardware sector size, but the kernel talks to us
  * in terms of small sectors, always.
  */
 #define KERNEL_SECTOR_SIZE 512
+
+//Outputs hex data to the screen for debugging
+static void output_hex(u8 *ptr, unsigned int length) {
+	int i;
+	for (i = 0; i < legnth; i++) {
+		printk("%02x ", ptr[i]);
+	}
+	printk("\n");
+}
 
 /*
  * Our request queue.
@@ -58,12 +74,12 @@ static void sbd_transfer(struct sbd_device *dev, sector_t sector,
 	unsigned long offset = sector * logical_block_size;
 	unsigned long nbytes = nsect * logical_block_size;
 
+
 	if ((offset + nbytes) > dev->size) {
 		printk (KERN_NOTICE "sbd: Beyond-end write (%ld %ld)\n", offset, nbytes);
 		return;
 	}
-
-  //TODO: Encrypt
+	//TODO: Encrypt
 	if (write)
 		memcpy(dev->data + offset, buffer, nbytes);
 	else
@@ -117,13 +133,11 @@ static struct block_device_operations sbd_ops = {
 		.getgeo = sbd_getgeo
 };
 
-
 static int __init sbd_init(void) {
 
+	//TODO: Initialize crypto
 
-  //TODO: Initialize crypto
-	
-  /*
+	/*
 	 * Set up our internal device.
 	 */
 	Device.size = nsectors * logical_block_size;
@@ -165,7 +179,6 @@ static int __init sbd_init(void) {
 
 out_unregister:
 	unregister_blkdev(major_num, "sbd");
-  //TODO: unregister crypto?
 out:
 	vfree(Device.data);
 	return -ENOMEM;
@@ -173,7 +186,7 @@ out:
 
 static void __exit sbd_exit(void)
 {
-  //TODO: free cipher
+	//TODO: free cipher
 	del_gendisk(Device.gd);
 	put_disk(Device.gd);
 	unregister_blkdev(major_num, "sbd");
