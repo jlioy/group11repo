@@ -18,6 +18,7 @@
 #include <linux/genhd.h>
 #include <linux/blkdev.h>
 #include <linux/hdreg.h>
+#include <linux/crypto.h>
 
 MODULE_LICENSE("Dual BSD/GPL");
 static char *Version = "1.4";
@@ -30,7 +31,7 @@ static int nsectors = 1024; /* How big the drive is */
 module_param(nsectors, int, 0);
 
 //Crytographic struct
-static struct cipher *cc;
+static struct crypto_cipher *tfm;
 
 //Key Variables
 static char* key = "Working";
@@ -45,7 +46,7 @@ module_param(key, charp, 0);
 //Outputs hex data to the screen for debugging
 static void output_hex(u8 *ptr, unsigned int length) {
 	int i;
-	for (i = 0; i < legnth; i++) {
+	for (i = 0; i < length; i++) {
 		printk("%02x ", ptr[i]);
 	}
 	printk("\n");
@@ -70,20 +71,40 @@ static struct sbd_device {
  * Handle an I/O request.
  */
 static void sbd_transfer(struct sbd_device *dev, sector_t sector,
-		unsigned long nsect, char *buffer, int write) {
+	unsigned long nsect, char *buffer, int write) {
 	unsigned long offset = sector * logical_block_size;
-	unsigned long nbytes = nsect * logical_block_size;
+	unsigned long nbytes = nsect * logical_block_size;\
 
-
+	u8 *hstring, *hdisk, *hbuffer;
+	unsigned int i;
+	hdisk = dev->data + offset;
+	hbuffer = buffer;
+	printk(KERN_NOTICE "sbd: encryption key - %s\n", key);
 	if ((offset + nbytes) > dev->size) {
-		printk (KERN_NOTICE "sbd: Beyond-end write (%ld %ld)\n", offset, nbytes);
 		return;
 	}
-	//TODO: Encrypt
-	if (write)
-		memcpy(dev->data + offset, buffer, nbytes);
-	else
-		memcpy(buffer, dev->data + offset, nbytes);
+	if (write) {
+		for(i = 0; i < nbytes; i+= crypto_cipher_blocksize(tfm)) {
+			crypto_cipher_encrypt_one(tfm, hdisk + i, hbuffer + i);
+		}
+		printk("sbd: data before encryption\n");
+		hstring = buffer;
+		output_hex(hstring, 15);
+		printk("sbd: data after encryption\n");
+		hstring = dev->data + offset;
+		hstring = dev->data + offset;
+		output_hex(hstring, 15);
+	} else {
+		for(i = 0; i < nbytes; i+= crypto_cipher_blocksize(tfm)) {
+			crypto_cipher_decrypt_one(tfm, hbuffer + i, hdisk + i);
+		}
+		printk("sbd: data before decryption\n");
+		hstring = dev->data + offset;
+		output_hex(hstring, 15);
+		printk("sbd: data after decryption\n");
+		hstring = buffer;
+		output_hex(hstring, 15);
+	}
 }
 
 static void sbd_request(struct request_queue *q) {
@@ -134,9 +155,6 @@ static struct block_device_operations sbd_ops = {
 };
 
 static int __init sbd_init(void) {
-
-	//TODO: Initialize crypto
-
 	/*
 	 * Set up our internal device.
 	 */
@@ -160,6 +178,12 @@ static int __init sbd_init(void) {
 		printk(KERN_WARNING "sbd: unable to get major number\n");
 		goto out;
 	}
+
+	tfm = crypto_alloc_cipher("aes", 0, 0);
+	if(!tfm){
+		goto out;
+	}
+	crypto_cipher_setkey(tfm, key, strlen(key));
 	/*
 	 * And the gendisk structure.
 	 */
@@ -187,6 +211,7 @@ out:
 static void __exit sbd_exit(void)
 {
 	//TODO: free cipher
+	crypto_free_cipher(tfm);
 	del_gendisk(Device.gd);
 	put_disk(Device.gd);
 	unregister_blkdev(major_num, "sbd");
