@@ -1,0 +1,287 @@
+\documentclass[letterpaper, onecolumn, draftclsnofoot, 10pt, compsoc]{IEEEtran}
+
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm}                                          
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+\usepackage{balance}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+\usepackage{setspace}
+
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=7in}
+
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},  
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
+\usepackage{geometry}
+
+\def \name{Joshua Lioy}
+\def \GroupNumber{11}
+\def \GroupMemberOne{Joshua Lioy}
+\def \GroupMemberTwo{Brian Wiltse}
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+    	\includegraphics[height=4cm]{coe_v_spot1}
+        \hfill 
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge Operating Systems 2 \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge Homework 2: I/O Elevators}\par
+            \vfill
+            \vspace{5pt}
+            {\large Prepared by }\par
+            Group \GroupNumber\par
+            \vspace{5pt}
+            {\Large
+                \GroupMemberOne\par
+                \GroupMemberTwo\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        This document covers Group 11's details for implementing a LOOK scheduling algorithm in a Linux kernel.
+        \end{abstract}     
+    \end{singlespace}
+\end{titlepage}
+
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+
+\newpage
+\section{Scheduler Design}
+    \begin{singlespace}
+        We chose to implement the c-look algorithm for this project. We chose to use the built-in elevator dispatch sort function to handle the initial sort. The add request function was also changed to reflect the differences in request handling between noop and c-look. The rest of the scheduler structure was based of the existing implementation of the noop scheduler that was present in the kernel source code.
+    \end{singlespace}
+    
+\section{Version Control Log}
+    \input{log.tex}
+    
+\section{Work Log}
+    \begin{singlespace}
+        \textbf{Monday 10/16}
+            \begin{itemize}
+                \item 10:30am - 12:00pm, Brian and Joshua
+                \begin{itemize}
+                    \item Researched NOOP
+                    \item Looked into NOOP c code in our Linux build
+                    \item Researched LOOK/CLOOK
+                \end{itemize}
+                \item 1:00pm - 1:10pm, Brian
+                    \begin{itemize}
+                        \item Attended Office hours, discussed the requirements of/how to approach the assignment
+                    \end{itemize}
+            \end{itemize}
+        \textbf{Wednesday, 10/25}
+            \begin{itemize}
+                \item 10:00am - 11:00am, Brian and Joshua
+                \begin{itemize}
+                    \item Researched LOOK/CLOOK
+                    \item Started making game plan
+                \end{itemize}
+            \end{itemize}
+        \textbf{Thursday, 10/26}
+            \begin{itemize}
+                \item 10:00 - 11:45, Brian
+                \begin{itemize}
+                    \item Started looking into/making comments in code about what needs to change from noop
+                \end{itemize}
+            \end{itemize}
+        \textbf{Saturday, 10/28}
+            \begin{itemize}
+                \item 7:00pm - 9:00pm, Joshua
+                \begin{itemize}
+                    \item Worked on the implementation of the c-look I/O scheduler
+                \end{itemize}
+            \end{itemize}
+        \textbf{Sunday, 10/29}
+            \begin{itemize}
+                \item 5:00pm - 7:00pm, Joshua
+                \begin{itemize}
+                    \item Continued working on the implementation of the c-look scheduler.
+                \end{itemize}
+                \item 7:00pm - 9:00pm, Brian and Joshua
+                    \begin{itemize}
+                        \item Figured out how to get Linux VM to use our sstf code
+                        \item Added printk statements for testing
+                    \end{itemize}
+            \end{itemize}
+        \textbf{Monday 10/30}
+            \begin{itemize}
+                \item 10:00am - 1:00pm, Brian and Joshua
+                \begin{itemize}
+                    \item Continued working on the implementation of the c-look scheduler.
+                    \item Started working on the write-up
+                \end{itemize}
+                \item 10:30am - 12:00am, Joshua
+                    \begin{itemize}
+                        \item Added git log and work log to report.
+                    \end{itemize}
+                \item 7:00pm - 11:30pm
+                    \begin{itemize}
+                        \item Continued working on the implementation and testing of the I/O scheduler.
+                    \end{itemize}
+            \end{itemize}
+
+                    
+        \textbf{Tuesday 1-/31}
+            \begin{itemize}
+                \item 9:30am - 12:00pm, Brian and Joshua
+                    \begin{itemize}
+                        \item Appt with Kevin, figured out how to test the assignment
+                    \end{itemize}
+                 \item 12:30am - 1:30pm, Brian and Joshua
+                    \begin{itemize}
+                        \item Plotted our results, packaged everything up to turn in
+                    \end{itemize}
+            \end{itemize}
+    \end{singlespace}
+        
+\section{Questions}
+    
+    \subsection{What do you think the main point of this assignment is?}
+        \begin{singlespace}
+            We see the main point of this assignment as a way of gaining a more refined understanding of how I/O scheduling works in Linux, and how the Linux list works. This was done by learning how to implement a different I/O scheduling algorithm as well as making the appropriate changes to the kernel source code. 
+        \end{singlespace}
+    
+    \subsection{How did you personally approach the problem? Design decisions, algorithm, etc.}
+        \begin{singlespace}
+            We approached this problem by first researching the LOOK, C-LOOK, and noop scheduling algorithms to get an idea of how each worked.
+            We then looked at the existing noop scheduler code to reconcile the high level description of noop and the implementation.
+            While looking through, we added 'todo' comments to try and separate what we would be the same between the noop implementation and either a LOOK or C-LOOK implementation. \par
+            We then proceeded to implement the dispatch and add functions to handle adding requests to the scheduler queue.
+            After getting some code down, we looked into how to get the Linux VM to use our new scheduler. From there we looked into options for how to test our code. We found references to printk statements, which we ended up using to see when our scheduler was doing work.\par
+            
+            Our CLOOK algorithm works by sorting the requests as they are added in with the sstf\_add\_request function. The function loops through all of the queued requests, and once it finds an instance where the request is between current and next request, it inserts the request after current. If there is one element in the list, then currentSector equals nextSector, and so we just add the request after the existing element. Lastly, if the next sector is smaller than the current sector, we've reached the 'end' of the list. We then check if the request is bigger than currentSector or less that nextSector to see if our request is from the largest or smallest sector in the list, respectively.
+        \end{singlespace}
+    
+    \subsection{How did you ensure your solution was correct? Testing details, for instance.}
+        \begin{singlespace}
+            We used printk statements and used the tee command to output the printk statements from the virtual machine into a file (see the How To Evaluate section). We then plotted sector against time, expecting a sawtooth pattern indicating that the sectors were being accessed in ascending order, then the diskhead drops down to the lowest sector before ascending again.
+            
+            Our graph does not exactly show a sawtooth pattern, indicating that we do not have a completely correct implementation.
+        \end{singlespace}
+    
+    \subsection{What did you learn?}
+        \begin{singlespace}
+            We learned a great deal about the how I/O schedulers work in Linux and the variations between some of the different types of schedulers and their implementations particularly the differences between c-look and noop. We also added more to our understanding of the qemu virtual environment that we gained from the first assignment. In addition we gained experience and a basic understanding of some of the Linux c libraries such as the elevator and block libraries. 
+        \end{singlespace}
+    
+    \subsection{How should the TA evaluate your work? Provide detailed steps to prove correctness.}
+    \begin{singlespace}
+    We have provided the output graph that comes from following the steps below.
+    \begin{enumerate}
+        \item Begin by ensuring the qemu environment is setup by running the following source command: 
+            \begin{lstlisting}[language=bash]
+source /scratch/fall2017/11/common/environment-setup-i586-poky-linux
+            \end{lstlisting}
+        \item Then apply the supplied patch file.
+        \item Compile the kernel by running make and set the SSTF option to yes and select it as the default kernel file when prompted.
+        \item Run the kernel by executing the following qemu command:
+            \begin{lstlisting}[language=bash]
+qemu-system-i386 -gdb tcp::5511 -S -nographic -kernel /scratch/fall2017/11/group11repo/linux/arch/x86/boot/bzImage -drive file=/scratch/fall2017/11/common/core-image-lsb-sdk-qemux86.ext4 -enable-kvm -net none -usb -localtime --no-reboot --append "root=/dev/hda rw console=ttyS0 debug" | tee output.txt
+            \end{lstlisting}
+        \item In another instance of your os2 server login or using screen, ensuring that you have again sourced the appropriate file as stated above, start gdb by running to following command:
+            \begin{lstlisting}[language=bash]
+$GDB
+            \end{lstlisting}
+        \item Once inside gdb run the following commands to connect to boot the virtual machine. Once completed, switch back over to the instance where qemu was started.
+            \begin{lstlisting}[language=bash]
+target remote : 5511
+continue
+            \end{lstlisting}
+        \item Once you have started the kernel and logged in as root (no password). Run the following command to see the currently selected I/O scheduler (the default should be noop):
+            \begin{lstlisting}[language=bash]
+cat /sys/block/hda/queue/scheduler
+            \end{lstlisting}
+        To change the scheduler to sstf enter the following command:
+        \begin{lstlisting}[language=bash]
+echo SSTF > /sys/block/hda/queue/scheduler
+            \end{lstlisting}
+        \item To test the I/O scheduler you can run the following commands:
+            \begin{enumerate}
+                \item First create a test dirrectory by running the following command:
+                    \begin{lstlisting}[language=bash]
+mkdir test
+                    \end{lstlisting}
+                \item Next run the following script to generate some saturate the scheduler:
+                    \begin{lstlisting}[language=python]
+#!/usr/bin/python
+
+import glob
+import random
+import os
+
+files = glob.glob('/bin/*')
+random.shuffle(files)
+
+for file in files:
+        with open(file, 'rb') as infile:
+                for i in range(20):
+                        byte_loc = random.randrange(500)
+                        rand_byte = os.lseek(infile.fileno(), byte_loc, 0)
+                        infile.read(rand_byte)
+
+                    \end{lstlisting}
+                \item To view the data being outputted by the scheduler run the following command:
+                    \begin{lstlisting}[language=bash]
+dmesg
+                    \end{lstlisting}
+                This data will be saved in in the directory from which you ran the qemu command into output.txt
+            \end{enumerate}
+        \item Once you have completed testing the scheduler please run the following line of code:
+        \begin{lstlisting}[language=bash]
+shutdown -h now
+            \end{lstlisting}
+        \item From here, you can extract lines with [SSTF] and a timestamp and plot these with x = timestamp and y = sector. You should get a sawtooth pattern.
+    \end{enumerate}
+    \end{singlespace}
+    
+\section{Graph}
+Please see the included PNG file for the graph.
+\end{document}

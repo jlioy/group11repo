@@ -1,0 +1,356 @@
+io scheduler SSTF registered
+root@qemux86:~# shutdown -h now[10Pdmesgpython test.py echo SSTF > /sys/block/hda/queue/scheduler
+root@qemux86:~# echo SSTF > /sys/block/hda/queue/schedulerroot@qemux86:~# [27Pshutdown -h now[10Pdmesgpython test.py 
+[SSTF] dispatching a R at sector 1508472
+[SSTF] dispatching a R at sector 3846048
+[SSTF] dispatching a R at sector 3849856
+[SSTF] dispatching a R at sector 3849480
+[SSTF] dispatching a R at sector 3846080
+[SSTF] dispatching a R at sector 3846304
+[SSTF] dispatching a R at sector 3848304
+[SSTF] dispatching a R at sector 3848080
+[SSTF] dispatching a R at sector 3848640
+[SSTF] dispatching a R at sector 3847928
+[SSTF] dispatching a R at sector 3846904
+[SSTF] dispatching a R at sector 3847176
+[SSTF] dispatching a R at sector 3849736
+[SSTF] dispatching a R at sector 3848560
+[SSTF] dispatching a R at sector 3846512
+[SSTF] dispatching a R at sector 3846768
+[SSTF] dispatching a R at sector 3847784
+[SSTF] dispatching a R at sector 3846440
+[SSTF] dispatching a R at sector 3847432
+[SSTF] dispatching a R at sector 3847648
+[SSTF] dispatching a R at sector 4312496
+[SSTF] dispatching a R at sector 7936
+[SSTF] dispatching a R at sector 7944
+[SSTF] dispatching a R at sector 7952
+[SSTF] dispatching a R at sector 8088
+[SSTF] dispatching a R at sector 4376504
+[SSTF] dispatching a R at sector 4415728
+[SSTF] dispatching a R at sector 8448
+[SSTF] dispatching a R at sector 8576
+[SSTF] dispatching a R at sector 8200
+[SSTF] dispatching a R at sector 8208
+[SSTF] dispatching a R at sector 8216
+[SSTF] dispatching a R at sector 8320
+[SSTF] dispatching a R at sector 4385752
+[SSTF] dispatching a R at sector 4385784
+[SSTF] dispatching a R at sector 3847160
+[SSTF] dispatching a R at sector 4377928
+[SSTF] dispatching a R at sector 4377960
+[SSTF] dispatching a R at sector 4314000
+[SSTF] dispatching a R at sector 4313632
+[SSTF] dispatching a R at sector 7680
+[SSTF] dispatching a R at sector 7688
+[SSTF] dispatching a R at sector 7696
+[SSTF] dispatching a R at sector 7832
+[SSTF] dispatching a R at sector 4360176
+[SSTF] dispatching a R at sector 4380128
+[SSTF] dispatching a R at sector 4314024
+[SSTF] dispatching a R at sector 4359472
+[SSTF] dispatching a R at sector 4370728
+[SSTF] dispatching a R at sector 4360104
+[SSTF] dispatching a R at sector 4360136
+[SSTF] dispatching a R at sector 4360160
+[SSTF] dispatching a R at sector 4379296
+[SSTF] dispatching a R at sector 4358256
+[SSTF] dispatching a R at sector 4386256
+[SSTF] dispatching a R at sector 4380544
+[SSTF] dispatching a R at sector 4380576
+[SSTF] dispatching a R at sector 4379480
+[SSTF] dispatching a R at sector 4414080
+[SSTF] dispatching a R at sector 4386680
+[SSTF] dispatching a R at sector 4386712
+[SSTF] dispatching a R at sector 4380336
+[SSTF] dispatching a R at sector 4370808
+[SSTF] dispatching a R at sector 4388440
+[SSTF] dispatching a R at sector 4401592
+[SSTF] dispatching a R at sector 4403216
+[SSTF] dispatching a R at sector 4403248
+[SSTF] dispatching a R at sector 4359184
+[SSTF] dispatching a R at sector 4359216
+[SSTF] dispatching a R at sector 4393088
+[SSTF] dispatching a R at sector 4400136
+[SSTF] dispatching a R at sector 4399200
+[SSTF] dispatching a R at sector 4418640
+[SSTF] dispatching a R at sector 4422416
+[SSTF] dispatching a R at sector 4420608
+[SSTF] dispatching a R at sector 4392896
+[SSTF] dispatching a R at sector 4392928
+[SSTF] dispatching a R at sector 4418656
+[SSTF] dispatching a R at sector 4419352
+[SSTF] dispatching a R at sector 1756840
+[SSTF] dispatching a R at sector 4385416
+[SSTF] dispatching a R at sector 4410392
+[SSTF] dispatching a R at sector 4409776
+[SSTF] dispatching a R at sector 4409808
+[SSTF] dispatching a R at sector 4382768
+[SSTF] dispatching a R at sector 4408096
+[SSTF] dispatching a R at sector 4408128
+[SSTF] dispatching a R at sector 4408400
+[SSTF] dispatching a R at sector 4408432
+[SSTF] dispatching a R at sector 4381232
+[SSTF] dispatching a R at sector 4406408
+[SSTF] dispatching a R at sector 4406440
+[SSTF] dispatching a R at sector 4404696
+[SSTF] dispatching a R at sector 1755320
+[SSTF] dispatching a R at sector 1755328
+[SSTF] dispatching a R at sector 1747104
+[SSTF] dispatching a R at sector 1749968
+[SSTF] dispatching a R at sector 1751984
+[SSTF] dispatching a R at sector 1746104
+[SSTF] dispatching a R at sector 1752128
+[SSTF] dispatching a R at sector 1746304
+[SSTF] dispatching a R at sector 1748064
+[SSTF] dispatching a R at sector 1747864
+[SSTF] dispatching a R at sector 1747136
+[SSTF] dispatching a R at sector 1493320
+[SSTF] dispatching a R at sector 1745008
+[SSTF] dispatching a R at sector 1747784
+[SSTF] dispatching a R at sector 1748104
+[SSTF] dispatching a R at sector 1752216
+[SSTF] dispatching a R at sector 1751736
+[SSTF] dispatching a R at sector 1745392
+[SSTF] dispatching a R at sector 1744624
+[SSTF] dispatching a R at sector 1747992
+[SSTF] dispatching a R at sector 1747392
+[SSTF] dispatching a R at sector 1749776
+[SSTF] dispatching a R at sector 1746280
+[SSTF] dispatching a R at sector 1755352
+[SSTF] dispatching a R at sector 1752320
+[SSTF] dispatching a R at sector 1756000
+[SSTF] dispatching a R at sector 1756096
+[SSTF] dispatching a R at sector 1748072
+[SSTF] dispatching a R at sector 1745072
+[SSTF] dispatching a R at sector 1756232
+[SSTF] dispatching a R at sector 1747672
+[SSTF] dispatching a R at sector 1746384
+[SSTF] dispatching a R at sector 1752256
+[SSTF] dispatching a R at sector 1474768
+[SSTF] dispatching a R at sector 1747360
+[SSTF] dispatching a R at sector 1752288
+[SSTF] dispatching a R at sector 1747944
+[SSTF] dispatching a R at sector 1756184
+[SSTF] dispatching a R at sector 1497256
+[SSTF] dispatching a R at sector 1747584
+[SSTF] dispatching a R at sector 1751976
+root@qemux86:~# python test.py echo SSTF > /sys/block/hda/queue/schedulerroot@qemux86:~# [27Pshutdown -h now[10Pdmesg
+[32m[    0.388763] [0mio scheduler SSTF registered
+[32m[   15.208666] [0m[1m[SSTF] dispatching a R at sector 1508472[0m
+[32m[   15.209607] [0m[1m[SSTF] dispatching a R at sector 3846048[0m
+[32m[   15.210405] [0m[1m[SSTF] dispatching a R at sector 3849856[0m
+[32m[   15.211165] [0m[1m[SSTF] dispatching a R at sector 3849480[0m
+[32m[   15.211914] [0m[1m[SSTF] dispatching a R at sector 3846080[0m
+[32m[   15.212937] [0m[1m[SSTF] dispatching a R at sector 3846304[0m
+[32m[   15.213715] [0m[1m[SSTF] dispatching a R at sector 3848304[0m
+[32m[   15.214480] [0m[1m[SSTF] dispatching a R at sector 3848080[0m
+[32m[   15.215159] [0m[1m[SSTF] dispatching a R at sector 3848640[0m
+[32m[   15.215859] [0m[1m[SSTF] dispatching a R at sector 3847928[0m
+[32m[   15.216690] [0m[1m[SSTF] dispatching a R at sector 3846904[0m
+[32m[   15.217447] [0m[1m[SSTF] dispatching a R at sector 3847176[0m
+[32m[   15.218133] [0m[1m[SSTF] dispatching a R at sector 3849736[0m
+[32m[   15.218869] [0m[1m[SSTF] dispatching a R at sector 3848560[0m
+[32m[   15.219642] [0m[1m[SSTF] dispatching a R at sector 3846512[0m
+[32m[   15.220411] [0m[1m[SSTF] dispatching a R at sector 3846768[0m
+[32m[   15.221676] [0m[1m[SSTF] dispatching a R at sector 3847784[0m
+[32m[   15.222967] [0m[1m[SSTF] dispatching a R at sector 3846440[0m
+[32m[   15.223808] [0m[1m[SSTF] dispatching a R at sector 3847432[0m
+[32m[   15.224575] [0m[1m[SSTF] dispatching a R at sector 3847648[0m
+[32m[   15.225510] [0m[1m[SSTF] dispatching a R at sector 4312496[0m
+[32m[   15.226134] [0m[1m[SSTF] dispatching a R at sector 7936[0m
+[32m[   15.226606] [0m[1m[SSTF] dispatching a R at sector 7944[0m
+[32m[   15.227251] [0m[1m[SSTF] dispatching a R at sector 7952[0m
+[32m[   15.229244] [0m[1m[SSTF] dispatching a R at sector 8088[0m
+[32m[   15.232362] [0m[1m[SSTF] dispatching a R at sector 4376504[0m
+[32m[   15.232862] [0m[1m[SSTF] dispatching a R at sector 4415728[0m
+[32m[   15.233560] [0m[1m[SSTF] dispatching a R at sector 8448[0m
+[32m[   15.235273] [0m[1m[SSTF] dispatching a R at sector 8576[0m
+[32m[   15.239136] [0m[1m[SSTF] dispatching a R at sector 8200[0m
+[32m[   15.239608] [0m[1m[SSTF] dispatching a R at sector 8208[0m
+[32m[   15.240276] [0m[1m[SSTF] dispatching a R at sector 8216[0m
+[32m[   15.242296] [0m[1m[SSTF] dispatching a R at sector 8320[0m
+[32m[   15.245338] [0m[1m[SSTF] dispatching a R at sector 4385752[0m
+[32m[   15.245969] [0m[1m[SSTF] dispatching a R at sector 4385784[0m
+[32m[   15.246696] [0m[1m[SSTF] dispatching a R at sector 3847160[0m
+[32m[   15.258299] [0m[1m[SSTF] dispatching a R at sector 4377928[0m
+[32m[   15.259211] [0m[1m[SSTF] dispatching a R at sector 4377960[0m
+[32m[   15.260668] [0m[1m[SSTF] dispatching a R at sector 4314000[0m
+[32m[   15.261615] [0m[1m[SSTF] dispatching a R at sector 4313632[0m
+[32m[   15.262463] [0m[1m[SSTF] dispatching a R at sector 7680[0m
+[32m[   15.262927] [0m[1m[SSTF] dispatching a R at sector 7688[0m
+[32m[   15.263579] [0m[1m[SSTF] dispatching a R at sector 7696[0m
+[32m[   15.265290] [0m[1m[SSTF] dispatching a R at sector 7832[0m
+[32m[   15.268367] [0m[1m[SSTF] dispatching a R at sector 4360176[0m
+[32m[   15.269242] [0m[1m[SSTF] dispatching a R at sector 4380128[0m
+[32m[   15.270266] [0m[1m[SSTF] dispatching a R at sector 4314024[0m
+[32m[   15.271107] [0m[1m[SSTF] dispatching a R at sector 4359472[0m
+[32m[   15.272400] [0m[1m[SSTF] dispatching a R at sector 4370728[0m
+[32m[   15.273272] [0m[1m[SSTF] dispatching a R at sector 4360104[0m
+[32m[   15.273985] [0m[1m[SSTF] dispatching a R at sector 4360136[0m
+[32m[   15.274985] [0m[1m[SSTF] dispatching a R at sector 4360160[0m
+[32m[   15.275834] [0m[1m[SSTF] dispatching a R at sector 4379296[0m
+[32m[   15.278295] [0m[1m[SSTF] dispatching a R at sector 4358256[0m
+[32m[   15.279143] [0m[1m[SSTF] dispatching a R at sector 4386256[0m
+[32m[   15.280356] [0m[1m[SSTF] dispatching a R at sector 4380544[0m
+[32m[   15.281089] [0m[1m[SSTF] dispatching a R at sector 4380576[0m
+[32m[   15.282244] [0m[1m[SSTF] dispatching a R at sector 4379480[0m
+[32m[   15.283098] [0m[1m[SSTF] dispatching a R at sector 4414080[0m
+[32m[   15.283967] [0m[1m[SSTF] dispatching a R at sector 4386680[0m
+[32m[   15.284683] [0m[1m[SSTF] dispatching a R at sector 4386712[0m
+[32m[   15.285559] [0m[1m[SSTF] dispatching a R at sector 4380336[0m
+[32m[   15.286831] [0m[1m[SSTF] dispatching a R at sector 4370808[0m
+[32m[   15.287559] [0m[1m[SSTF] dispatching a R at sector 4388440[0m
+[32m[   15.288312] [0m[1m[SSTF] dispatching a R at sector 4401592[0m
+[32m[   15.288937] [0m[1m[SSTF] dispatching a R at sector 4403216[0m
+[32m[   15.290122] [0m[1m[SSTF] dispatching a R at sector 4403248[0m
+[32m[   15.291095] [0m[1m[SSTF] dispatching a R at sector 4359184[0m
+[32m[   15.291716] [0m[1m[SSTF] dispatching a R at sector 4359216[0m
+[32m[   15.293105] [0m[1m[SSTF] dispatching a R at sector 4393088[0m
+[32m[   15.293779] [0m[1m[SSTF] dispatching a R at sector 4400136[0m
+[32m[   15.294718] [0m[1m[SSTF] dispatching a R at sector 4399200[0m
+[32m[   15.295557] [0m[1m[SSTF] dispatching a R at sector 4418640[0m
+[32m[   15.296233] [0m[1m[SSTF] dispatching a R at sector 4422416[0m
+[32m[   15.296864] [0m[1m[SSTF] dispatching a R at sector 4420608[0m
+[32m[   15.297679] [0m[1m[SSTF] dispatching a R at sector 4392896[0m
+[32m[   15.298341] [0m[1m[SSTF] dispatching a R at sector 4392928[0m
+[32m[   15.299570] [0m[1m[SSTF] dispatching a R at sector 4418656[0m
+[32m[   15.300518] [0m[1m[SSTF] dispatching a R at sector 4419352[0m
+[32m[   15.301348] [0m[1m[SSTF] dispatching a R at sector 1756840[0m
+[32m[   15.302600] [0m[1m[SSTF] dispatching a R at sector 4385416[0m
+[32m[   15.303363] [0m[1m[SSTF] dispatching a R at sector 4410392[0m
+[32m[   15.304293] [0m[1m[SSTF] dispatching a R at sector 4409776[0m
+[32m[   15.304895] [0m[1m[SSTF] dispatching a R at sector 4409808[0m
+[32m[   15.305794] [0m[1m[SSTF] dispatching a R at sector 4382768[0m
+[32m[   15.306613] [0m[1m[SSTF] dispatching a R at sector 4408096[0m
+[32m[   15.307272] [0m[1m[SSTF] dispatching a R at sector 4408128[0m
+[32m[   15.308144] [0m[1m[SSTF] dispatching a R at sector 4408400[0m
+[32m[   15.308733] [0m[1m[SSTF] dispatching a R at sector 4408432[0m
+[32m[   15.309649] [0m[1m[SSTF] dispatching a R at sector 4381232[0m
+[32m[   15.310608] [0m[1m[SSTF] dispatching a R at sector 4406408[0m
+[32m[   15.311264] [0m[1m[SSTF] dispatching a R at sector 4406440[0m
+[32m[   15.314401] [0m[1m[SSTF] dispatching a R at sector 4404696[0m
+[32m[   15.317913] [0m[1m[SSTF] dispatching a R at sector 1755320[0m
+[32m[   15.318918] [0m[1m[SSTF] dispatching a R at sector 1755328[0m
+[32m[   15.319692] [0m[1m[SSTF] dispatching a R at sector 1747104[0m
+[32m[   15.320560] [0m[1m[SSTF] dispatching a R at sector 1749968[0m
+[32m[   15.321461] [0m[1m[SSTF] dispatching a R at sector 1751984[0m
+[32m[   15.322205] [0m[1m[SSTF] dispatching a R at sector 1746104[0m
+[32m[   15.322913] [0m[1m[SSTF] dispatching a R at sector 1752128[0m
+[32m[   15.323720] [0m[1m[SSTF] dispatching a R at sector 1746304[0m
+[32m[   15.324476] [0m[1m[SSTF] dispatching a R at sector 1748064[0m
+[32m[   15.325567] [0m[1m[SSTF] dispatching a R at sector 1747864[0m
+[32m[   15.326452] [0m[1m[SSTF] dispatching a R at sector 1747136[0m
+[32m[   15.327244] [0m[1m[SSTF] dispatching a R at sector 1493320[0m
+[32m[   15.328229] [0m[1m[SSTF] dispatching a R at sector 1745008[0m
+[32m[   15.329216] [0m[1m[SSTF] dispatching a R at sector 1747784[0m
+[32m[   15.329918] [0m[1m[SSTF] dispatching a R at sector 1748104[0m
+[32m[   15.330701] [0m[1m[SSTF] dispatching a R at sector 1752216[0m
+[32m[   15.331457] [0m[1m[SSTF] dispatching a R at sector 1751736[0m
+[32m[   15.332536] [0m[1m[SSTF] dispatching a R at sector 1745392[0m
+[32m[   15.333307] [0m[1m[SSTF] dispatching a R at sector 1744624[0m
+[32m[   15.334000] [0m[1m[SSTF] dispatching a R at sector 1747992[0m
+[32m[   15.335481] [0m[1m[SSTF] dispatching a R at sector 1747392[0m
+[32m[   15.336335] [0m[1m[SSTF] dispatching a R at sector 1749776[0m
+[32m[   15.338110] [0m[1m[SSTF] dispatching a R at sector 1746280[0m
+[32m[   15.339086] [0m[1m[SSTF] dispatching a R at sector 1755352[0m
+[32m[   15.340407] [0m[1m[SSTF] dispatching a R at sector 1752320[0m
+[32m[   15.341272] [0m[1m[SSTF] dispatching a R at sector 1756000[0m
+[32m[   15.342144] [0m[1m[SSTF] dispatching a R at sector 1756096[0m
+[32m[   15.342844] [0m[1m[SSTF] dispatching a R at sector 1748072[0m
+[32m[   15.343738] [0m[1m[SSTF] dispatching a R at sector 1745072[0m
+[32m[   15.344620] [0m[1m[SSTF] dispatching a R at sector 1756232[0m
+[32m[   15.345487] [0m[1m[SSTF] dispatching a R at sector 1747672[0m
+[32m[   15.346230] [0m[1m[SSTF] dispatching a R at sector 1746384[0m
+[32m[   15.348617] [0m[1m[SSTF] dispatching a R at sector 1752256[0m
+[32m[   15.349500] [0m[1m[SSTF] dispatching a R at sector 1474768[0m
+[32m[   15.350247] [0m[1m[SSTF] dispatching a R at sector 1747360[0m
+[32m[   15.351547] [0m[1m[SSTF] dispatching a R at sector 1752288[0m
+[32m[   15.352522] [0m[1m[SSTF] dispatching a R at sector 1747944[0m
+[32m[   15.353863] [0m[1m[SSTF] dispatching a R at sector 1756184[0m
+[32m[   15.354760] [0m[1m[SSTF] dispatching a R at sector 1497256[0m
+[32m[   15.356178] [0m[1m[SSTF] dispatching a R at sector 1747584[0m
+[32m[   15.357141] [0m[1m[SSTF] dispatching a R at sector 1751976[0m
+root@qemux86:~# [SSTF] dispatching a W at sector 2621640
+[SSTF] dispatching a R at sector 3135632
+[SSTF] dispatching a R at sector 3135664
+[SSTF] dispatching a W at sector 0
+[SSTF] dispatching a W at sector 1400
+[SSTF] dispatching a W at sector 1496
+[SSTF] dispatching a W at sector 4840
+[SSTF] dispatching a W at sector 4864
+[SSTF] dispatching a W at sector 37872
+[SSTF] dispatching a W at sector 37928
+[SSTF] dispatching a W at sector 3576992
+[SSTF] dispatching a R at sector 1743560
+Stopping domain name service: named[SSTF] dispatching a R at sector 466336
+[SSTF] dispatching a R at sector 467160
+[SSTF] dispatching a R at sector 466368
+[SSTF] dispatching a R at sector 466624
+[SSTF] dispatching a R at sector 466880
+[SSTF] dispatching a R at sector 1739824
+[SSTF] dispatching a R at sector 1744520
+[SSTF] dispatching a R at sector 1744480
+[SSTF] dispatching a R at sector 467072
+[SSTF] dispatching a R at sector 446664
+[SSTF] dispatching a R at sector 520632
+[SSTF] dispatching a R at sector 520664
+Stopping tcf-agent: [SSTF] dispatching a R at sector 1746336
+[SSTF] dispatching a R at sector 2780400
+[SSTF] dispatching a R at sector 2780432
+[SSTF] dispatching a R at sector 442104
+[SSTF] dispatching a R at sector 1364616
+[SSTF] dispatching a R at sector 1364648
+[SSTF] dispatching a R at sector 5430432
+[SSTF] dispatching a R at sector 5432712
+[SSTF] dispatching a R at sector 5430464
+[SSTF] dispatching a R at sector 5430688
+[SSTF] dispatching a R at sector 5430944
+[SSTF] dispatching a R at sector 5432000
+[SSTF] dispatching a R at sector 5432256
+[SSTF] dispatching a R at sector 5431200
+[SSTF] dispatching a W at sector 1769480
+Deconfiguring network interfaces... [SSTF] dispatching a R at sector 1739648
+[SSTF] dispatching a R at sector 1739640
+[SSTF] dispatching a R at sector 1738872
+[SSTF] dispatching a W at sector 2621664
+[SSTF] dispatching a R at sector 1739064
+[SSTF] dispatching a W at sector 1769488
+[SSTF] dispatching a W at sector 1769496
+[SSTF] dispatching a R at sector 1738712
+[SSTF] dispatching a R at sector 3130280
+[SSTF] dispatching a R at sector 3130312
+[SSTF] dispatching a R at sector 1739024
+[SSTF] dispatching a R at sector 3129624
+[SSTF] dispatching a W at sector 1757000
+[SSTF] dispatching a W at sector 2621760
+[SSTF] dispatching a W at sector 1496
+[SSTF] dispatching a W at sector 4832
+[SSTF] dispatching a W at sector 0
+[SSTF] dispatching a W at sector 1400
+[SSTF] dispatching a W at sector 4840
+[SSTF] dispatching a W at sector 4864
+[SSTF] dispatching a W at sector 37712
+[SSTF] dispatching a W at sector 37928
+[SSTF] dispatching a W at sector 3576920
+[SSTF] dispatching a W at sector 3671336
+[SSTF] dispatching a W at sector 0
+[SSTF] dispatching a R at sector 3113720
+[SSTF] dispatching a R at sector 1744584
+[SSTF] dispatching a R at sector 2752528
+[SSTF] dispatching a R at sector 1738624
+[SSTF] dispatching a R at sector 3113712
+[SSTF] dispatching a R at sector 1756824
+[SSTF] dispatching a R at sector 2752520
+[SSTF] dispatching a R at sector 1743560
+[SSTF] dispatching a R at sector 37632
+[SSTF] dispatching a R at sector 37640
+[SSTF] dispatching a R at sector 37648
+[SSTF] dispatching a R at sector 37760
+[SSTF] dispatching a R at sector 1738696
+[SSTF] dispatching a R at sector 37376
+[SSTF] dispatching a R at sector 37384
+[SSTF] dispatching a R at sector 37392
+[SSTF] dispatching a R at sector 37464
+[SSTF] dispatching a R at sector 1744280
+[SSTF] dispatching a R at sector 1738944
