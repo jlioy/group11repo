@@ -10,7 +10,7 @@
 #include <linux/moduleparam.h>
 #include <linux/init.h>
 
-#include <linux/kernel.h> /* printk() */
+#include <linux/kernel.h> /* trace_printk() */
 #include <linux/fs.h>     /* everything... */
 #include <linux/errno.h>  /* error codes */
 #include <linux/types.h>  /* size_t */
@@ -47,9 +47,9 @@ module_param(key, charp, 0);
 static void output_hex(u8 *ptr, unsigned int length) {
 	int i;
 	for (i = 0; i < length; i++) {
-		printk("%02x ", ptr[i]);
+		trace_printk("%02x ", ptr[i]);
 	}
-	printk("\n");
+	trace_printk("\n");
 }
 
 /*
@@ -79,7 +79,7 @@ static void sbd_transfer(struct sbd_device *dev, sector_t sector,
 	unsigned int i;
 	hdisk = dev->data + offset;
 	hbuffer = buffer;
-	printk(KERN_NOTICE "sbd: encryption key - %s\n", key);
+	trace_printk(KERN_NOTICE "sbd: encryption key - %s\n", key);
 	if ((offset + nbytes) > dev->size) {
 		return;
 	}
@@ -87,10 +87,10 @@ static void sbd_transfer(struct sbd_device *dev, sector_t sector,
 		for(i = 0; i < nbytes; i+= crypto_cipher_blocksize(tfm)) {
 			crypto_cipher_encrypt_one(tfm, hdisk + i, hbuffer + i);
 		}
-		printk("sbd: data before encryption\n");
+		trace_printk("sbd: data before encryption\n");
 		hstring = buffer;
 		output_hex(hstring, 15);
-		printk("sbd: data after encryption\n");
+		trace_printk("sbd: data after encryption\n");
 		hstring = dev->data + offset;
 		hstring = dev->data + offset;
 		output_hex(hstring, 15);
@@ -98,10 +98,10 @@ static void sbd_transfer(struct sbd_device *dev, sector_t sector,
 		for(i = 0; i < nbytes; i+= crypto_cipher_blocksize(tfm)) {
 			crypto_cipher_decrypt_one(tfm, hbuffer + i, hdisk + i);
 		}
-		printk("sbd: data before decryption\n");
+		trace_printk("sbd: data before decryption\n");
 		hstring = dev->data + offset;
 		output_hex(hstring, 15);
-		printk("sbd: data after decryption\n");
+		trace_printk("sbd: data after decryption\n");
 		hstring = buffer;
 		output_hex(hstring, 15);
 	}
@@ -116,7 +116,7 @@ static void sbd_request(struct request_queue *q) {
 		// Christian Paro for the heads up and fix...
 		//if (!blk_fs_request(req)) {
 		if (req == NULL || (req->cmd_type != REQ_TYPE_FS)) {
-			printk (KERN_NOTICE "Skip non-CMD request\n");
+			trace_printk (KERN_NOTICE "Skip non-CMD request\n");
 			__blk_end_request_all(req, -EIO);
 			continue;
 		}
@@ -175,7 +175,7 @@ static int __init sbd_init(void) {
 	 */
 	major_num = register_blkdev(major_num, "sbd");
 	if (major_num < 0) {
-		printk(KERN_WARNING "sbd: unable to get major number\n");
+		trace_printk(KERN_WARNING "sbd: unable to get major number\n");
 		goto out;
 	}
 
