@@ -1,0 +1,273 @@
+\documentclass[letterpaper, onecolumn, draftclsnofoot, 10pt, compsoc]{IEEEtran}
+
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm}                                          
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+\usepackage{balance}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+\usepackage{setspace}
+
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=7in}
+
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},  
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
+\usepackage{geometry}
+
+\def \name{Joshua Lioy}
+\def \GroupNumber{11}
+\def \GroupMemberOne{Joshua Lioy}
+\def \GroupMemberTwo{Brian Wiltse}
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+    	\includegraphics[height=4cm]{coe_v_spot1}
+        \hfill 
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge Operating Systems 2 \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge Homework 3: The Kernel Crypto API}\par
+            \vfill
+            \vspace{5pt}
+            {\large Prepared by }\par
+            Group \GroupNumber\par
+            \vspace{5pt}
+            {\Large
+                \GroupMemberOne\par
+                \GroupMemberTwo\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        This document covers Group 11's details for implementing cryptography on a simple block device, using the Linux kernel's Crypto API.
+        \end{abstract}     
+    \end{singlespace}
+\end{titlepage}
+
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+
+\newpage
+\section{Design Plan}
+    \begin{singlespace}
+    Our plan is to use a block driver that we found on  \href{http://blog.superpat.com/2010/05/04/a-simple-block-driver-for-linux-kernel-2-6-31/comment-page-2/#comment-148884}{the Superpatterns Blog} \cite{SuperPat}. We want to first get it to build without cryptography to ensure there are no problems with the device code itself and to make sure we know how to test it once we have the cryptography implemented.
+    
+    The Linux kernel Crypto API is notoriously poorly documented, so we have looked around for examples in how to implement cryptography in the kernel. We found \href{https://stackoverflow.com/questions/3869028/how-to-use-cryptoapi-in-the-linux-kernel-2-6}{this StackOverflow discussion} \cite{SOCryptoLinuxExample} that pointed us to examples in the Linux Kernel. \href{https://stackoverflow.com/questions/9218491/crypto-api-in-linux-kernel-for-aes-error}{This StackOverflow discussion} \cite{SOCryptoCodeExample} gave a good example of what encryption and decryption functions would look like.
+    
+    
+    \subsection{How We Will Modify The Code}
+    Our key must be a module parameter, so we will use the $module\_param()$ function to set that at the beginning of the code. We plan to modify the $sbd\_transfer()$ to encrypt during writes and decrypt during reads. The documentation refers to initializing the crypto algorithm, so we will initialize this in the block driver's $init$ function. We will also need to free the cipher, which we plan to do in the $sbd\_exit()$ function.
+    
+        
+    \end{singlespace}
+    
+\section{Version Control Log}
+    \input{log.tex}
+    
+\section{Work Log}
+    \begin{singlespace}
+        \textbf{Monday 11/06}
+            \begin{itemize}
+                \item 9am - 10am, Brian 
+                \begin{itemize}
+                    \item Read LDD3 ch16
+                \end{itemize}
+                \item 5pm - 6pm, Brian 
+                    \begin{itemize}
+                        \item Looked up how to implement a block device 
+                    \end{itemize}
+            \end{itemize}
+        \textbf{Tuesday 11/07}
+            \begin{itemize}
+                \item 10am-11am, Joshua and Brian 
+                \begin{itemize}
+                    \item Implemented block device 
+                    \item Worked on testing without cryptography
+                \end{itemize}
+                \item 11am - 12pm, Brian 
+                    \begin{itemize}
+                        \item Continued to work on mounting block device
+                        \item Went to Kevin's office to clarify steps
+                    \end{itemize}
+            \end{itemize}
+        \textbf{Wednesday, 11/08}
+            \begin{itemize}
+                \item 9am-11am, Brian
+                \begin{itemize}
+                    \item Office hours for HW3 questions 
+                    \item Looked into Crypto API 
+                \end{itemize}
+            \end{itemize}
+        \textbf{Thursday, 11/09}
+            \begin{itemize}
+                \item 10am-11am, Joshua and Brian 
+                \begin{itemize}
+                    \item Started planning and implementing crypto 
+                \end{itemize}
+            \end{itemize}
+        \textbf{Saturday, 11/11}
+            \begin{itemize}
+                \item 9:30am-11am, Joshua
+                \begin{itemize}
+                    \item Worked on implementation of block device encryption
+                \end{itemize}
+                \item 11am-1:30pm, Brian and Joshua
+                \begin{itemize}
+                    \item Implemented encryption
+                    \item Tested 
+                    \item Worked on write-up 
+                \end{itemize}
+                \item 93:30pm-5:30pm, Joshua and Brian 
+                \begin{itemize}
+                    \item More testing to ensure it works 
+                    \item Write-up
+                \end{itemize}
+            \end{itemize}
+        \textbf{Sunday, 11/12}
+            \begin{itemize}
+                \item 2:30pm-3:30pm, Joshua and Brian
+                \begin{itemize}
+                    \item Finalizing write-up
+                    \item Turning in assignment
+                \end{itemize}
+            \end{itemize}
+    \end{singlespace}
+        
+\section{Questions}
+    
+    \subsection{What do you think the main point of this assignment is?}
+        \begin{singlespace}
+         Although we did learn a lot about making Linux modules and inserting them, we also feel that learning how to find documentation for libraries that we are not familiar with was an important part of this assignment. Building modules and using them in Linux is pretty well documented, so that wasn't too challenging. 
+        \end{singlespace}
+    
+    \subsection{How did you personally approach the problem? Design decisions, algorithm, etc.}
+        \begin{singlespace}
+           Our main goal was to keep our implementation of the cryptography as simple as possible. The overall design consisted of creating the cipher struct and then looping through the block device and encrypting one block at a time using the $crypto\_cipher\_encrypt\_one$ function from the Linux $crypto.h$ library. The same logic was applied to decryption except that the $crypto\_cipher\_decrypt\_one$ function was called. While not the most efficient way to encrypt the block device, it ensures that each block is encrypted by the block device driver.
+        \end{singlespace}
+    
+    \subsection{How did you ensure your solution was correct? Testing details, for instance.}
+        \begin{singlespace}
+        We began by sourcing the appropriate environment:
+        
+        \begin{lstlisting}[language=bash]
+source /scratch/fall2017/11/common/environment-setup-i586-poky-linux
+        \end{lstlisting}
+        
+        To test our program from the os2 server, we ran $make$ on our linux kernel. 
+        This generates a module file $sbd.ko$ in the $linux/drivers/block$ directory. We then ran qemu with:
+        \begin{lstlisting}[language=bash]
+qemu-system-i386 -gdb tcp::5511 -S -nographic -kernel /scratch/fall2017/11/group11repo/linux/arch/x86/boot/bzImage -drive file=/scratch/fall2017/11/common/core-image-lsb-sdk-qemux86.ext4,if=virtio -enable-kvm -usb -localtime --no-reboot --append "root=/dev/vda rw console=ttyS0 debug"
+        \end{lstlisting}
+        In another instance of os2, we ran:
+        \begin{lstlisting}[language=bash]
+$GDB
+        \end{lstlisting}
+    
+        After logging in as root, we copied the module file into the vm with:
+        
+        \begin{lstlisting}[language=bash]
+scp -r <username>@access.engr.oregonstate.edu:/scratch/fall2017/11/group11repo/linux/drivers/block/sbd.ko .
+        \end{lstlisting}
+         
+        To insert the module, we ran:
+        
+        \begin{lstlisting}[language=bash]
+insmod sbd.ko
+        \end{lstlisting}
+        
+        Then we formatted the disk:
+        
+        \begin{lstlisting}[language=bash]
+fdisk /dev/sbd0
+        \end{lstlisting}
+        
+        Then we made an ext2 file system with:
+        
+        \begin{lstlisting}[language=bash]
+mkfs.ext2 /dev/sbd0p1
+        \end{lstlisting}
+        
+        We then mounted the device with:
+        
+        \begin{lstlisting}[language=bash]
+mount /dev/sbd0p1 /mnt
+        \end{lstlisting}
+        
+        We then wrote all 0s to our device with:
+        
+        \begin{lstlisting}[language=bash]
+shred -z /dev/sdb0p1
+        \end{lstlisting}
+        
+        Then we wrote "hello world" to our device with:
+        
+        \begin{lstlisting}[language=bash]
+echo "hello world" > /mnt/hi
+        \end{lstlisting}
+        
+        To ensure it was encrypted, we printed out the contents of the drive and piped it to grep for 'hello'
+        
+        \begin{lstlisting}[language=bash]
+cat /mnt | grep 'hello'
+        \end{lstlisting}
+        
+        The search yielded no results. However, when we print mnt/hi, the text is still "hello world". This demonstrates that our encryption and decryption are working because our cryptography decrypts the data when it is read from the device, but "hello" cannot be found as raw data on the device.
+        
+        We learned of this testing strategy from \href{https://gist.github.com/iankronquist/c3f3ef5dcec8d812a359ce6a723c2f05}{a gist about how to demo this assignment} \cite{HW3Gist}. To ensure that we would, in fact, see the "hello" as raw data when we ran grepped for "hello" on the raw data, we reverted sbd.c to our pre-cryptography version and ran the same test. The search without cryptography did find "hello".
+        \end{singlespace}
+    
+    \subsection{What did you learn?}
+        \begin{singlespace}
+            One challenge for us was determining what functions of the crypto library were needed to implement the cryptography for the block device. We also learned how block devices can be implemented in Linux and the testing methods that are associated with them. Particularly the testing that we did for the cryptographic features that we implemented in the $sbd.c$ file. 
+        \end{singlespace}
+
+\bibliography{HW3Ref}{}
+\bibliographystyle{ieeetr}
+
+\end{document}
