@@ -1,4 +1,13 @@
 /*
+ * CS444-f17 Assignment 3
+ * Group 11 - Joshua Lioy and Brian Wiltse
+ *
+ * sbd.c was obtained from the Superpatterns blog:
+ * http://blog.superpat.com/2010/05/04/a-simple-block-driver-for-linux-kernel-2-6-31/
+ *
+ * It has been modified for Linux v3.19.2, with help from commenters on the same blog post.
+ * We further modified the file to add cryptography to the block driver.
+ *
  * A sample, extra-simple block driver. Updated for kernel 2.6.31.
  *
  * (C) 2003 Eklektix, Inc.
