@@ -1,10 +1,15 @@
 /*
- * Concurrency 2: The Dining Philosophers Problem
+ * Concurrency 3 Problem 1
  * CS 444 Operating Systems 2
  * Fall Term 2017
  * Group 11: Brian Wiltse and Joshua Lioy
  *
- * Solution for the Dining Philosopher problem. 
+ * Solution for the resource problem.
+ *
+ * The solution to this problem is adapted from "Design Patterns for Semaphores"
+ * By Kenneth A. Reek
+ * Accessed online on 22 Nov 2017 at 
+ * https://pdfs.semanticscholar.org/93af/99143f8123032fbcc805656d63617a2268ab.pdf
  */
 
 #include <stdio.h>
@@ -26,7 +31,6 @@ pthread_mutex_t rand_mutex;
 int active = 0; 
 int waiting = 0;
 int must_wait = 0;
-
 
 /*
  * Generates a random number with rdrand x86 asm, if supported.
@@ -67,13 +71,63 @@ unsigned long gen_rand_num() {
 }
 
 
+
 void *use_res(void* tid) {
   int pid = (int)tid;
-  
-  while(1) {
-    printf("%d working as planned\n", pid);
-    break;
+  int random;
+ 
+  while (1) {
+    pthread_mutex_lock(&rand_mutex);
+    random = gen_rand_num() % 5 + 2;
+    pthread_mutex_unlock(&rand_mutex);
+
+    // Allow one thread at a time to see what resources are available
+    sem_wait(&resource_mutex);  
+    if (must_wait) {
+      waiting++;
+      printf("Thread %d is waiting\n", pid);
+      // Let the next thread see if resources are available
+      sem_post(&resource_mutex);
+      // Wait until resource is available
+      sem_wait(&block_mutex); 
+      waiting--;
+    }
+
+    printf("Thread %d is active for %d seconds\n", pid, random);
+    active++;
+    must_wait = (active == 3); // if 3 are using resource, we must wait
+
+    if (waiting > 0 && !must_wait) {
+      // Threads are waiting and the resource is now available
+      // Release the lock on the resourcee
+      sem_post(&block_mutex); 
+    } else {
+      // Either no threads are waiting or the resource is inaccessible.
+      // Let the next thread through.
+      sem_post(&resource_mutex);
+    }
+
+    sleep(random);
+    // Allow one thread at a time to check if resource is now available
+    sem_wait(&resource_mutex);
+    printf("Thread %d is no longer active\n", pid);
+    --active;
     
+    // Threads no longer have to wait if active goes to 0.
+    if (active == 0){
+      must_wait = 0;
+    }
+
+    if (waiting > 0 && !must_wait) {
+      // Threads are waiting and the resource is now available.
+      // Release the lock on the resource.
+      sem_post(&block_mutex); 
+    } else {
+      // Either no threads are waiting or the resource is inaccessible.
+      // Let the next thread through.
+      sem_post(&resource_mutex);
+    }
+
   }
 }
 
