@@ -54,12 +54,12 @@ pthread_mutex_t rand_mutex;
  * class website at:
  * http://web.engr.oregonstate.edu/cgi-bin/cgiwrap/dmcgrath/classes/17F/cs444/index.cgi?examples=1
  */
-unsigned long gen_rand_num() {
+int gen_rand_num() {
   unsigned int eax;
   unsigned int ebx;
   unsigned int ecx;
   unsigned int edx;
-  unsigned long random;
+  int random;
   char vendor[13];
   
   eax = 0x01;
@@ -170,18 +170,59 @@ void *inserter(void* tid) {
   }
 }
 
+int get_list_size() {
+  int count = 0;
+  struct node* current = list_head;
+  while (current != 0) {
+    count++;
+    current = current->next;
+  }
+  return count;
+}
+
+void remove_node(int pos) {
+  struct node* temp = list_head;
+  struct node* next;
+  if (pos == 0) {
+    list_head = list_head->next;
+    free(temp);
+  } else {
+    for (int i = 0; i < pos - 1; i++) {
+      temp = temp->next;
+    }
+    printf("removing node number %d: %d\n", pos, temp->next->data);
+    next = temp->next->next;
+    free(temp->next);
+    temp->next = next;
+    }
+
+}
+
 void *deleter( void* tid) {
   while(1) {
     int pid = (int)tid;
+    int random;
+    int list_size;
+    int node_num;
     int sleep_time = gen_rand_num() % 6;
+    
+    pthread_mutex_lock(&rand_mutex);
+    random = gen_rand_num();
+    pthread_mutex_unlock(&rand_mutex);
+  
     sem_wait(&no_searcher); 
     sem_wait(&no_inserter);
+  
     print_list();
-    
-    if (list_head != NULL){
-      printf("LIST HEAD IS: %d\n", list_head->data);
-    }  
-    printf("deleter %d deleting...\n", pid);
+    list_size = get_list_size();
+    if (list_size > 0) {
+      node_num = random % list_size;
+      printf("deleter %d deleting from position %d\n", pid, node_num);
+      remove_node(node_num);
+      print_list();
+    } else {
+      printf("Nothing for deleter %d to delete!\n", pid);
+    }
     sem_post(&no_searcher); 
     sem_post(&no_inserter);
     sleep(sleep_time);
