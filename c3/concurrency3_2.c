@@ -110,8 +110,9 @@ void switch_unlock(struct Lightswitch* lightswitch, sem_t* semaphore) {
 void print_list() {
   struct node* current = list_head;
   printf("List: ");
-  while (current != NULL && current->next != NULL) {
+  while (current != NULL) {
     printf("%d->", current->data);
+    current = current->next;
   }
   printf("NULL\n");
 }
@@ -132,12 +133,12 @@ void *searcher(void* tid) {
 
 void append_to_list(int data){
   struct node* current = list_head;
-  struct node* new_node = malloc(sizeof(struct node*));
+  struct node* new_node = (struct node*)malloc(sizeof(struct node));
   new_node->data = data;
   new_node->next = NULL;
   
   if (current == NULL) {
-    list_head = new_node;
+    list_head = new_node;    
   } else {
     while (current->next != NULL) {
       current = current->next;
@@ -157,11 +158,13 @@ void *inserter(void* tid) {
     pthread_mutex_unlock(&rand_mutex); 
     
     switch_lock(&insert_switch, &no_inserter);
-    
+    sem_wait(&insert_mutex);
+
     append_to_list(data);
     printf("inserter %d appending %d\n", pid, data);
     sleep(sleep_time);
   
+    sem_post(&insert_mutex);
     switch_unlock(&insert_switch, &no_inserter);
     sleep(sleep_time);
   }
@@ -174,6 +177,10 @@ void *deleter( void* tid) {
     sem_wait(&no_searcher); 
     sem_wait(&no_inserter);
     print_list();
+    
+    if (list_head != NULL){
+      printf("LIST HEAD IS: %d\n", list_head->data);
+    }  
     printf("deleter %d deleting...\n", pid);
     sem_post(&no_searcher); 
     sem_post(&no_inserter);
