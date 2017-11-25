@@ -22,9 +22,9 @@
 
 #include "mt.h"
 
-#define NUM_I 2
-#define NUM_S 2
-#define NUM_D 2
+#define NUM_I 3
+#define NUM_S 3
+#define NUM_D 3
 
 #define asm __asm__ __volatile__
 
@@ -45,6 +45,38 @@ sem_t insert_mutex;
 sem_t no_searcher;
 sem_t no_inserter;
 pthread_mutex_t rand_mutex;
+
+
+/*
+ * ----------------------- LIGHTSWITCH FUNCTIONS ----------------------
+ */
+
+void init_switch(struct Lightswitch* lightswitch) {
+  lightswitch->counter = 0;
+  sem_init(&lightswitch->mutex, 0, 1);
+}
+
+void switch_lock(struct Lightswitch* lightswitch, sem_t* semaphore) {
+  sem_wait(&lightswitch->mutex);
+  lightswitch->counter++;
+  if (lightswitch->counter == 1){
+    sem_wait(semaphore);
+  }
+  sem_post(&lightswitch->mutex);
+}
+
+void switch_unlock(struct Lightswitch* lightswitch, sem_t* semaphore) {
+  sem_wait(&lightswitch->mutex);
+  lightswitch->counter--;
+  if (lightswitch->counter == 0) {
+    sem_post(semaphore);
+  }
+  sem_post(&lightswitch->mutex);
+}
+
+/*
+ * ----------------------- RANDOMIZING FUNCTIONS ----------------------
+ */
 
 /*
  * Generates a random number with rdrand x86 asm, if supported.
@@ -84,52 +116,23 @@ int gen_rand_num() {
   return random;
 }
 
-void init_switch(struct Lightswitch* lightswitch) {
-  lightswitch->counter = 0;
-  sem_init(&lightswitch->mutex, 0, 1);
+void rand_sleep() {
+  int random;
+  pthread_mutex_lock(&rand_mutex);
+  random = gen_rand_num();
+  pthread_mutex_unlock(&rand_mutex);
+  sleep(random % 6 + 1);
 }
 
-void switch_lock(struct Lightswitch* lightswitch, sem_t* semaphore) {
-  sem_wait(&lightswitch->mutex);
-  lightswitch->counter++;
-  if (lightswitch->counter == 1){
-    sem_wait(semaphore);
-  }
-  sem_post(&lightswitch->mutex);
+int get_rand_data() {
+  int data;
+  data = gen_rand_num() % 50;
+  return data;
 }
 
-void switch_unlock(struct Lightswitch* lightswitch, sem_t* semaphore) {
-  sem_wait(&lightswitch->mutex);
-  lightswitch->counter--;
-  if (lightswitch->counter == 0) {
-    sem_post(semaphore);
-  }
-  sem_post(&lightswitch->mutex);
-}
-
-void print_list() {
-  struct node* current = list_head;
-  printf("List: ");
-  while (current != NULL) {
-    printf("%d->", current->data);
-    current = current->next;
-  }
-  printf("NULL\n");
-}
-
-void *searcher(void* tid) {
-  int sleep_time = gen_rand_num() % 6 + 1;
-  while(1) {
-    int pid = (int)tid;
-    
-    switch_lock(&search_switch, &no_searcher);
-
-    printf("Searcher %d searching...\n", pid);
-    sleep(sleep_time);
-    switch_unlock(&search_switch, &no_searcher);
-    sleep(sleep_time);
-  }
-}
+/*
+ * ----------------------- LINKED LIST FUNCTIONS ----------------------
+ */
 
 void append_to_list(int data){
   struct node* current = list_head;
@@ -147,27 +150,30 @@ void append_to_list(int data){
   }
 }
 
-void *inserter(void* tid) {
-  while(1) {
-    int pid = (int)tid;
-    int data;
-    int sleep_time = gen_rand_num() % 6 + 1;
-    struct node* current = list_head;
-    pthread_mutex_lock(&rand_mutex);
-    data = gen_rand_num() % 100;
-    pthread_mutex_unlock(&rand_mutex); 
-    
-    switch_lock(&insert_switch, &no_inserter);
-    sem_wait(&insert_mutex);
-
-    append_to_list(data);
-    printf("inserter %d appending %d\n", pid, data);
-    sleep(sleep_time);
-  
-    sem_post(&insert_mutex);
-    switch_unlock(&insert_switch, &no_inserter);
-    sleep(sleep_time);
+void print_list() {
+  struct node* current = list_head;
+  printf("List: ");
+  while (current != NULL) {
+    printf("%d->", current->data);
+    current = current->next;
   }
+  printf("NULL\n");
+}
+
+int find_in_list(int data) {
+  int pos = -1;
+  int count = 0;
+  struct node* current = list_head;
+  
+  while(current != NULL) {
+    if (current->data == data) {
+      pos = count;
+      break;
+    }
+    count += 1;
+    current = current->next;
+  }
+  return pos; 
 }
 
 int get_list_size() {
@@ -194,18 +200,65 @@ void remove_node(int pos) {
     next = temp->next->next;
     free(temp->next);
     temp->next = next;
-    }
+  }
 
 }
 
-void *deleter( void* tid) {
+/*
+ * ----------------------- SEARCH, INSERT, DELETE FUNCTIONS ----------------------
+ */
+
+void *searcher(void* tid) {
+  int pid = (int)tid;
+  int rand_data;
+  int pos;
   while(1) {
-    int pid = (int)tid;
-    int random;
-    int list_size;
-    int node_num;
-    int sleep_time = gen_rand_num() % 6;
+    pthread_mutex_lock(&rand_mutex);
+    rand_data = get_rand_data(); 
+    pthread_mutex_unlock(&rand_mutex);
+
+    switch_lock(&search_switch, &no_searcher);
+    pos = find_in_list(rand_data);
+    if (pos >= 0) {
+      printf("Searcher %d found %d at position %d\n", pid, rand_data, pos);
+    } else{
+      printf("Searcher %d did not find %d in the list\n", pid, rand_data);
+    }
+    switch_unlock(&search_switch, &no_searcher);
+    rand_sleep();
+  }
+}
+
+void *inserter(void* tid) {
+  int pid = (int)tid;
+  while(1) {
+    int data;
+    int sleep_time = gen_rand_num() % 6 + 1;
+    struct node* current = list_head;
+    pthread_mutex_lock(&rand_mutex);
+    data = get_rand_data();
+    pthread_mutex_unlock(&rand_mutex); 
     
+    switch_lock(&insert_switch, &no_inserter);
+    sem_wait(&insert_mutex);
+
+    append_to_list(data);
+    printf("inserter %d appending %d\n", pid, data);
+    sleep(sleep_time);
+  
+    sem_post(&insert_mutex);
+    switch_unlock(&insert_switch, &no_inserter);
+    sleep(sleep_time);
+  }
+}
+
+
+void *deleter( void* tid) {
+  int pid = (int)tid;
+  int random;
+  int list_size;
+  int node_num;
+  while(1) {
     pthread_mutex_lock(&rand_mutex);
     random = gen_rand_num();
     pthread_mutex_unlock(&rand_mutex);
@@ -225,7 +278,7 @@ void *deleter( void* tid) {
     }
     sem_post(&no_searcher); 
     sem_post(&no_inserter);
-    sleep(sleep_time);
+    rand_sleep();
   }
 }
 
@@ -251,30 +304,22 @@ int main(int argc, char* argv[]) {
   pthread_t inserters[NUM_I];
   pthread_t deleters[NUM_D];
 
-  // create searcher
   for (int i = 0; i < NUM_S; i++) {
     pthread_create(&(searchers[i]), NULL, searcher, (void*)i); 
   }
-  
-  // create inserters
   for (int i = 0; i < NUM_I; i++) {
     pthread_create(&(inserters[i]), NULL, inserter, (void*)i); 
-  }
-  
-  // create deleters
+  } 
   for (int i = 0; i < NUM_D; i++) {
     pthread_create(&(deleters[i]), NULL, deleter, (void*)i); 
   }
   
-  
   for(int i = 0; i < NUM_S; i++) {
     pthread_join(searchers[i], NULL);
-  }
-  
+  } 
   for(int i = 0; i < NUM_I; i++) {
     pthread_join(inserters[i], NULL);
   }
-  
   for(int i = 0; i < NUM_D; i++) {
     pthread_join(deleters[i], NULL);
   }
