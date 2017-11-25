@@ -22,15 +22,15 @@
 
 #include "mt.h"
 
-#define NUM_I 5
-#define NUM_S 3
+#define NUM_I 2
+#define NUM_S 2
 #define NUM_D 2
 
 #define asm __asm__ __volatile__
 
-struct LinkedList {
+struct node {
   int data;
-  struct LinkedList* next;
+  struct node* next;
 };
 
 struct Lightswitch {
@@ -38,7 +38,7 @@ struct Lightswitch {
   sem_t mutex;
 };
 
-struct LinkedList list;
+struct node* list_head = NULL;
 struct Lightswitch search_switch;
 struct Lightswitch insert_switch;
 sem_t insert_mutex;
@@ -84,23 +84,6 @@ unsigned long gen_rand_num() {
   return random;
 }
 
-void *searcher(void* tid) {
-  int pid = (int)tid;
-  printf("Searcher %d ready\n", pid); 
-}
-
-void *inserter(void* tid) {
-  int pid = (int)tid;
-  printf("inserter %d ready\n", pid); 
-
-}
-
-void *deleter( void* tid) {
-  int pid = (int)tid;
-  printf("deleter %d ready\n", pid); 
-
-}
-
 void init_switch(struct Lightswitch* lightswitch) {
   lightswitch->counter = 0;
   sem_init(&lightswitch->mutex, 0, 1);
@@ -124,6 +107,81 @@ void switch_unlock(struct Lightswitch* lightswitch, sem_t* semaphore) {
   sem_post(&lightswitch->mutex);
 }
 
+void print_list() {
+  struct node* current = list_head;
+  printf("List: ");
+  while (current != NULL && current->next != NULL) {
+    printf("%d->", current->data);
+  }
+  printf("NULL\n");
+}
+
+void *searcher(void* tid) {
+  int sleep_time = gen_rand_num() % 6 + 1;
+  while(1) {
+    int pid = (int)tid;
+    
+    switch_lock(&search_switch, &no_searcher);
+
+    printf("Searcher %d searching...\n", pid);
+    sleep(sleep_time);
+    switch_unlock(&search_switch, &no_searcher);
+    sleep(sleep_time);
+  }
+}
+
+void append_to_list(int data){
+  struct node* current = list_head;
+  struct node* new_node = malloc(sizeof(struct node*));
+  new_node->data = data;
+  new_node->next = NULL;
+  
+  if (current == NULL) {
+    list_head = new_node;
+  } else {
+    while (current->next != NULL) {
+      current = current->next;
+    }
+    current->next = new_node;
+  }
+}
+
+void *inserter(void* tid) {
+  while(1) {
+    int pid = (int)tid;
+    int data;
+    int sleep_time = gen_rand_num() % 6 + 1;
+    struct node* current = list_head;
+    pthread_mutex_lock(&rand_mutex);
+    data = gen_rand_num() % 100;
+    pthread_mutex_unlock(&rand_mutex); 
+    
+    switch_lock(&insert_switch, &no_inserter);
+    
+    append_to_list(data);
+    printf("inserter %d appending %d\n", pid, data);
+    sleep(sleep_time);
+  
+    switch_unlock(&insert_switch, &no_inserter);
+    sleep(sleep_time);
+  }
+}
+
+void *deleter( void* tid) {
+  while(1) {
+    int pid = (int)tid;
+    int sleep_time = gen_rand_num() % 6;
+    sem_wait(&no_searcher); 
+    sem_wait(&no_inserter);
+    print_list();
+    printf("deleter %d deleting...\n", pid);
+    sem_post(&no_searcher); 
+    sem_post(&no_inserter);
+    sleep(sleep_time);
+  }
+}
+
+
 int main(int argc, char* argv[]) {
   if (argc < 2) {
     printf("Missing seed argument. Exiting...\n");
@@ -132,6 +190,7 @@ int main(int argc, char* argv[]) {
   
   unsigned long seed = htonl(atoi(argv[1]));
   init_genrand(seed);
+  
   pthread_mutex_init(&rand_mutex, NULL);
   sem_init(&insert_mutex, 0, 1);
   sem_init(&no_searcher, 0, 1);
