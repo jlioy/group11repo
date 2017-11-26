@@ -6,7 +6,8 @@
  *
  * Solution for the search-insert-delete concurrency problem.
  *
- * The solution to this problem was adapted from the solution given in 
+ * The solution to this problem was adapted from the solution 
+ * to the serch-insert-delete problem given in 
  * The Little Book of Semaphores
  * By Allen B. Downey
  * Accessed online on 24 Nov 2017 at 
@@ -49,6 +50,7 @@ pthread_mutex_t rand_mutex;
 
 /*
  * ----------------------- LIGHTSWITCH FUNCTIONS ----------------------
+ *  The lightswitch is also described in The Little Book of Semaphores.
  */
 
 void init_switch(struct Lightswitch* lightswitch) {
@@ -233,7 +235,6 @@ void *inserter(void* tid) {
   int pid = (int)tid;
   while(1) {
     int data;
-    int sleep_time = gen_rand_num() % 6 + 1;
     struct node* current = list_head;
     pthread_mutex_lock(&rand_mutex);
     data = get_rand_data();
@@ -244,11 +245,10 @@ void *inserter(void* tid) {
 
     append_to_list(data);
     printf("inserter %d appending %d\n", pid, data);
-    sleep(sleep_time);
   
     sem_post(&insert_mutex);
     switch_unlock(&insert_switch, &no_inserter);
-    sleep(sleep_time);
+    rand_sleep();
   }
 }
 
@@ -284,12 +284,25 @@ void *deleter( void* tid) {
 
 
 int main(int argc, char* argv[]) {
-  if (argc < 2) {
-    printf("Missing seed argument. Exiting...\n");
+  int num_s;
+  int num_i;
+  int num_d;
+  
+  if (argc < 5) {
+    printf("Usage: %s <numSearchers> <numInserters> <numDeleters> <Seed> Exiting...\n");
     exit(1);
   }
+
+  num_s = atoi(argv[1]);
+  num_i = atoi(argv[2]);
+  num_d = atoi(argv[3]);
   
-  unsigned long seed = htonl(atoi(argv[1]));
+  if (num_s > 5 || num_i > 5 || num_d > 5) {
+    printf("Limit of 5 for each type\nExiting...");
+    exit(1);
+  }
+    
+  unsigned long seed = htonl(atoi(argv[4]));
   init_genrand(seed);
   
   pthread_mutex_init(&rand_mutex, NULL);
@@ -300,27 +313,27 @@ int main(int argc, char* argv[]) {
   init_switch(&search_switch);
   init_switch(&insert_switch);
  
-  pthread_t searchers[NUM_S];
-  pthread_t inserters[NUM_I];
-  pthread_t deleters[NUM_D];
+  pthread_t searchers[num_s];
+  pthread_t inserters[num_i];
+  pthread_t deleters[num_d];
 
-  for (int i = 0; i < NUM_S; i++) {
+  for (int i = 0; i < num_s; i++) {
     pthread_create(&(searchers[i]), NULL, searcher, (void*)i); 
   }
-  for (int i = 0; i < NUM_I; i++) {
+  for (int i = 0; i < num_i; i++) {
     pthread_create(&(inserters[i]), NULL, inserter, (void*)i); 
   } 
-  for (int i = 0; i < NUM_D; i++) {
+  for (int i = 0; i < num_d; i++) {
     pthread_create(&(deleters[i]), NULL, deleter, (void*)i); 
   }
   
-  for(int i = 0; i < NUM_S; i++) {
+  for(int i = 0; i < num_s; i++) {
     pthread_join(searchers[i], NULL);
   } 
-  for(int i = 0; i < NUM_I; i++) {
+  for(int i = 0; i < num_i; i++) {
     pthread_join(inserters[i], NULL);
   }
-  for(int i = 0; i < NUM_D; i++) {
+  for(int i = 0; i < num_d; i++) {
     pthread_join(deleters[i], NULL);
   }
   
