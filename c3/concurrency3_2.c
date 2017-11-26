@@ -23,6 +23,7 @@
 
 #include "mt.h"
 
+#define MAX_PROC 5
 #define asm __asm__ __volatile__
 
 struct node {
@@ -294,8 +295,8 @@ int main(int argc, char* argv[]) {
   num_i = atoi(argv[2]);
   num_d = atoi(argv[3]);
   
-  if (num_s > 5 || num_i > 5 || num_d > 5) {
-    printf("Limit of 5 for each type\nExiting...");
+  if (num_s > MAX_PROC || num_i > MAX_PROC || num_d > MAX_PROC) {
+    printf("Limit of %d for each type\nExiting...", MAX_PROC);
     exit(1);
   }
     
@@ -310,9 +311,9 @@ int main(int argc, char* argv[]) {
   init_switch(&search_switch);
   init_switch(&insert_switch);
  
-  pthread_t searchers[num_s];
-  pthread_t inserters[num_i];
-  pthread_t deleters[num_d];
+  pthread_t searchers[MAX_PROC];
+  pthread_t inserters[MAX_PROC];
+  pthread_t deleters[MAX_PROC];
 
   for (int i = 0; i < num_s; i++) {
     pthread_create(&(searchers[i]), NULL, searcher, (void*)i); 

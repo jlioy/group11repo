@@ -21,6 +21,8 @@
 
 #include "mt.h"
 
+
+#define MAX_PROC 10
 #define asm __asm__ __volatile__
 
 sem_t resource_mutex;
@@ -139,8 +141,8 @@ int main(int argc, char* argv[]) {
   }
   num_p = atoi(argv[1]);  
 
-  if (num_p > 10) {
-    printf("Limit of 10 processes\nExiting...\n");
+  if (num_p > MAX_PROC) {
+    printf("Limit of %d processes\nExiting...\n", MAX_PROC);
     exit(1);
   }
 
@@ -150,7 +152,7 @@ int main(int argc, char* argv[]) {
   sem_init(&resource_mutex, 0, 1);
   sem_init(&block_mutex, 0, 0); 
   
-  pthread_t processes[num_p];
+  pthread_t processes[MAX_PROC];
  
  // create processes
   for (int i = 0; i < num_p; i++) {
