@@ -23,10 +23,6 @@
 
 #include "mt.h"
 
-#define NUM_I 3
-#define NUM_S 3
-#define NUM_D 3
-
 #define asm __asm__ __volatile__
 
 struct node {
@@ -50,7 +46,8 @@ pthread_mutex_t rand_mutex;
 
 /*
  * ----------------------- LIGHTSWITCH FUNCTIONS ----------------------
- *  The lightswitch is also described in The Little Book of Semaphores.
+ *  The lightswitch is also described in The Little Book of Semaphores 
+ *  (cited above).
  */
 
 void init_switch(struct Lightswitch* lightswitch) {
@@ -272,7 +269,8 @@ void *deleter( void* tid) {
       node_num = random % list_size;
       printf("deleter %d deleting from position %d\n", pid, node_num);
       remove_node(node_num);
-      print_list();
+      print_list(); // Print here since we know 
+                    // that nothing else is acting on the list
     } else {
       printf("Nothing for deleter %d to delete!\n", pid);
     }
@@ -282,14 +280,13 @@ void *deleter( void* tid) {
   }
 }
 
-
 int main(int argc, char* argv[]) {
   int num_s;
   int num_i;
   int num_d;
   
-  if (argc < 5) {
-    printf("Usage: %s <numSearchers> <numInserters> <numDeleters> <Seed> Exiting...\n");
+  if (argc != 5) {
+    printf("Usage: %s <numSearchers> <numInserters> <numDeleters> <Seed> Exiting...\n", argv[0]);
     exit(1);
   }
 

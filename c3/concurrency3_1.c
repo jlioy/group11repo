@@ -21,8 +21,6 @@
 
 #include "mt.h"
 
-#define NUM_PROC 5
-
 #define asm __asm__ __volatile__
 
 sem_t resource_mutex;
@@ -40,12 +38,12 @@ int must_wait = 0;
  * class website at:
  * http://web.engr.oregonstate.edu/cgi-bin/cgiwrap/dmcgrath/classes/17F/cs444/index.cgi?examples=1
  */
-unsigned long gen_rand_num() {
+int gen_rand_num() {
   unsigned int eax;
   unsigned int ebx;
   unsigned int ecx;
   unsigned int edx;
-  unsigned long random;
+  int random;
   char vendor[13];
   
   eax = 0x01;
@@ -93,7 +91,7 @@ void *use_res(void* tid) {
       waiting--;
     }
 
-    printf("Thread %d is active for %d seconds\n", pid, random);
+    printf("Thread %d is using the resource for %d seconds\n", pid, random);
     active++;
     must_wait = (active == 3); // if 3 are using resource, we must wait
 
@@ -107,10 +105,10 @@ void *use_res(void* tid) {
       sem_post(&resource_mutex);
     }
 
-    sleep(random);
+    sleep(random); // Slows things down a bit so output is readable
     // Allow one thread at a time to check if resource is now available
     sem_wait(&resource_mutex);
-    printf("Thread %d is no longer active\n", pid);
+    printf("Thread %d has stopped using the resource\n", pid);
     --active;
     
     // Threads no longer have to wait if active goes to 0.
@@ -133,25 +131,33 @@ void *use_res(void* tid) {
 
 
 int main(int argc, char* argv[]) {
-  if (argc < 2) {
-    printf("Missing seed argument. Exiting...\n");
+  int num_p;
+
+  if (argc != 3) {
+    printf("Usage: %s <numProcesses> <seed>\n", argv[0]);
     exit(1);
   }
-  
-  unsigned long seed = htonl(atoi(argv[1]));
+  num_p = atoi(argv[1]);  
+
+  if (num_p > 10) {
+    printf("Limit of 10 processes\nExiting...\n");
+    exit(1);
+  }
+
+  unsigned long seed = htonl(atoi(argv[2]));
   init_genrand(seed);
   pthread_mutex_init(&rand_mutex, NULL);
   sem_init(&resource_mutex, 0, 1);
   sem_init(&block_mutex, 0, 0); 
   
-  pthread_t processes[NUM_PROC];
+  pthread_t processes[num_p];
  
  // create processes
-  for (int i = 0; i < NUM_PROC; i++) {
+  for (int i = 0; i < num_p; i++) {
     pthread_create(&(processes[i]), NULL, use_res, (void*)i); 
   }
    
-  for(int i = 0; i < NUM_PROC; i++) {
+  for(int i = 0; i < num_p; i++) {
     pthread_join(processes[i], NULL);
   }
   
