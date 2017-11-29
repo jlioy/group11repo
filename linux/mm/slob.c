@@ -67,6 +67,8 @@
 #include <linux/rcupdate.h>
 #include <linux/list.h>
 #include <linux/kmemleak.h>
+#include <linux/syscalls.h>
+#include <linux/linkage.h>
 
 #include <trace/events/kmem.h>
 
@@ -641,18 +643,16 @@ void __init kmem_cache_init_late(void)
 	slab_state = FULL;
 }
 
-asmlinkage long sys_get_free(int arg0)
+asmlinkage long sys_get_free(void)
 {
-  printk(" Getting free amount...!");
-  printk("--syscall arg %d", arg0);
+  printk(" Getting free amount...\n");
 
-  return((long) arg0);
+  return 359;
 }
 
-asmlinkage long sys_get_claimed(int arg0)
+asmlinkage long sys_get_claimed(void)
 {
   printk("Getting claimed amount...\n");
-  printk("--syscall arg %d", arg0);
 
-  return((long) arg0);
+  return 360;
 }
