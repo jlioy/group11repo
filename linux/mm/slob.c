@@ -71,7 +71,7 @@
 #include <trace/events/kmem.h>
 
 #include <linux/atomic.h>
-
+#include <linux/syscalls.h>
 #include "slab.h"
 /*
  * slob_block has a field 'units', which indicates size of block if +ve,
@@ -92,6 +92,10 @@ struct slob_block {
 };
 typedef struct slob_block slob_t;
 
+//These variables are used to keep track of the memory usage during testing
+unsigned long slobs = 0;
+unsigned long slobu = 0;
+
 /*
  * All partially free slob pages go on these lists.
  */
@@ -111,13 +115,13 @@ static inline int slob_page_free(struct page *sp)
 
 static void set_slob_page_free(struct page *sp, struct list_head *list)
 {
-	list_add(&sp->lru, list);
+	list_add(&sp->list, list);
 	__SetPageSlobFree(sp);
 }
 
 static inline void clear_slob_page_free(struct page *sp)
 {
-	list_del(&sp->lru);
+	list_del(&sp->list);
 	__ClearPageSlobFree(sp);
 }
 
@@ -201,6 +205,7 @@ static void *slob_new_pages(gfp_t gfp, int order, int node)
 	if (!page)
 		return NULL;
 
+	slobs += PAGE_SIZE;
 	return page_address(page);
 }
 
@@ -208,6 +213,7 @@ static void slob_free_pages(void *b, int order)
 {
 	if (current->reclaim_state)
 		current->reclaim_state->reclaimed_slab += 1 << order;
+	slobs -= PAGE_SIZE;
 	free_pages((unsigned long)b, order);
 }
 
@@ -255,6 +261,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 			sp->units -= units;
 			if (!sp->units)
 				clear_slob_page_free(sp);
+				slobu += units;
 			return cur;
 		}
 		if (slob_last(cur))
@@ -268,6 +275,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 {
 	struct page *sp;
+	struct page *spb = NULL;
 	struct list_head *prev;
 	struct list_head *slob_list;
 	slob_t *b = NULL;
@@ -282,7 +290,7 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 
 	spin_lock_irqsave(&slob_lock, flags);
 	/* Iterate through each partially free page, try to find room */
-	list_for_each_entry(sp, slob_list, lru) {
+	list_for_each_entry(sp, slob_list, list) {
 #ifdef CONFIG_NUMA
 		/*
 		 * If there's a node specification, search for a partial
@@ -295,20 +303,15 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 		if (sp->units < SLOB_UNITS(size))
 			continue;
 
-		/* Attempt to alloc */
-		prev = sp->lru.prev;
-		b = slob_page_alloc(sp, size, align);
-		if (!b)
-			continue;
-
-		/* Improve fragment distribution and reduce our average
-		 * search time by starting our next search here. (see
-		 * Knuth vol 1, sec 2.5, pg 449) */
-		if (prev != slob_list->prev &&
-				slob_list->next != prev->next)
-			list_move_tail(slob_list, prev->next);
-		break;
+		//This is checking to see if the page we are at is the best fit so far.
+		if ((spb == NULL) || (spb->units > sp->units))
+			spb = sp;
 	}
+		/* Attempt to alloc */
+		if (spb != NULL) {
+			b = slob_page_alloc(spb, size, align);
+		}
+
 	spin_unlock_irqrestore(&slob_lock, flags);
 
 	/* Not enough space: must allocate a new page */
@@ -322,7 +325,7 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 		spin_lock_irqsave(&slob_lock, flags);
 		sp->units = SLOB_UNITS(PAGE_SIZE);
 		sp->freelist = b;
-		INIT_LIST_HEAD(&sp->lru);
+		INIT_LIST_HEAD(&sp->list);
 		set_slob(b, SLOB_UNITS(PAGE_SIZE), b + SLOB_UNITS(PAGE_SIZE));
 		set_slob_page_free(sp, slob_list);
 		b = slob_page_alloc(sp, size, align);
@@ -387,6 +390,7 @@ static void slob_free(void *block, int size)
 	 * point.
 	 */
 	sp->units += units;
+	slobu -= units;
 
 	if (b < (slob_t *)sp->freelist) {
 		if (b + units == sp->freelist) {
@@ -417,6 +421,16 @@ static void slob_free(void *block, int size)
 	}
 out:
 	spin_unlock_irqrestore(&slob_lock, flags);
+}
+
+SYSCALL_DEFINE0(memory_size)
+{
+	return slobs;
+}
+
+SYSCALL_DEFINE0(memory_used)
+{
+	return slobu;
 }
 
 /*
@@ -468,6 +482,7 @@ void *__kmalloc(size_t size, gfp_t gfp)
 }
 EXPORT_SYMBOL(__kmalloc);
 
+#ifdef CONFIG_TRACING
 void *__kmalloc_track_caller(size_t size, gfp_t gfp, unsigned long caller)
 {
 	return __do_kmalloc_node(size, gfp, NUMA_NO_NODE, caller);
@@ -479,6 +494,7 @@ void *__kmalloc_node_track_caller(size_t size, gfp_t gfp,
 {
 	return __do_kmalloc_node(size, gfp, node, caller);
 }
+#endif
 #endif
 
 void kfree(const void *block)
@@ -622,6 +638,7 @@ int __kmem_cache_shrink(struct kmem_cache *d)
 {
 	return 0;
 }
+EXPORT_SYMBOL(__kmem_cache_shrink);
 
 struct kmem_cache kmem_cache_boot = {
 	.name = "kmem_cache",
