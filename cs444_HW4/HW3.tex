@@ -1,0 +1,200 @@
+\documentclass[letterpaper, onecolumn, draftclsnofoot, 10pt, compsoc]{IEEEtran}
+
+\usepackage{graphicx}                                        
+\usepackage{amssymb}                                         
+\usepackage{amsmath}                                         
+\usepackage{amsthm}                                          
+\usepackage{alltt}                                           
+\usepackage{float}
+\usepackage{color}
+\usepackage{url}
+\usepackage{balance}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+\usepackage{setspace}
+
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=7in}
+
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},  
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\newcommand{\cred}[1]{{\color{red}#1}}
+\newcommand{\cblue}[1]{{\color{blue}#1}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
+\usepackage{geometry}
+
+\def \name{Joshua Lioy}
+\def \GroupNumber{11}
+\def \GroupMemberOne{Joshua Lioy}
+\def \GroupMemberTwo{Brian Wiltse}
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+    \begin{singlespace}
+    	\includegraphics[height=4cm]{coe_v_spot1}
+        \hfill 
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \huge Operating Systems 2 \par
+            {\large\today}\par
+            \vspace{.5in}
+            \textbf{\Huge Homework 4: The SLOB SLAB}\par
+            \vfill
+            \vspace{5pt}
+            {\large Prepared by }\par
+            Group \GroupNumber\par
+            \vspace{5pt}
+            {\Large
+                \GroupMemberOne\par
+                \GroupMemberTwo\par
+            }
+            \vspace{20pt}
+        }
+        \begin{abstract}
+        This document covers Group 11's details for implementing the best fit algorithm in the Linux SLOB SLAB.
+        \end{abstract}     
+    \end{singlespace}
+\end{titlepage}
+
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+
+\newpage
+\section{Design Plan}
+    \begin{singlespace}
+        Our goal for this assignment is to take the existing implementation of the SLOB. The existing implementation makes use of the first-fit algorithm which looks for the first page that has enough space and places the data in that location. Our new implementation will use the best-fit algorithm which will iterate through the list and each time there is a page that is suitable for the data it the page will be chosen.
+    \end{singlespace}
+    
+\section{Version Control Log}
+    \input{log.tex}
+    
+\section{Work Log}
+    \begin{singlespace}
+        \textbf{Monday 11/06}
+            \begin{itemize}
+                \item 9am - 10am, Brian 
+                \begin{itemize}
+                    \item Read LDD3 ch16
+                \end{itemize}
+                \item 5pm - 6pm, Brian 
+                    \begin{itemize}
+                        \item Looked up how to implement a block device 
+                    \end{itemize}
+            \end{itemize}
+        \textbf{Tuesday 11/07}
+            \begin{itemize}
+                \item 10am-11am, Joshua and Brian 
+                \begin{itemize}
+                    \item Implemented block device 
+                    \item Worked on testing without cryptography
+                \end{itemize}
+                \item 11am - 12pm, Brian 
+                    \begin{itemize}
+                        \item Continued to work on mounting block device
+                        \item Went to Kevin's office to clarify steps
+                    \end{itemize}
+            \end{itemize}
+        \textbf{Wednesday, 11/08}
+            \begin{itemize}
+                \item 9am-11am, Brian
+                \begin{itemize}
+                    \item Office hours for HW3 questions 
+                    \item Looked into Crypto API 
+                \end{itemize}
+            \end{itemize}
+        \textbf{Thursday, 11/09}
+            \begin{itemize}
+                \item 10am-11am, Joshua and Brian 
+                \begin{itemize}
+                    \item Started planning and implementing crypto 
+                \end{itemize}
+            \end{itemize}
+        \textbf{Saturday, 11/11}
+            \begin{itemize}
+                \item 9:30am-11am, Joshua
+                \begin{itemize}
+                    \item Worked on implementation of block device encryption
+                \end{itemize}
+                \item 11am-1:30pm, Brian and Joshua
+                \begin{itemize}
+                    \item Implemented encryption
+                    \item Tested 
+                    \item Worked on write-up 
+                \end{itemize}
+                \item 93:30pm-5:30pm, Joshua and Brian 
+                \begin{itemize}
+                    \item More testing to ensure it works 
+                    \item Write-up
+                \end{itemize}
+            \end{itemize}
+        \textbf{Sunday, 11/12}
+            \begin{itemize}
+                \item 2:30pm-3:30pm, Joshua and Brian
+                \begin{itemize}
+                    \item Finalizing write-up
+                    \item Turning in assignment
+                \end{itemize}
+            \end{itemize}
+    \end{singlespace}
+        
+\section{Questions}
+    
+    \subsection{What do you think the main point of this assignment is?}
+        \begin{singlespace}
+         
+        \end{singlespace}
+    
+    \subsection{How did you personally approach the problem? Design decisions, algorithm, etc.}
+        \begin{singlespace}
+        
+        \end{singlespace}
+    
+    \subsection{How did you ensure your solution was correct? Testing details, for instance.}
+        \begin{singlespace}
+        
+        \end{singlespace}
+    
+    \subsection{What did you learn?}
+        \begin{singlespace}
+        
+        \end{singlespace}
+        
+    \subsection{How should the TA test your patch?}
+        \begin{singlespace}
+        
+        \end{singlespace}
+\end{document}

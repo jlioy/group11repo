@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}Design Plan}{2}{section.1}
+\contentsline {section}{\numberline {2}Version Control Log}{2}{section.2}
+\contentsline {section}{\numberline {3}Work Log}{2}{section.3}
+\contentsline {section}{\numberline {4}Questions}{3}{section.4}
+\contentsline {subsection}{\numberline {4.1}What do you think the main point of this assignment is?}{3}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}How did you personally approach the problem? Design decisions, algorithm, etc.}{3}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}How did you ensure your solution was correct? Testing details, for instance.}{3}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}What did you learn?}{3}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}How should the TA test your patch?}{3}{subsection.4.5}
