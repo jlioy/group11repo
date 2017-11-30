@@ -366,4 +366,4 @@
 357	i386	bpf			sys_bpf
 358	i386	execveat		sys_execveat			stub32_execveat
 359	i386	memory_size		sys_memory_size
-360	i386	memory_used		sys_memory_used
+360	i386	memory__used		sys_memory_used
