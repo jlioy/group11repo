@@ -648,12 +648,58 @@ void __init kmem_cache_init_late(void)
 	slab_state = FULL;
 }
 
-SYSCALL_DEFINE0(memory_size)
-{
-	return slobs;
+asmlinkage long sys_get_total(void) {
+  pgoff_t start;
+  pgoff_t end = NULL;
+  pgoff_t total = 0;
+  struct page* sp;
+  int n_pages = 0;
+
+  list_for_each_entry(sp, &free_slob_small, lru) {
+    start = sp->freelist;
+    break;
+  }  
+  list_for_each_entry(sp, &free_slob_small, lru) {   
+    end = sp->index;
+    n_pages += sp->pages;
+  }
+  if (end != NULL) {
+    total = (end + (n_pages-1) * PAGE_SIZE) - start;
+  }
+
+  list_for_each_entry(sp, &free_slob_medium, lru) {
+    start = sp->freelist;
+    break;
+  } 
+  n_pages = 0;  
+  list_for_each_entry(sp, &free_slob_medium, lru) {   
+    end = sp->index;
+    n_pages += sp->pages;
+  }
+
+  if (end != NULL) {
+    total += (end + (n_pages-1) * PAGE_SIZE) - start;
+  }
+
+  n_pages = 0;
+  list_for_each_entry(sp, &free_slob_medium, lru) {
+    start = sp->freelist;
+    break;
+  } 
+  list_for_each_entry(sp, &free_slob_large, lru) {   
+    end = sp->index;
+    n_pages += sp->pages;
+  }
+
+  if (end != NULL) {
+    total += (end + (n_pages-1) * PAGE_SIZE) - start;
+  }
+
+  return (long)total;
 }
 
-SYSCALL_DEFINE0(memory_used)
+asmlinkage long sys_get_claimed(void)
 {
-	return slobu;
+  return slobu;
 }
+
