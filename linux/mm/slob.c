@@ -204,8 +204,6 @@ static void *slob_new_pages(gfp_t gfp, int order, int node)
 
 	if (!page)
 		return NULL;
-
-	slobs += PAGE_SIZE;
 	return page_address(page);
 }
 
@@ -213,7 +211,6 @@ static void slob_free_pages(void *b, int order)
 {
 	if (current->reclaim_state)
 		current->reclaim_state->reclaimed_slab += 1 << order;
-	slobs -= PAGE_SIZE;
 	free_pages((unsigned long)b, order);
 }
 
@@ -259,9 +256,10 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 			}
 
 			sp->units -= units;
-			if (!sp->units)
+			if (!sp->units) {
 				clear_slob_page_free(sp);
-				slobu += units;
+			}
+			slobu += units;
 			return cur;
 		}
 		if (slob_last(cur))
@@ -275,7 +273,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 {
 	struct page *sp;
-	struct page *spb = NULL;
+	struct page *best_fit = NULL;
 	struct list_head *prev;
 	struct list_head *slob_list;
 	slob_t *b = NULL;
@@ -304,12 +302,12 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 			continue;
 
 		//This is checking to see if the page we are at is the best fit so far.
-		if ((spb == NULL) || (spb->units > sp->units))
-			spb = sp;
+		if ((best_fit == NULL) || (best_fit->units > sp->units))
+			best_fit = sp;
 	}
 		/* Attempt to alloc */
-		if (spb != NULL) {
-			b = slob_page_alloc(spb, size, align);
+		if (best_fit != NULL) {
+			b = slob_page_alloc(best_fit, size, align);
 		}
 
 	spin_unlock_irqrestore(&slob_lock, flags);
@@ -319,6 +317,7 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 		b = slob_new_pages(gfp & ~__GFP_ZERO, 0, node);
 		if (!b)
 			return NULL;
+		slobs += PAGE_SIZE;
 		sp = virt_to_page(b);
 		__SetPageSlab(sp);
 
@@ -358,6 +357,7 @@ static void slob_free(void *block, int size)
 	spin_lock_irqsave(&slob_lock, flags);
 
 	if (sp->units + units == SLOB_UNITS(PAGE_SIZE)) {
+		slobs -= PAGE_SIZE;
 		/* Go directly to page allocator. Do not pass slob allocator */
 		if (slob_page_free(sp))
 			clear_slob_page_free(sp);
@@ -421,16 +421,6 @@ static void slob_free(void *block, int size)
 	}
 out:
 	spin_unlock_irqrestore(&slob_lock, flags);
-}
-
-SYSCALL_DEFINE0(memory_size)
-{
-	return slobs;
-}
-
-SYSCALL_DEFINE0(memory_used)
-{
-	return slobu;
 }
 
 /*
@@ -656,4 +646,14 @@ void __init kmem_cache_init(void)
 void __init kmem_cache_init_late(void)
 {
 	slab_state = FULL;
+}
+
+SYSCALL_DEFINE0(memory_size)
+{
+	return slobs;
+}
+
+SYSCALL_DEFINE0(memory_used)
+{
+	return slobu;
 }
