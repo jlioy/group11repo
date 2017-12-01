@@ -652,11 +652,17 @@ void __init kmem_cache_init_late(void)
 }
 
 asmlinkage long sys_get_total(void) {
-  pgoff_t start = free_slob_small->freelist;
+  pgoff_t start;
   pgoff_t end = NULL;
   pgoff_t total = 0;
+  struct page* sp;
   int n_pages = 0;
-  list_for_each_entry(sp, &free_slob_small, lru) {   
+
+  list_for_each_entry(sp, &free_slob_small, lru) {
+    start = sp->freelist;
+    break;
+  }
+  list_for_each_entry(sp, &free_slob_small, lru) {
     end = sp->index;
     n_pages += sp->pages;
   }
@@ -664,8 +670,12 @@ asmlinkage long sys_get_total(void) {
     total = (end + (n_pages-1) * PAGE_SIZE) - start;
   }
 
-  n_pages = 0;  
-  list_for_each_entry(sp, &free_slob_small, lru) {   
+  list_for_each_entry(sp, &free_slob_medium, lru) {
+    start = sp->freelist;
+    break;
+  }
+  n_pages = 0;
+  list_for_each_entry(sp, &free_slob_medium, lru) {
     end = sp->index;
     n_pages += sp->pages;
   }
@@ -674,8 +684,12 @@ asmlinkage long sys_get_total(void) {
     total += (end + (n_pages-1) * PAGE_SIZE) - start;
   }
 
-  n_pages = 0;  
-  list_for_each_entry(sp, &free_slob_small, lru) {   
+  n_pages = 0;
+  list_for_each_entry(sp, &free_slob_medium, lru) {
+    start = sp->freelist;
+    break;
+  }
+  list_for_each_entry(sp, &free_slob_large, lru) {
     end = sp->index;
     n_pages += sp->pages;
   }
@@ -685,11 +699,6 @@ asmlinkage long sys_get_total(void) {
   }
 
   return (long)total;
-}
-
-asmlinkage long sys_get_free(void)
-{
-  return slobs;
 }
 
 asmlinkage long sys_get_claimed(void)
