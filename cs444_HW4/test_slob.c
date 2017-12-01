@@ -1,52 +1,52 @@
-#include <stdlib.h>
+lude <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 
 int main(int argc, char *argv[])
 {
+  double claimed = 0;
+  double total = 0;
   if (argc != 2) {
-    printf("Must provide number of chars to allocate\nExiting...\n");
+    printf("Must provide seed\nExiting...\n");
     exit(1);
   }
 
-  int num_chars = atoi(argv[1]);
+  unsigned int seed = atoi(argv[1]);
+
   int i;
   char* x;
 
-  printf("%ld\n", syscall(359));
-  srand((unsigned) num_chars);
+  srand((unsigned) seed);
   for (i = 0; i < 1000; i++) {
     x = malloc(rand() % 10000);
     free(x);
   }
-  double cl1 = syscall(360);
-  double total = syscall(359) + cl1
-  double eff1 = cl1 / total;
-
-  for (i = 0; i < 1000; i++) {
-
-    x = malloc(rand() % 10000);
-    free(x);
-  }
-  doulble cl2 = syscall(360);
-  total = syscall(359) + cl2
-  double eff2 = cl2 / total;
+  claimed = syscall(360);
+  total = syscall(359);
+  double eff1 = claimed / total;
 
   for (i = 0; i < 1000; i++) {
 
     x = malloc(rand() % 10000);
     free(x);
   }
-  double cl3 = syscall(360);
-  total = syscall(359) + cl3
-  double eff3 = cl3 / total;
+  claimed = syscall(360);
+  total = syscall(359);
+  double eff2 = claimed / total;
 
-  double effa = (cl1 + cl2 + cl3) / 3;
+  for (i = 0; i < 1000; i++) {
 
-  printf("Free: %ld\n", fr);
-  printf("Used: %ld\n", claimed);
-  printf("Total: %ld\n", total);
-  printf("Efficiency: %lf%\n", efficiency * 100);
+    x = malloc(rand() % 10000);
+    free(x);
+  }
+  claimed = syscall(360);
+  total = syscall(359);
+  double eff3 = claimed / total;
+
+  double effa = (eff1 + eff2 + eff3) / 3;
+  double fragmentation = 1-effa;
+  printf("Fragmentation: %lf%\n", fragmentation);
 
   return 0;
 }
+
