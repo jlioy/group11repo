@@ -94,6 +94,10 @@ struct slob_block {
 };
 typedef struct slob_block slob_t;
 
+unsigned long slobs = 0;
+unsigned long slobu = 0;
+
+
 /*
  * All partially free slob pages go on these lists.
  */
@@ -203,7 +207,7 @@ static void *slob_new_pages(gfp_t gfp, int order, int node)
 	if (!page)
 		return NULL;
 
-	return page_address(page);
+  return page_address(page);
 }
 
 static void slob_free_pages(void *b, int order)
@@ -255,9 +259,11 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 			}
 
 			sp->units -= units;
-			if (!sp->units)
+			if (!sp->units) 
 				clear_slob_page_free(sp);
-			return cur;
+	
+  		slobu += units;
+      return cur;
 		}
 		if (slob_last(cur))
 			return NULL;
@@ -318,7 +324,8 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 		b = slob_new_pages(gfp & ~__GFP_ZERO, 0, node);
 		if (!b)
 			return NULL;
-		sp = virt_to_page(b);
+	  slobs += PAGE_SIZE;
+  	sp = virt_to_page(b);
 		__SetPageSlab(sp);
 
 		spin_lock_irqsave(&slob_lock, flags);
@@ -357,7 +364,8 @@ static void slob_free(void *block, int size)
 	spin_lock_irqsave(&slob_lock, flags);
 
 	if (sp->units + units == SLOB_UNITS(PAGE_SIZE)) {
-		/* Go directly to page allocator. Do not pass slob allocator */
+	  slobs -= PAGE_SIZE;
+  	/* Go directly to page allocator. Do not pass slob allocator */
 		if (slob_page_free(sp))
 			clear_slob_page_free(sp);
 		spin_unlock_irqrestore(&slob_lock, flags);
@@ -389,7 +397,7 @@ static void slob_free(void *block, int size)
 	 * point.
 	 */
 	sp->units += units;
-
+  slobu -= units;
 	if (b < (slob_t *)sp->freelist) {
 		if (b + units == sp->freelist) {
 			units += slob_units(sp->freelist);
@@ -643,16 +651,48 @@ void __init kmem_cache_init_late(void)
 	slab_state = FULL;
 }
 
+asmlinkage long sys_get_total(void) {
+  pgoff_t start = free_slob_small->freelist;
+  pgoff_t end = NULL;
+  pgoff_t total = 0;
+  int n_pages = 0;
+  list_for_each_entry(sp, &free_slob_small, lru) {   
+    end = sp->index;
+    n_pages += sp->pages;
+  }
+  if (end != NULL) {
+    total = (end + (n_pages-1) * PAGE_SIZE) - start;
+  }
+
+  n_pages = 0;  
+  list_for_each_entry(sp, &free_slob_small, lru) {   
+    end = sp->index;
+    n_pages += sp->pages;
+  }
+
+  if (end != NULL) {
+    total += (end + (n_pages-1) * PAGE_SIZE) - start;
+  }
+
+  n_pages = 0;  
+  list_for_each_entry(sp, &free_slob_small, lru) {   
+    end = sp->index;
+    n_pages += sp->pages;
+  }
+
+  if (end != NULL) {
+    total += (end + (n_pages-1) * PAGE_SIZE) - start;
+  }
+
+  return (long)total;
+}
+
 asmlinkage long sys_get_free(void)
 {
-  printk(" Getting free amount...\n");
-
-  return 359;
+  return slobs;
 }
 
 asmlinkage long sys_get_claimed(void)
 {
-  printk("Getting claimed amount...\n");
-
-  return 360;
+  return slobu;
 }
